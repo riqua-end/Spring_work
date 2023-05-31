@@ -2,7 +2,9 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
 		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
@@ -29,6 +31,8 @@
 		<property name="dataSource" ref="dataSource"></property>
 	</bean>
 	
+	<!-- mybatis사용시는 별도로 scan -->
+	<mybatis-spring:scan base-package="org.ezen.ex00.mapper"/>
 	
 	<context:component-scan
 		base-package="org.ezen.ex00"></context:component-scan>
