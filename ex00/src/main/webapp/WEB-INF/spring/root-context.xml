@@ -23,7 +23,12 @@
 	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
 		<constructor-arg ref="hikariConfig"/>
 	</bean>
-
+	
+	<!-- mybatis가 사용하는 sqlSessionFactory bean설정 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	
 	
 	<context:component-scan
 		base-package="org.ezen.ex00"></context:component-scan>

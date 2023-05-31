@@ -1,12 +1,13 @@
 package org.ezen.ex00.persistence;
 
 import static org.junit.Assert.fail;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
 
 import java.sql.Connection;
 
 import javax.sql.DataSource;
 
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,10 @@ public class DataSourceTests {
 	@Setter(onMethod_ = {@Autowired})
 	private DataSource dataSource;
 	
+	@Setter(onMethod_= {@Autowired})
+	private SqlSessionFactory sqlSessionFactory;
+	
+	/*
 	@Test
 	public void testConnection() {
 		
@@ -37,6 +42,24 @@ public class DataSourceTests {
 		catch (Exception e) {
 			fail(e.getMessage());
 			// fail메서드도 JUnit의 메서드로 실패 메세지를 출력
+		}
+	}
+	*/
+	
+	@Test
+	public void testMyBatis() {
+		
+		try(
+			SqlSession session = sqlSessionFactory.openSession();
+				//SqlSession은 인터페이스로 mybatis에 사용됨
+			Connection con = session.getConnection();) {
+
+			log.info(session);
+			log.info(con);
+
+		}
+		catch (Exception e) {
+			fail(e.getMessage());
 		}
 	}
 }
