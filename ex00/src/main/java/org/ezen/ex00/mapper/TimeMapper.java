@@ -8,4 +8,7 @@ public interface TimeMapper {
 	//@Select 어노테이션은 mybatis제공 어노테이션으로 select문을 처리
 	public String getTime();
 	
+	//xml로 만드는 mapper와 사용
+	public String getTime2();
+	
 }

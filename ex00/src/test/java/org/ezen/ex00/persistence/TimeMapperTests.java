@@ -18,11 +18,21 @@ public class TimeMapperTests {
 	@Setter(onMethod_ = @Autowired)
 	private TimeMapper timeMapper; //인터페이스 참조 변수 주입(mapper패키지의 인터페이스는 bean으로 관리)
 	
+	/*
 	@Test
 	//mybatis @Select어노테이션 사용
 	public void testGetTime() {
 		log.info(timeMapper.getClass());
 		log.info(timeMapper.getTime());
 		//getTime추상메서드의 어노테이션 @Select("Select sysdate from dual")를 실행
+	}
+	*/
+	
+	@Test
+	//mybatis xml사용
+	public void testGetTime2() {
+		
+		log.info("getTime2");
+		log.info(timeMapper.getTime2()); //사용시는 xml과 매핑된 추상메서드 호출
 	}
 }
