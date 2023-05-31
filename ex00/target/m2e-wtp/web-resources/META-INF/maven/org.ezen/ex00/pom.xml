@@ -158,6 +158,13 @@
 			<artifactId>orai18n</artifactId>			
 			<version>19.3.0.0</version>		
 		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/com.zaxxer/HikariCP 추가 -->
+		<dependency>
+			<groupId>com.zaxxer</groupId>
+			<artifactId>HikariCP</artifactId>
+			<version>2.7.4</version>
+		</dependency>
 		  
 	</dependencies>
     <build>
