@@ -1,5 +1,8 @@
 package org.ezen.ex01.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import org.ezen.ex01.domain.SampleDTO;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -64,5 +67,24 @@ public class SampleController {
 		log.info("age: " + age);
 		
 		return "sample/ex02";
+	}
+	
+	// (jsp의 체크박스)
+	//클라이언트에서 동일한 파라메터명으로 복수개를 보낼시는 List(구현된 클래스)로 처리
+	@GetMapping("/ex02List")
+	public String ex02List(@RequestParam("ids") ArrayList<String> ids) {
+		
+		log.info("ids: ---- " + ids);
+		
+		return "sample/ex02List";
+	}
+	
+	// 복수개의 파라메터 값을 배열로 처리
+	@GetMapping("/ex02Array")
+	public String ex02Array(@RequestParam("ids") String[] ids) {
+		
+		log.info("array ids : " + Arrays.toString(ids));
+		
+		return "sample/ex02Array";
 	}
 }
