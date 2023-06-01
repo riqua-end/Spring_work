@@ -1,5 +1,6 @@
 package org.ezen.ex01.controller;
 
+import org.ezen.ex01.domain.SampleDTO;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,5 +39,18 @@ public class SampleController {
 	public void basicGet2() {
 		//리턴타입없이 void이면 요청 경로와 동일한 jsp페이지로 이동 (sample/basicOnlyGet.jsp)
 		log.info("basic get only get.......");
+	}
+	
+	//bean클래스로 된 객체를 직접 파라메터로 받음
+	//bean의 setter를 호출해서 해당 멤버변수를 설정
+	//클라이언트에서 오는 파라메터 변수명과 빈클래스의 멤버변수가 일치
+	//클라이언트는 모두 문자열로 보내나 멤버변수가 기본형인 경우는 모두 자동 형변환
+	@GetMapping("/ex01")
+	public String ex01(SampleDTO dto) {
+		
+		log.info("----" + dto);
+		
+		//return type에 String이면 return값은 ex01.jsp
+		return "sample/ex01";
 	}
 }
