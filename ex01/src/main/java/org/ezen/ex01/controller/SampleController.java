@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import lombok.extern.log4j.Log4j;
 
@@ -52,5 +53,16 @@ public class SampleController {
 		
 		//return type에 String이면 return값은 ex01.jsp
 		return "sample/ex01";
+	}
+	
+	//@RequestParam("클라이언트에서 보내는 파라메터명")은 메서드의 파라메터명을 다르게 사용시 활용
+	//getParameter()대신하여 클라이언트에서 보낸값을 얻어냄
+	@GetMapping("/ex02")
+	public String ex02(@RequestParam("name") String name,@RequestParam("age") int age) {
+		
+		log.info("name:" + name);
+		log.info("age: " + age);
+		
+		return "sample/ex02";
 	}
 }
