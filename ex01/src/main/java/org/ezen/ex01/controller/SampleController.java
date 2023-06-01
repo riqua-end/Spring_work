@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.ezen.ex01.domain.SampleDTO;
+import org.ezen.ex01.domain.SampleDTOList;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -86,5 +87,18 @@ public class SampleController {
 		log.info("array ids : " + Arrays.toString(ids));
 		
 		return "sample/ex02Array";
+	}
+	
+	//배열이나 리스트의 요소가 문자열이 아닌 객체형일시 처리도 가능
+	//보낼시에 list[0].name=k1&list[1].name=kim&list[1].age=20로 보내는데 url encode가 안돼서 에러 발생
+	//[는 %5B , ]는 %5D
+	//list%5B0%5D.name=k1&list%5B1%5D.name=kim&list%5B1%5D.age=20
+	//컬렉션의 요소로 객체를 사용시 
+	@GetMapping("/ex02Bean")
+	public String ex02Bean(SampleDTOList list) {
+		
+		log.info("list dtos : " + list);
+		
+		return "sample/ex02Bean";
 	}
 }
