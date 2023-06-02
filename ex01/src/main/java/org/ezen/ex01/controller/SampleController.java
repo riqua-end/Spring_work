@@ -205,9 +205,9 @@ public class SampleController {
 		String msg = "{\"name\" : \"홍길동\"}"; //에스케이프시퀀스 사용해서 내부에서 "사용
 		
 		HttpHeaders header = new HttpHeaders();
-		header.add("Content-Type", "application/json;charset=UTF-8"); //JSON타입 통보
+		//header.add("Content-Type", "application/json;charset=UTF-8"); //JSON타입 통보
 		
-		return new ResponseEntity<>(msg,header,HttpStatus.OK);
+		return new ResponseEntity<>(msg,/*header,*/HttpStatus.OK);
 		//파라메터는 (body,헤더정보,상태정보)
 	}
 }
