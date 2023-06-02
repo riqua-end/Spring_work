@@ -7,6 +7,7 @@ import org.ezen.ex01.domain.SampleDTO;
 import org.ezen.ex01.domain.SampleDTOList;
 import org.ezen.ex01.domain.TodoDTO;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -166,5 +167,14 @@ public class SampleController {
 	public void ex05() {
 		log.info("/ex05.......");
 		//실제로는 sample/ex05.jsp
+	}
+	
+	//Model 파라메터 사용 예
+	//Model객체는 스프링에서 자동 생성
+	@GetMapping("/model01")
+	public String model01(Model model) {
+		model.addAttribute("name","kim");
+		//model객체는 return시 이동페이지에 포함된다
+		return "sample/model01";
 	}
 }
