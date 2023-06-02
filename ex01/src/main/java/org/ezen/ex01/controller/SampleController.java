@@ -177,4 +177,6 @@ public class SampleController {
 		//model객체는 return시 이동페이지에 포함된다
 		return "sample/model01";
 	}
+	
+	
 }

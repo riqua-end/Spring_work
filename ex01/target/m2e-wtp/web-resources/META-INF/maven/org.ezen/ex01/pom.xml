@@ -177,6 +177,15 @@
 			<version>1.2</version>
 		</dependency>
 		
+		<!-- 콘트롤러 리턴타입 객체형 사용시 json으로 자동 변환 @ResponseBody 사용시 -->
+		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+		<dependency>
+    		<groupId>com.fasterxml.jackson.core</groupId>
+   			<artifactId>jackson-databind</artifactId>
+   		 	<version>2.14.0</version>
+		</dependency>
+		
+		
 	</dependencies>
     <build>
         <plugins>
