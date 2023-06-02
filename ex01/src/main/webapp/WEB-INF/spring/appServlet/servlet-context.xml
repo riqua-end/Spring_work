@@ -39,6 +39,9 @@
 	
 	<context:component-scan base-package="org.ezen.ex01" />
 	
+	<!-- 예외처리를 빈으로 등록 -->
+	<context:component-scan base-package="org.ezen.ex01.exception"/>
+	
 	
 	
 </beans:beans>
