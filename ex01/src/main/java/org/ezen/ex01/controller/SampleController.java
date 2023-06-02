@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import lombok.extern.log4j.Log4j;
@@ -178,5 +179,18 @@ public class SampleController {
 		return "sample/model01";
 	}
 	
-	
+	//객체를 리턴타입으로 사용시 @ResponseBody와 함께 사용
+	@GetMapping("/ex06")
+	public @ResponseBody SampleDTO ex06() {
+		log.info("/ex06.......");
+		
+		SampleDTO dto = new SampleDTO();
+		dto.setAge(10);
+		dto.setName("홍길동");
+		
+		return dto; //객체형 반환
+		//브라우져 출력은 json문자열 형태인 {"name":"홍길동","age":10}
+		
+		
+	}
 }
