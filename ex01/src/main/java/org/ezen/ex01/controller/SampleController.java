@@ -6,6 +6,9 @@ import java.util.Arrays;
 import org.ezen.ex01.domain.SampleDTO;
 import org.ezen.ex01.domain.SampleDTOList;
 import org.ezen.ex01.domain.TodoDTO;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -180,6 +183,7 @@ public class SampleController {
 	}
 	
 	//객체를 리턴타입으로 사용시 @ResponseBody와 함께 사용
+	//jackson-databind가 반환시 객체를 json으로 변환
 	@GetMapping("/ex06")
 	public @ResponseBody SampleDTO ex06() {
 		log.info("/ex06.......");
@@ -190,7 +194,20 @@ public class SampleController {
 		
 		return dto; //객체형 반환
 		//브라우져 출력은 json문자열 형태인 {"name":"홍길동","age":10}
+		//출력은 현재 페이지에 출력
+	}
+	
+	//ResponseEntity 객체에는 정보와 데이터를 같이 포함
+	@GetMapping("/ex07")
+	public ResponseEntity<String> ex07() {
+		log.info("/ex07.......");
 		
+		String msg = "{\"name\" : \"홍길동\"}"; //에스케이프시퀀스 사용해서 내부에서 "사용
 		
+		HttpHeaders header = new HttpHeaders();
+		header.add("Content-Type", "application/json;charset=UTF-8"); //JSON타입 통보
+		
+		return new ResponseEntity<>(msg,header,HttpStatus.OK);
+		//파라메터는 (body,헤더정보,상태정보)
 	}
 }
