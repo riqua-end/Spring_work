@@ -1,18 +1,14 @@
 package org.ezen.ex01.controller;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 
 import org.ezen.ex01.domain.SampleDTO;
 import org.ezen.ex01.domain.SampleDTOList;
 import org.ezen.ex01.domain.TodoDTO;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -127,5 +123,25 @@ public class SampleController {
 		System.out.println(todo.getDueDate());
 		//Fri Jun 02 00:00:00 KST 2023 로 표시되는 Date객체
 		return "sample/ex02";
+	}
+	
+	//자바 빈 규격의 객체는 이동할 jsp에 자동 포함되나 기본형은 안된다
+	@GetMapping("/ex04")
+	public String ex04(SampleDTO dto,int page) {
+		
+		log.info("dto : " + dto);
+		log.info("page : " + page);
+		
+		return "sample/ex04";
+	}
+	
+	//기본형을 이동할 jsp페이지에 넣기 위해서는 @ModelAttribute("전달 속성명")
+	@GetMapping("/ex04_01")
+	public String ex04_01(SampleDTO dto,@ModelAttribute("page") int page) {
+		
+		log.info("dto : " + dto);
+		log.info("page : " + page);
+		
+		return "sample/ex04";
 	}
 }

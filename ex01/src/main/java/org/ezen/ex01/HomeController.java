@@ -32,7 +32,7 @@ public class HomeController {
 		String formattedDate = dateFormat.format(date);
 		
 		model.addAttribute("serverTime", formattedDate );
-		
+		//model에 지정한 serverTime속성으로 home.jsp로 자동 전달
 		return "home"; //views/home.jsp
 	}
 	
