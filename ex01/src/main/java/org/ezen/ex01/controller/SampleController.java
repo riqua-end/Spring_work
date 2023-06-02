@@ -1,5 +1,7 @@
 package org.ezen.ex01.controller;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -13,10 +15,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import lombok.extern.log4j.Log4j;
@@ -209,5 +213,23 @@ public class SampleController {
 		//Content-Type을 안넣어주면 한글 깨짐
 		return new ResponseEntity<>(msg,header,HttpStatus.OK);
 		//파라메터는 (body,헤더정보,상태정보)
+	}
+	
+	@GetMapping("/exupload")
+	public void exupload() {
+		log.info("/exupload........");
+		//리턴이 void이므로 jsp는 sample/exupload.jsp
+	}
+	
+	//클라이언트에서 post로 보낼시
+	@PostMapping("/exUploadPost")
+	public void exUploadPost(ArrayList<MultipartFile> files) {
+		//파라메터로 배열이나 collection사용 가능
+		//파일 업로드시 MultipartFile로 처리
+		files.forEach(file -> {
+			log.info("-------------");
+			log.info("name : " + file.getOriginalFilename()); //원래 파일 명
+			log.info("size : " + file.getSize());
+		});
 	}
 }
