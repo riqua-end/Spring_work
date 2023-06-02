@@ -1,12 +1,18 @@
 package org.ezen.ex01.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 
 import org.ezen.ex01.domain.SampleDTO;
 import org.ezen.ex01.domain.SampleDTOList;
+import org.ezen.ex01.domain.TodoDTO;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,6 +27,17 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 //로그처리(기본 설정되어 설정은 필요없음)
 public class SampleController {
+	/*
+	@InitBinder
+	public void initBinder(WebDataBinder binder) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		//클라이언트에서 보내는 문자열 형태를 yyyy-MM-dd형태로 보내야만 Date객체로 변환
+		//format(String str)은 문자열을 Date객체로 변환
+		//parse(Date d)는 date객체를 문자열로 변환
+		binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat,false));
+		//문자열이 date형으로 형변환
+	}
+	*/
 	
 	@RequestMapping("")
 	//메서드에 있는 @RequestMapping의 파라메타에 있는 경로로 요청오면 밑에 있는 메서드를 실행
@@ -100,5 +117,15 @@ public class SampleController {
 		log.info("list dtos : " + list);
 		
 		return "sample/ex02Bean";
+	}
+	
+	//client에서 오는 문자열을 Date형으로 자동 형변환이 안되므로 자동으로 @InitBinder의 메서드를 호출하여 형변환
+	@GetMapping("/ex03")
+	public String ex03(TodoDTO todo) {
+		
+		log.info("todo : " + todo);
+		System.out.println(todo.getDueDate());
+		//Fri Jun 02 00:00:00 KST 2023 로 표시되는 Date객체
+		return "sample/ex02";
 	}
 }
