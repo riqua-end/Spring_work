@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import lombok.extern.log4j.Log4j;
 
@@ -143,5 +144,20 @@ public class SampleController {
 		log.info("page : " + page);
 		
 		return "sample/ex04";
+	}
+	
+	//RedirectAttributes클래스 이용하여 sendRedirect형식으로 페이지 이동
+	//HttpSession객체에 1회용 속성을 보내고 폐기
+	//addFlashAttribute("속성명",값);을 이용하여 저장
+	@GetMapping("/redirect01")
+	public String redirect01(RedirectAttributes rttr) {
+		
+		rttr.addFlashAttribute("name","kim");
+		rttr.addFlashAttribute("age",20);
+		rttr.addFlashAttribute("page",10);
+		
+		//전달되는 파라메터가 모두 Model에 추가되어야 함
+		
+		return "redirect:ex04_01"; //redirect: 키워드를 사용 이때는 jsp가 아닌 RequestMapping경로
 	}
 }
