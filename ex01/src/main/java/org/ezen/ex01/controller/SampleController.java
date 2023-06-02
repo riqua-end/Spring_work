@@ -160,4 +160,11 @@ public class SampleController {
 		
 		return "redirect:ex04_01"; //redirect: 키워드를 사용 이때는 jsp가 아닌 RequestMapping경로
 	}
+	
+	//return타입이 void면 요청경로명과 동일한 이름의 jsp로 이동
+	@GetMapping("/ex05")
+	public void ex05() {
+		log.info("/ex05.......");
+		//실제로는 sample/ex05.jsp
+	}
 }
