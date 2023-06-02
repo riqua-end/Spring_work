@@ -1,8 +1,11 @@
 package org.ezen.ex01.exception;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 import lombok.extern.log4j.Log4j;
 
@@ -20,5 +23,13 @@ public class CommonExceptionAdvice {
 		model.addAttribute("exception", ex); //jsp에 포함되는 속성
 		log.error(model);
 		return "error_page"; //jsp페이지명
+	}
+	
+	//404에러 처리
+	@ExceptionHandler(NoHandlerFoundException.class)
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	public String handler404(NoHandlerFoundException ex) {
+		
+		return "custom404"; //jsp 페이지
 	}
 }
