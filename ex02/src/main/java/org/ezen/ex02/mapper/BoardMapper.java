@@ -14,4 +14,9 @@ public interface BoardMapper {
 	//mybatis는 select시 ResultSet으로 반환되는것을 자바 컬렉션으로 반환
 	public List<BoardVO> getList();
 	
+	//PK값인 tbl_board테이블의 bno에 들어가는 seq_board의 nextval값을 미리 알필요 없는 경우
+	public void insert(BoardVO board);
+	
+	//PK값인 tbl_board테이블의 bno에 들어가는 seq_board의 nextval값을 미리 알고 있는 경우
+	public Integer insertSelectKey(BoardVO board);
 }

@@ -1,5 +1,6 @@
 package org.ezen.ex02.mapper;
 
+import org.ezen.ex02.domain.BoardVO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ public class BoardMapperTests {
 	@Setter(onMethod_ = @Autowired)
 	private BoardMapper mapper;
 	
+	/*
 	@Test
 	//BoardMapper인터페이스의 getList()메서드 테스트
 	public void testGetList() {
@@ -28,5 +30,36 @@ public class BoardMapperTests {
 		//mapper는 인터페이스의 참조 변수로 인터페이스를 구현을 안함 (즉 스프링이 자동으로 해줌)
 		//List<BoardVO>로 반환
 	}
+	*/
 	
+	/*
+	@Test
+	//BoardMapper인터페이스의 insert(BoardVO vo)테스트
+	public void testInsert() {
+		
+		BoardVO board = new BoardVO();
+		board.setTitle("새로 작성하는 글");
+		board.setContent("새로 작성하는 내용");
+		board.setWriter("newbie");
+		
+		mapper.insert(board);
+		
+		log.info("kim" + board);
+	}
+	*/
+	
+	@Test
+	//BoardMapper인터페이스의 insertSelectKey(BoardVO vo)테스트
+	public void testInsertSelectKey() {
+		
+		BoardVO board = new BoardVO();
+		board.setTitle("새로 작성하는 글 select key");
+		board.setContent("새로 작성하는 내용 select key");
+		board.setWriter("newbie");
+		
+		mapper.insertSelectKey(board);
+		
+		log.info("kim" + board);
+		
+	}
 }

@@ -13,4 +13,23 @@
 			select * from tbl_board where bno > 0 order by bno desc
 		]]>
 	</select>
+	
+	<!-- PerparedStatement를 사용하고 ? 바인딩 변수 대신에 ${변수명}을 사용
+		parameterType은 기본형,문자열,객체형일시 생략 가능하고 바인딩 변수로 사용시 멤버변수 이름 바로 사용 -->
+	<insert id="insert" parameterType="org.ezen.ex02.domain.BoardVO">
+		insert into tbl_board (bno,title,content,writer)
+		values(seq_board.nextval,#{title},#{content},#{writer})
+	</insert>
+	
+	<!-- PK인 bno값을 사전에 알 필요가 있는 경우
+	selectKey mybatis어노테이션(태그)를 사용하여 bno값을 select하여 BoardVO의
+	bno속성에 매칭 -->
+	
+	<insert id="insertSelectKey">
+		<selectKey keyProperty="bno" order="BEFORE" resultType="Long">
+			select seq_board.nextval from dual
+		</selectKey>
+		insert into tbl_board (bno,title,content,writer)
+		values (#{bno},#{title},#{content},#{writer})
+	</insert>
 </mapper>
