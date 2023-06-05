@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="org.ezen.ex02.mapper.BoardMapper">
+	<!-- namespace는 BoardMapper 인터페이스의 URL -->
+	<!-- 태그는 SQL문의 DML명령,id는 mapper인터페이스의 추상메서드명,
+			resultType은 반환데이터형(컬렉션의 요소명) -->
+	<!-- CDATA는 태그나 sql명령문에서 사용하는 특수문자(>,<)를 순수 데이터로 처리,(html의 엔터티와 유사) -->		
+	<select id="getList" resultType="org.ezen.ex02.domain.BoardVO">
+		<![CDATA[
+			select * from tbl_board where bno > 0 order by bno desc
+		]]>
+	</select>
+</mapper>
