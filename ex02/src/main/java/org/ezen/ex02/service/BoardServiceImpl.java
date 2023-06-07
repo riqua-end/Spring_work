@@ -44,7 +44,10 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public List<BoardVO> getList() {
-		return null;
+		
+		log.info("getList........");
+		
+		return mapper.getList();
 	}
 
 }

@@ -28,7 +28,7 @@ public class BoardServiceTests {
 		assertNotNull(service); //service빈이 null이 아니어야(제대로 주입됨)테스트 성공
 	}
 	*/
-	
+	/*
 	@Test
 	//BoardService의 public void register(BoardVO baord)메서트 테스트
 	public void testRegister() {
@@ -41,5 +41,13 @@ public class BoardServiceTests {
 		service.register(board);
 		
 		log.info("생성된 게시물의 번호 : " + board.getBno());
+	}
+	*/
+	
+	@Test
+	//BoardService의 public List<BoardVO> getList()메서드 테스트
+	public void testGetList() {
+		
+		service.getList().forEach(board -> log.info(board));
 	}
 }
