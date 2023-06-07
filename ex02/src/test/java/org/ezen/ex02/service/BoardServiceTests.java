@@ -51,11 +51,35 @@ public class BoardServiceTests {
 		service.getList().forEach(board -> log.info(board));
 	}
 	*/
-	
+	/*
 	@Test
 	//BoardService의 public BoardVO get(Long bno) 테스트
 	public void testGet() {
 		
 		log.info(service.get(5L));
+	}
+	*/
+	/*
+	@Test
+	//BoardServiceImpl modify테스트
+	public void testUpdate() {
+		
+		BoardVO board = service.get(1L);
+		
+		if (board == null) {
+			return;
+		}
+		
+		board.setTitle("제목 수정합니다.");
+		log.info("MODIFY RESULT : " + service.modify(board));
+	}
+	*/
+	
+	@Test
+	//remove 메서드 테스트
+	public void testDelete() {
+		
+		//게시물 번호의 존배 여부를 확인하고 테스트 할 것
+		log.info("REMOVE RESULT : " + service.remove(5L));
 	}
 }
