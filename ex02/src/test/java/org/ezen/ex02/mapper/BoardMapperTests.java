@@ -77,9 +77,28 @@ public class BoardMapperTests {
 	}
 	*/
 	
+	/*
 	@Test
 	// BoardMapper인터페이스의 public int delete(Long bno) 테스트
 	public void testDelete() {
-		log.info("DELETE COUNT : " + mapper.delete(4L));
+		log.info("DELETE COUNT : " + mapper.delete(3L));
+	}
+	*/
+	
+	@Test
+	// BoardMapper인터페이스의 public int update(BoardVO board) 테스트
+	public void testUpdate() {
+		
+		BoardVO board = new BoardVO();
+		//실행전 존재하는 번호인지 확인할 것
+		board.setBno(2L);
+		board.setTitle("수정된 제목11");
+		board.setContent("수정된 내용11");
+		board.setWriter("user00");
+		
+		//반환값 count는 update성공한 갯수 
+		int count = mapper.update(board);
+		log.info("UPDATE COUNT : " + count);
+		
 	}
 }

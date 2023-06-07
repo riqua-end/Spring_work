@@ -38,7 +38,19 @@
 	</select>
 	
 	<!-- parameterType과 returnType은 기본형이므로 생략 가능 -->
-	<select id="delete">
+	<delete id="delete">
 		delete from tbl_board where bno = #{bno}
-	</select>
+	</delete>
+	
+	<!-- Bean클래스형인 객체는 parameterType 생략가능
+	파라메터로 전달되는 BoardVO의 멤버 변수를 바인딩 변수 이름으로 사용
+	update시는 default값이 적용안되므로 (insert시만 default는 적용)updateDate도 변경처리 -->
+	<update id="update">
+		update tbl_board
+		set title= #{title},
+		content=#{content},
+		writer=#{writer},
+		updateDate=sysdate
+		where bno = #{bno}
+	</update>
 </mapper>
