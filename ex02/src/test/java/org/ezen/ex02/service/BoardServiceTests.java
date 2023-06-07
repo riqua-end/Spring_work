@@ -43,11 +43,19 @@ public class BoardServiceTests {
 		log.info("생성된 게시물의 번호 : " + board.getBno());
 	}
 	*/
-	
+	/*
 	@Test
 	//BoardService의 public List<BoardVO> getList()메서드 테스트
 	public void testGetList() {
 		
 		service.getList().forEach(board -> log.info(board));
+	}
+	*/
+	
+	@Test
+	//BoardService의 public BoardVO get(Long bno) 테스트
+	public void testGet() {
+		
+		log.info(service.get(5L));
 	}
 }

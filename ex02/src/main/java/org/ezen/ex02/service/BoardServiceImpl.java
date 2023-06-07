@@ -29,7 +29,9 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public BoardVO get(Long bno) {
-		return null;
+		
+		log.info("get........" + bno);
+		return mapper.read(bno);
 	}
 
 	@Override
