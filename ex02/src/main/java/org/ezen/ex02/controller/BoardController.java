@@ -1,10 +1,13 @@
 package org.ezen.ex02.controller;
 
+import org.ezen.ex02.domain.BoardVO;
 import org.ezen.ex02.service.BoardService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -29,5 +32,20 @@ public class BoardController {
 		model.addAttribute("list" , service.getList());
 		//Model객체에 .addAttribute(속성명,값)로 값을 추가하면 jsp페이지에서 속성명으로 사용
 		//return type이 void이면 mapping의 url과 동일한 이름의 jsp(board/list.jsp)
+	}
+	
+	@PostMapping("/register")
+	public String register(BoardVO board, RedirectAttributes rttr) {
+		
+		log.info("register : " + board);
+		
+		service.register(board);
+		
+		rttr.addFlashAttribute("result" , board.getBno());
+		//1회용 데이터 처리
+		
+		return "redirect:list";
+		//sendRedirect()로 브라우저에서 전달하는 경로로 요청
+		//return값이 redirect:나 jsp페이지 이름일시는 반환형이 String
 	}
 }

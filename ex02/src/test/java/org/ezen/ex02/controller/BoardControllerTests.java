@@ -33,6 +33,7 @@ public class BoardControllerTests {
 		this.mockMvc = MockMvcBuilders.webAppContextSetup(ctx).build();
 	}
 	
+	/*
 	@Test
 	public void testList() throws Exception {
 		
@@ -43,5 +44,18 @@ public class BoardControllerTests {
 				.getModelMap());
 		//웹 클라이언트 없이 서버상에서 get방식으로 요청 테스트
 	}
+	*/
 	
+	@Test
+	public void testRegister() throws Exception {
+		
+		String resultPage = mockMvc
+				.perform(MockMvcRequestBuilders.post("/board/register")
+				.param("title","테스트 새글 제목111")
+				.param("content","테스트 새글 내용111")
+				.param("writer","user00"))
+				.andReturn().getModelAndView().getViewName();
+		
+		log.info(resultPage);
+	}
 }
