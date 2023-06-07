@@ -65,6 +65,7 @@ public class BoardMapperTests {
 	}
 	*/
 	
+	/*
 	@Test
 	// BoardMapper 인터페이스의 public BoardVO read(Long bno)로 테스트
 	public void testRead() {
@@ -73,5 +74,12 @@ public class BoardMapperTests {
 		BoardVO board = mapper.read(4L);
 		
 		log.info(board + "boardRead");
+	}
+	*/
+	
+	@Test
+	// BoardMapper인터페이스의 public int delete(Long bno) 테스트
+	public void testDelete() {
+		log.info("DELETE COUNT : " + mapper.delete(4L));
 	}
 }

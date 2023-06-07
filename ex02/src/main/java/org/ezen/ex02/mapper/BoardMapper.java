@@ -23,4 +23,6 @@ public interface BoardMapper {
 	//PK값인 bno를 검색 조건으로 하여 일치하는 하나의 레코드를 매핑되는 BoardVO객체로 반환
 	public BoardVO read(Long bno);
 	
+	//PK값인 bno를 검색 조건으로 하여 일치하는 하나의 레코드를 삭제하고 삭제한 레코드 개수를 반환
+	public int delete(Long bno);
 }

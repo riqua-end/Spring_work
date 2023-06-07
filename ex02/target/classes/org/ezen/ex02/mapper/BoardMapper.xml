@@ -36,4 +36,9 @@
 	<select id="read" resultType="org.ezen.ex02.domain.BoardVO">
 		select * from tbl_board where bno = #{bno}
 	</select>
+	
+	<!-- parameterType과 returnType은 기본형이므로 생략 가능 -->
+	<select id="delete">
+		delete from tbl_board where bno = #{bno}
+	</select>
 </mapper>
