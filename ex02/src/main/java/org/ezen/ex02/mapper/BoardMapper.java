@@ -19,4 +19,8 @@ public interface BoardMapper {
 	
 	//PK값인 tbl_board테이블의 bno에 들어가는 seq_board의 nextval값을 미리 알고 있는 경우
 	public Integer insertSelectKey(BoardVO board);
+	
+	//PK값인 bno를 검색 조건으로 하여 일치하는 하나의 레코드를 매핑되는 BoardVO객체로 반환
+	public BoardVO read(Long bno);
+	
 }

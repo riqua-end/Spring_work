@@ -48,6 +48,7 @@ public class BoardMapperTests {
 	}
 	*/
 	
+	/*
 	@Test
 	//BoardMapper인터페이스의 insertSelectKey(BoardVO vo)테스트
 	public void testInsertSelectKey() {
@@ -61,5 +62,16 @@ public class BoardMapperTests {
 		
 		log.info("kim" + board);
 		
+	}
+	*/
+	
+	@Test
+	// BoardMapper 인터페이스의 public BoardVO read(Long bno)로 테스트
+	public void testRead() {
+		
+		//존재하는 게시물 번호로 테스트
+		BoardVO board = mapper.read(4L);
+		
+		log.info(board + "boardRead");
 	}
 }

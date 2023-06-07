@@ -32,4 +32,8 @@
 		insert into tbl_board (bno,title,content,writer)
 		values (#{bno},#{title},#{content},#{writer})
 	</insert>
+	
+	<select id="read" resultType="org.ezen.ex02.domain.BoardVO">
+		select * from tbl_board where bno = #{bno}
+	</select>
 </mapper>
