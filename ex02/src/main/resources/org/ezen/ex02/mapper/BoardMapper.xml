@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="org.ezen.ex02.mapper.BoardMapper">
+	<!-- namespace는 BoardMapper 인터페이스의 URL -->
+	<!-- 태그는 SQL문의 DML명령,id는 mapper인터페이스의 추상메서드명,
+			resultType은 반환데이터형(컬렉션의 요소명) -->
+	<!-- CDATA는 태그나 sql명령문에서 사용하는 특수문자(>,<)를 순수 데이터로 처리,(html의 엔터티와 유사) -->		
+	<select id="getList" resultType="org.ezen.ex02.domain.BoardVO">
+		<![CDATA[
+			select * from tbl_board where bno > 0 order by bno desc
+		]]>
+	</select>
+	
+	<!-- PerparedStatement를 사용하고 ? 바인딩 변수 대신에 ${변수명}을 사용
+		parameterType은 기본형,문자열,객체형일시 생략 가능하고 바인딩 변수로 사용시 멤버변수 이름 바로 사용 -->
+	<insert id="insert" parameterType="org.ezen.ex02.domain.BoardVO">
+		insert into tbl_board (bno,title,content,writer)
+		values(seq_board.nextval,#{title},#{content},#{writer})
+	</insert>
+	
+	<!-- PK인 bno값을 사전에 알 필요가 있는 경우
+	selectKey mybatis어노테이션(태그)를 사용하여 bno값을 select하여 BoardVO의
+	bno속성에 매칭 -->
+	
+	<insert id="insertSelectKey">
+		<selectKey keyProperty="bno" order="BEFORE" resultType="Long">
+			select seq_board.nextval from dual
+		</selectKey>
+		insert into tbl_board (bno,title,content,writer)
+		values (#{bno},#{title},#{content},#{writer})
+	</insert>
+</mapper>
