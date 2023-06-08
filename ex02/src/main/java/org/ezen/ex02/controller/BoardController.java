@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import lombok.AllArgsConstructor;
@@ -47,5 +48,33 @@ public class BoardController {
 		return "redirect:list";
 		//sendRedirect()로 브라우저에서 전달하는 경로로 요청
 		//return값이 redirect:나 jsp페이지 이름일시는 반환형이 String
+	}
+	
+	//조회처리
+	@GetMapping({"/get","/modify"})
+	//요청의 파라메터도 동일하고 Model에 실어주는 데이터도 동일시는 배열 형태로 Mapping
+	public void get(@RequestParam("bno") Long bno, Model model) {
+		log.info("get");
+		//페이지 이동은 board/get.jsp , board/modify.jsp로 이동
+		model.addAttribute("board", service.get(bno));
+	}
+	
+	@PostMapping("/modify")
+	public String modify(BoardVO board, RedirectAttributes rttr) {
+		log.info("modify : " + board);
+		if(service.modify(board)) {
+			//return redirect:하는 페이지로 속성값 전달
+			rttr.addFlashAttribute("result", "success");
+		}
+		return "redirect:/board/list";
+	}
+	
+	@PostMapping("/remove")
+	public String remove(@RequestParam("bno") Long bno, RedirectAttributes rttr) {
+		log.info("remove......" + bno);
+		if (service.remove(bno)) {
+			rttr.addFlashAttribute("result", "success");
+		}
+		return "redirect:/board/list";
 	}
 }
