@@ -16,8 +16,8 @@
 	<resources mapping="/resources/**" location="/resources/" />
 	<!-- webapp/resources 를 말함 사용시 css/board.css로 사용  -->
 	<resources mapping="/images/**" location="/resources/images/"></resources>
-	<resources mapping="/css/**" location="/resources/css/"></resources>
 	<resources mapping="/js/**" location="/resources/js/"></resources>
+	<resources mapping="/css/**" location="/resources/css/"></resources>
 	
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->

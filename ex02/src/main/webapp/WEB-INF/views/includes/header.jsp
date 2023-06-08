@@ -27,13 +27,13 @@
 	integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 <!--google icon -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-<link rel="stylesheet" href="../css/myCss.css?after"> <!--수정시 바로 적용을 위해 after추가 -->
+<link rel="stylesheet" href="../css/myCss.css?after"/> <!--수정시 바로 적용을 위해 after추가 -->
 </head>
 <body>
 
 <nav class="navbar navbar-expand-md bg-dark navbar-dark container sticky-top">
 	<a class="navbar-brand" href="#">
-		<img src="images/bird.jpg" alt="Logo" style="width:40px;">
+		<img src="../images/bird.jpg" alt="Logo" style="width:40px;">
 	</a>
 	<!-- 컬랩스용 버튼 -->
 	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
@@ -69,9 +69,11 @@
 		 
 		<ul class="navbar-nav ml-auto">
 			 <li class="nav-item">			
+			 	<!-- 
 			 	<button type="button" class="btn btn-dark" data-toggle="modal" data-target="#homeModal">
 			 		로그인
 			 	</button>
+			 	-->
 			 	<a id="customLogin" class="nav-link" href="../member/customLogin">로그인</a> 		 	
 		 	</li>
 		 	<li class="nav-item">
