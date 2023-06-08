@@ -59,6 +59,7 @@ public class BoardController {
 		model.addAttribute("board", service.get(bno));
 	}
 	
+	//수정처리
 	@PostMapping("/modify")
 	public String modify(BoardVO board, RedirectAttributes rttr) {
 		log.info("modify : " + board);
@@ -69,6 +70,7 @@ public class BoardController {
 		return "redirect:/board/list";
 	}
 	
+	//삭제처리
 	@PostMapping("/remove")
 	public String remove(@RequestParam("bno") Long bno, RedirectAttributes rttr) {
 		log.info("remove......" + bno);
