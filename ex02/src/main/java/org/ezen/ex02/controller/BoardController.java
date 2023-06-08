@@ -45,7 +45,7 @@ public class BoardController {
 		rttr.addFlashAttribute("result" , board.getBno());
 		//1회용 데이터 처리
 		
-		return "redirect:list";
+		return "redirect:/board/list";
 		//sendRedirect()로 브라우저에서 전달하는 경로로 요청
 		//return값이 redirect:나 jsp페이지 이름일시는 반환형이 String
 	}
