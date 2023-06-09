@@ -90,7 +90,7 @@
 		</div><!-- col-md-10 -->
 	</div><!-- row -->
 </div>
-
+<%@ include file="../includes/messageModal.jsp" %>
 <%@ include file="../includes/footer.jsp" %>
 
 <script>
@@ -101,9 +101,29 @@ $(document).ready(function() {
 	
 	console.log("result : " + result);
 	
+	checkModal(result);
+	
 	$("#regBtn").on("click",function(){
 		self.location = "register";
-	})
+	});
+	
+	function checkModal(result) {
+		
+		if (result == "") {
+			return;
+		}
+		if (parseInt(result) > 0) {
+			$(".modal-body #mbody").html("게시글 : " + parseInt(result) + "번이 등록 되었습니다.");
+		}
+		else if (result == "success") {
+			$(".modal-body #mbody").html("게시글 수정/삭제가 처리 되었습니다.");
+		}
+		else {
+			return;
+		}
+		
+		$("#messageModal").modal("show"); //선택한 modal 엘리먼트를 보여주기
+	}
 });
 </script>
 </body>
