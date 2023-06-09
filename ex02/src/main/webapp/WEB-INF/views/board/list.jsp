@@ -92,5 +92,14 @@
 </div>
 
 <%@ include file="../includes/footer.jsp" %>
+
+<script>
+$(document).ready(function() {
+	
+	$("#regBtn").on("click",function(){
+		self.location = "register";
+	})
+});
+</script>
 </body>
 </html>

@@ -34,6 +34,12 @@ public class BoardController {
 		//Model객체에 .addAttribute(속성명,값)로 값을 추가하면 jsp페이지에서 속성명으로 사용
 		//return type이 void이면 mapping의 url과 동일한 이름의 jsp(board/list.jsp)
 	}
+	//등록 화면 처리
+	@GetMapping("/register")
+	public void register() {
+		log.info("-----registerForm");
+		//return은 board/register.jsp
+	}
 	
 	@PostMapping("/register")
 	public String register(BoardVO board, RedirectAttributes rttr) {
