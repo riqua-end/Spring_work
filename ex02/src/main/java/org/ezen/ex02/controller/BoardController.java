@@ -43,17 +43,20 @@ public class BoardController {
 	
 	@PostMapping("/register")
 	public String register(BoardVO board, RedirectAttributes rttr) {
+		//RedirectAttributes는 redirect:일시 파라메터를 실어보내는 객체(form의 getParameter역할)
 		
 		log.info("register : " + board);
 		
 		service.register(board);
 		
 		rttr.addFlashAttribute("result" , board.getBno());
+		//board.getBno()는 bno값을 반환 
 		//1회용 데이터 처리
 		
 		return "redirect:/board/list";
 		//sendRedirect()로 브라우저에서 전달하는 경로로 요청
 		//return값이 redirect:나 jsp페이지 이름일시는 반환형이 String
+		//sendRedirect("list?result=bno")
 	}
 	
 	//조회처리

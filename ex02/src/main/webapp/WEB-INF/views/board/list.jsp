@@ -96,6 +96,11 @@
 <script>
 $(document).ready(function() {
 	
+	//EL의 result는 RedirectAttributes의 rttr.addFlashAttribute("result" , board.getBno());로 전달된 값
+	let result = '<c:out value="${result}"></c:out>';
+	
+	console.log("result : " + result);
+	
 	$("#regBtn").on("click",function(){
 		self.location = "register";
 	})
