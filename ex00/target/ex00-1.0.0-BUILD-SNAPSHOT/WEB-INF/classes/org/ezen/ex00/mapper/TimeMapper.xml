@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="org.ezen.ex00.mapper.TimeMapper">
+	<!-- TimeMapper인터페이스의 경로,root 태그는 mapper -->
+	<!-- interface의 추상메서드를 mybatis의 문법으로 구현 -->
+	<!-- id는 추상메서드 이름,resultType은 추상메서드의 반환 타입, 태그명은 sql명령문-->
+	<!-- 태그의 내용 부분에 SQL문 작성 -->
+	<!-- sql문 종료시에 세미콜론 사용 안함 -->
+	<select id="getTime2" resultType="String">
+		SELECT SYSDATE FROM DUAL
+	</select>
+</mapper>  

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	
+	<!-- root-context.xml에서 bean으로 등록하면 스프링의 bean이 됨.
+	주로 API제공 bean등록하고 개발자작성빈은 어노테이션(@Component,@Controller)지정 -->
+	
+	<!-- hikari로 JDBC 설정 -->
+	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+		<!-- mybatis sql문 로그 처리를 위해 변경-->
+		<!--  
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property>
+		<property name="jdbcUrl" value="jdbc:oracle:thin:@localhost:1521:XE"></property>
+		-->
+		
+		<!-- mubatis sql 로그처리가 가능토록 수정(preparedStatement의 ?인 바인딩 변수가 대입되는 로그 가능 -->
+		<property name="driverClassName"
+			value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
+		<property name="jdbcUrl"
+			value="jdbc:log4jdbc:oracle:thin:@localhost:1521:xe"></property>
+		<property name="username" value="scott"></property>
+		<property name="password" value="tiger"></property>
+	</bean>
+	
+	<!-- HikariCP configuration을 이용하여 hikari dataSource설정 -->
+	<!-- 생성시 hikariConfig를 파라메터로 하여 생성-->
+	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+		<constructor-arg ref="hikariConfig"/>
+	</bean>
+	
+	<!-- mybatis가 사용하는 sqlSessionFactory bean설정 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	
+	<!-- mybatis사용시는 별도로 scan -->
+	<mybatis-spring:scan base-package="org.ezen.ex00.mapper"/>
+	
+	<context:component-scan
+		base-package="org.ezen.ex00"></context:component-scan>
+		
+</beans>
