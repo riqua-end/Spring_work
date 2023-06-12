@@ -65,11 +65,11 @@
 					</div>
 					<div class="form-group">
 						<label for="regDate">게시일 : </label>
-						<input type="text" class="form-control" id="regDate" name="regDate"  value='<fmt:formatDate pattern ="yyyy/MM/dd" value="${board.regDate}"/>' readonly/>
+						<input  class="form-control" id="regDate" name="regDate"  value='<fmt:formatDate pattern ="yyyy/MM/dd" value="${board.regDate}"/>' readonly/>
 					</div>
 					<div class="form-group">
 						<label for="updateDate">수정일 : </label>
-						<input type="text" class="form-control" id="updateDate" name="updateDate"  value='<fmt:formatDate pattern ="yyyy/MM/dd" value="${board.updateDate}"/>' readonly/>
+						<input  class="form-control" id="updateDate" name="updateDate"  value='<fmt:formatDate pattern ="yyyy/MM/dd" value="${board.updateDate}"/>' readonly/>
 					</div>
 					<button type="submit" data-oper='modify' class="btn btn-info">Modify</button>&nbsp;&nbsp;
 					<button type="submit" data-oper='remove' class="btn btn-info">remove</button>&nbsp;&nbsp;

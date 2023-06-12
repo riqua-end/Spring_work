@@ -71,13 +71,23 @@
 				<a href="list" class="btn btn-danger">List</a>
 				-->
 				
-				<!-- jquery와 data-xxx 속성 사용 -->
+				<!-- jquery와 data-xxx 속성 사용 
 				<button type="button" data-oper='modify' class="btn btn-info"
 				 onclick="location.href='modify?bno=<c:out value="${board.bno}"/>'">수정
 				</button>&nbsp;&nbsp;
 				<button data-oper='list' class="btn btn-danger"
 				onclick="location.href='list'">게시판 목록</button>
+				-->
 				
+				<!-- 버튼과 form을 사용 -->
+				
+				<button data-oper='modify' class="btn btn-info">Modify</button>&nbsp;&nbsp;
+				<button data-oper='list' class="btn btn-danger">게시판목록</button>
+				
+				<!-- 버튼 클릭을 처리하기 위한 form,안보이는 창(나중 페이지 정보 댓글 정보 등을 같이 처리 -->
+				<form id='operForm' action="modify" method="get">
+					<input type="hidden" id="bno" name="bno" value='<c:out value="${board.bno}"/>'>
+				</form>
 			</div><!-- submain -->
 		</div><!-- col-md-10 -->
 	</div><!-- row -->
@@ -85,5 +95,20 @@
 		
 
 <%@ include file="../includes/footer.jsp" %>
+
+<script>
+$(function(){
+	let operForm = $("#operForm");
+	$("button[data-oper='modify']").on("click",function(e){
+		operForm.attr("action", "modify").submit();
+	});
+	$("button[data-oper='list']").on("click",function(e){
+		operForm.find("#bno").remove();
+		//id가 bno인 DOM을 찾아서 제거
+		operForm.attr("action","list");
+		operForm.submit();
+	});
+});
+</script>
 </body>
 </html>
