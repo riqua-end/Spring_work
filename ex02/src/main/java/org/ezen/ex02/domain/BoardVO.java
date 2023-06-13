@@ -1,6 +1,7 @@
 package org.ezen.ex02.domain;
 
-import java.sql.Date;
+
+import java.util.Date;
 
 import lombok.Data;
 
@@ -12,7 +13,7 @@ public class BoardVO {
 	private String title; //varchar2
 	private String content;
 	private String writer;
-	private Date regDate; //Date
+	private Date regDate; //Date //java.util.Date; 를 임포트 해야됨
 	private Date updateDate;
 	private int replyCnt;
 }

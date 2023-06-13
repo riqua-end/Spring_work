@@ -103,6 +103,10 @@ $(document).ready(function() {
 	
 	checkModal(result);
 	
+	history.replaceState({},null,null);
+	//현재의 히스토리를 전부 비워 줍니다.
+	//뒤로가기 방지
+	
 	$("#regBtn").on("click",function(){
 		self.location = "register";
 	});
