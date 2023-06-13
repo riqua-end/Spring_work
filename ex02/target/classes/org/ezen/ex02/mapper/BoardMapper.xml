@@ -24,7 +24,7 @@
 			select bno,title,content,writer,regdate,updatedate
 			from
 			(
-				select /*+index__desc(tbl_board pk_board)*/
+				select /*+index_desc(tbl_board pk_board)*/
 				rownum rn,bno,title,content,writer,regdate,updatedate
 				from tbl_board
 				where rownum <= #{pageNum} * #{amount}
