@@ -33,7 +33,7 @@ public class BoardControllerTests {
 		this.mockMvc = MockMvcBuilders.webAppContextSetup(ctx).build();
 	}
 	
-	/*
+	/* 페이지 미처리
 	@Test
 	public void testList() throws Exception {
 		
@@ -45,6 +45,17 @@ public class BoardControllerTests {
 		//웹 클라이언트 없이 서버상에서 get방식으로 요청 테스트
 	}
 	*/
+	
+	//페이지처리
+	@Test
+	public void testListPaging() throws Exception {
+		
+		log.info(mockMvc.perform(
+				MockMvcRequestBuilders.get("/board/list")
+				.param("pageNum", "2")
+				.param("amount", "10"))
+				.andReturn().getModelAndView().getModelMap());
+	}
 	
 	/*
 	@Test
@@ -89,6 +100,7 @@ public class BoardControllerTests {
 	}
 	*/
 	
+	/*
 	@Test
 	public void testRemove() throws Exception {
 		//삭제된 데이터베이스에 게시물 번호 확인할것
@@ -97,4 +109,5 @@ public class BoardControllerTests {
 				.getModelAndView().getViewName();
 		log.info(resultPage);
 	}
+	*/
 }

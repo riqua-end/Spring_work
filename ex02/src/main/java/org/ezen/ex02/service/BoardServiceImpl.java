@@ -1,12 +1,14 @@
 package org.ezen.ex02.service;
 
-import lombok.AllArgsConstructor;
-import lombok.extern.log4j.Log4j;
+import java.util.List;
+
 import org.ezen.ex02.domain.BoardVO;
+import org.ezen.ex02.domain.Criteria;
 import org.ezen.ex02.mapper.BoardMapper;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j;
 
 @Log4j
 @Service //bean으로 자동 등록되기 위하여 필요
@@ -45,12 +47,24 @@ class BoardServiceImpl implements BoardService {
 		return mapper.delete(bno) == 1;
 	}
 
+	//페이지 미처리
+	/*
 	@Override
 	public List<BoardVO> getList() {
 		
 		log.info("getList........");
 		
 		return mapper.getList();
+	}
+	*/
+	
+	//페이지 처리
+	@Override
+	public List<BoardVO> getList(Criteria cri) {
+		
+		log.info("get List with criteria : " + cri);
+		
+		return mapper.getListWithPaging(cri);
 	}
 
 }

@@ -1,8 +1,8 @@
 package org.ezen.ex02.service;
 
-import static org.junit.Assert.assertNotNull;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
 
-import org.ezen.ex02.domain.BoardVO;
+import org.ezen.ex02.domain.Criteria;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +43,7 @@ public class BoardServiceTests {
 		log.info("생성된 게시물의 번호 : " + board.getBno());
 	}
 	*/
-	/*
+	/* 페이지 미처리
 	@Test
 	//BoardService의 public List<BoardVO> getList()메서드 테스트
 	public void testGetList() {
@@ -51,6 +51,19 @@ public class BoardServiceTests {
 		service.getList().forEach(board -> log.info(board));
 	}
 	*/
+	
+	/*
+	//페이지처리
+	@Test
+	//BoardService의 public List<BoardVO> getList(Criteria cri)메서드 테스트
+	public void testGetList() {
+		
+		//service.getList().forEach(board -> log.info(board));
+		service.getList(new Criteria(2,10)).forEach(board -> log.info(board + "입니다."));
+	}
+	*/
+	
+	
 	/*
 	@Test
 	//BoardService의 public BoardVO get(Long bno) 테스트
@@ -75,6 +88,7 @@ public class BoardServiceTests {
 	}
 	*/
 	
+	/*
 	@Test
 	//remove 메서드 테스트
 	public void testDelete() {
@@ -82,4 +96,5 @@ public class BoardServiceTests {
 		//게시물 번호의 존배 여부를 확인하고 테스트 할 것
 		log.info("REMOVE RESULT : " + service.remove(5L));
 	}
+	*/
 }
