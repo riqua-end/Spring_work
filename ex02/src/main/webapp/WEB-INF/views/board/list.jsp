@@ -87,6 +87,15 @@
 					</table>
 				</div><!-- table-responsive-md -->
 			</div><!-- submain -->
+			
+			<!-- 페이지 표시 영역 -->
+			<ul class="pagination justify-content-center" style="margin:20px 0">
+				<c:if test="${pageMaker.prev}">
+					<li class="page-item">
+						<a class="page-link" href="${pageMaker.startPage - 1}">Prev</a>
+					</li>
+				</c:if>
+			</ul>
 		</div><!-- col-md-10 -->
 	</div><!-- row -->
 </div>
