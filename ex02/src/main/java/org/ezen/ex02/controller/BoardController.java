@@ -2,6 +2,7 @@ package org.ezen.ex02.controller;
 
 import org.ezen.ex02.domain.BoardVO;
 import org.ezen.ex02.domain.Criteria;
+import org.ezen.ex02.domain.PageDTO;
 import org.ezen.ex02.service.BoardService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,6 +48,9 @@ public class BoardController {
 		//cri를 자동 수집하므로 cri값이 없을시는 기본형 생성자가 설정하는 값(1,10)으로 수집
 		log.info("list : " + cri);
 		model.addAttribute("list",service.getList(cri));
+		
+		//PageDTO를 반영
+		model.addAttribute("pageMaker", new PageDTO(cri,123)); //123은 임시로 게시글 갯수
 	}
 	
 	//등록 화면 처리
