@@ -3,6 +3,7 @@ package org.ezen.ex02.service;
 import java.util.List;
 
 import org.ezen.ex02.domain.BoardVO;
+import org.ezen.ex02.domain.Criteria;
 
 public interface BoardService {
 	
@@ -18,7 +19,10 @@ public interface BoardService {
 	public boolean remove(Long bno); //delete
 	//delete BoardMapper는 public int delete(Long bno);
 	
-	public List<BoardVO> getList(); //목록 select
+	//페이지 미처리
+	//public List<BoardVO> getList(); //목록 select
 	//목록 select BoardMapper는 public List<BoardVO> getList();
 	
+	//페이지 처리
+	public List<BoardVO> getList(Criteria cri);
 }

@@ -1,6 +1,9 @@
 package org.ezen.ex02.mapper;
 
+import java.util.List;
+
 import org.ezen.ex02.domain.BoardVO;
+import org.ezen.ex02.domain.Criteria;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,6 +88,7 @@ public class BoardMapperTests {
 	}
 	*/
 	
+	/*
 	@Test
 	// BoardMapper인터페이스의 public int update(BoardVO board) 테스트
 	public void testUpdate() {
@@ -99,6 +103,39 @@ public class BoardMapperTests {
 		//반환값 count는 update성공한 갯수 
 		int count = mapper.update(board);
 		log.info("UPDATE COUNT : " + count);
+		
+	}
+	*/
+	/*
+	//기본으로 페이지 1번 반환
+	@Test
+	public void testPaging() {
+		
+		Criteria cri = new Criteria();
+		
+		List<BoardVO> list = mapper.getListWithPaging(cri);
+		
+		list.forEach(board -> log.info(board));
+		
+		System.out.println("boardPage" + list);
+	}
+	*/
+	
+	//페이지 번호 3번부터 반환
+	@Test
+	public void testPaging() {
+		
+		Criteria cri = new Criteria();
+		
+		//10개씩 3페이지
+		//cri.setPageNum(3);
+		//cri.setAmount(10);
+		
+		List<BoardVO> list = mapper.getListWithPaging(cri);
+		
+		list.forEach(board -> log.info(board));
+		
+		System.out.println("boardPage" + list);
 		
 	}
 }

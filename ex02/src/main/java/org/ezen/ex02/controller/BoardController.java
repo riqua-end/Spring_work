@@ -1,6 +1,8 @@
 package org.ezen.ex02.controller;
 
 import org.ezen.ex02.domain.BoardVO;
+import org.ezen.ex02.domain.Criteria;
+import org.ezen.ex02.domain.PageDTO;
 import org.ezen.ex02.service.BoardService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +29,9 @@ public class BoardController {
 	//서비스의 메서드를 사용하기 위해서 주입받기 위한 멤버변수
 	//멤버변수가 하나인 생성자가 존재시 자동 주입되어 @Autowired생략 (스프링 4.3부터)
 	
+	
+	//페이지 미처리
+	/*
 	@GetMapping("/list") //실제 요청 경로는 board/list
 	public void list(Model model) {
 		log.info("list");
@@ -34,6 +39,20 @@ public class BoardController {
 		//Model객체에 .addAttribute(속성명,값)로 값을 추가하면 jsp페이지에서 속성명으로 사용
 		//return type이 void이면 mapping의 url과 동일한 이름의 jsp(board/list.jsp)
 	}
+	*/
+	
+	//페이지 처리
+	@GetMapping("/list")
+	public void list(Criteria cri, Model model) {
+		
+		//cri를 자동 수집하므로 cri값이 없을시는 기본형 생성자가 설정하는 값(1,10)으로 수집
+		log.info("list : " + cri);
+		model.addAttribute("list",service.getList(cri));
+		
+		//PageDTO를 반영
+		model.addAttribute("pageMaker", new PageDTO(cri,123)); //123은 임시로 게시글 갯수
+	}
+	
 	//등록 화면 처리
 	@GetMapping("/register")
 	public void register() {
