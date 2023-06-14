@@ -101,7 +101,8 @@ public class BoardController {
 		model.addAttribute("board",service.get(bno));
 	}
 	
-	//수정처리
+	//수정처리 --페이지 미처리
+	/*
 	@PostMapping("/modify")
 	public String modify(BoardVO board, RedirectAttributes rttr) {
 		log.info("modify : " + board);
@@ -111,14 +112,46 @@ public class BoardController {
 		}
 		return "redirect:/board/list";
 	}
+	*/
 	
-	//삭제처리
+	//페이지 정보 고려한 modify
+	@PostMapping("/modify")
+//	public String modify(BoardVO board,Criteria cri ,RedirectAttributes rttr) {
+	public String modify(BoardVO board,@ModelAttribute("cri") Criteria cri ,RedirectAttributes rttr) {
+		log.info("modify : " + board);
+		if(service.modify(board)) {
+			//return redirect:하는 페이지로 속성값 전달
+			rttr.addFlashAttribute("result", "success");
+		}
+		rttr.addAttribute("pageNum",cri.getPageNum());
+		rttr.addAttribute("amount",cri.getAmount());
+		//list로 검색조건을 넘김 rttr.addAttribute("type",cri.getType());
+		
+		return "redirect:/board/list";
+	}
+	
+	//삭제처리 --페이지 미처리
+	/*
 	@PostMapping("/remove")
 	public String remove(@RequestParam("bno") Long bno, RedirectAttributes rttr) {
 		log.info("remove......" + bno);
 		if (service.remove(bno)) {
 			rttr.addFlashAttribute("result", "success");
 		}
+		return "redirect:/board/list";
+	}
+	*/
+	
+	//페이지 정보 고려한 remove
+	@PostMapping("/remove")
+	public String remove(@RequestParam("bno") Long bno,@ModelAttribute("cri") Criteria cri, RedirectAttributes rttr) {
+		log.info("remove......" + bno);
+		if (service.remove(bno)) {
+			rttr.addFlashAttribute("result", "success");
+		}
+		rttr.addAttribute("pageNum",cri.getPageNum());
+		rttr.addAttribute("amount",cri.getAmount()); //list로 검색 조건을 넘김
+		
 		return "redirect:/board/list";
 	}
 }

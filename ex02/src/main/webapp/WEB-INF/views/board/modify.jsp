@@ -47,6 +47,10 @@
 			<div id="submain">
 				<h4 class="text-center wordArtEffect text-success">게시글 수정</h4>
 				<form id="mform" name="mform" action="modify" method="post">
+					<!-- 페이지 관련 정보 추가 -->
+					<input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
+					<input type='hidden' name='amount' value='<c:out value="${cri.amount}"/>'>
+					
 					<div class="form-group">
 						<label for="bno">번호 : </label>
 						<input type="text" class="form-control" id="bno" name="bno" readonly value='<c:out value="${board.bno}"/>' />
@@ -96,8 +100,20 @@ $(function(){ //$(document).ready(function(){}); 의 단축형
 			formObj.attr("action", "remove");
 		}
 		else if (operation == "list") {
+			/* 페이지 미처리
 			formObj.attr("action" , "list").attr("method","get");
 			formObj.empty(); //formObj의 자식 엘리먼틀르 모두 제거 (4개 포함 게시판 컬럼)
+			*/
+			
+			//페이지 처리 고려
+			formObj.attr("action" , "list").attr("method","get");
+			//페이지 정보
+			let pageNumTag = $("input[name='pageNum']").clone(); //복사해둠
+			let amountTag = $("input[name='amount']").clone();
+			formObj.empty(); //formObj의 자식 엘리먼트를 모두 제거(4개 포함 게시판 컬럼)
+			
+			formObj.append(pageNumTag); //자식으로 붙여쓰기
+			formObj.append(amountTag);
 		}
 		else if (operation == "modify") {
 			formObj.attr("action", "modify");
