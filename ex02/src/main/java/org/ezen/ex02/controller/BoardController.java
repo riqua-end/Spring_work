@@ -7,6 +7,7 @@ import org.ezen.ex02.service.BoardService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -78,13 +79,26 @@ public class BoardController {
 		//sendRedirect("list?result=bno")
 	}
 	
-	//조회처리
+	//조회처리,수정 보여주기 --페이지 미처리
+	/*
 	@GetMapping({"/get","/modify"})
 	//요청의 파라메터도 동일하고 Model에 실어주는 데이터도 동일시는 배열 형태로 Mapping
 	public void get(@RequestParam("bno") Long bno, Model model) {
 		log.info("get");
 		//페이지 이동은 board/get.jsp , board/modify.jsp로 이동
 		model.addAttribute("board", service.get(bno));
+	}
+	*/
+	
+	//게시글 수정 처리 조회처리, 수정 보여주기 --페이지처리 포함
+	// 리스트창에서 조회창으로 이동시 페이지 번호 유지를 위해 cri객체를 사용하고 강제로 Model에 포함
+	@GetMapping({"/get","/modify"})
+	public void get(@RequestParam("bno") Long bno,@ModelAttribute("cri") Criteria cri, Model model) {
+		//bean규칙의 DTO객체는 자동 model에 포함
+		//@ModelAttribute("cri")는 model에 cri속성으로 cri객체를 강제로 저장
+		//기본형을 Model에 포함시킬때
+		log.info("/get or modify");
+		model.addAttribute("board",service.get(bno));
 	}
 	
 	//수정처리
