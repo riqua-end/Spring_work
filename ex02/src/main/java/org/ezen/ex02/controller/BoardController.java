@@ -51,7 +51,13 @@ public class BoardController {
 		model.addAttribute("list",service.getList(cri));
 		
 		//PageDTO를 반영
-		model.addAttribute("pageMaker", new PageDTO(cri,123)); //123은 임시로 게시글 갯수
+//		model.addAttribute("pageMaker", new PageDTO(cri,123)); //123은 임시로 게시글 갯수
+		
+		//실제 게시글 총갯수 적용
+		int total = service.getTotal(cri);
+		log.info("total : " + total);
+		
+		model.addAttribute("pageMaker" , new PageDTO(cri,total));
 	}
 	
 	//등록 화면 처리
