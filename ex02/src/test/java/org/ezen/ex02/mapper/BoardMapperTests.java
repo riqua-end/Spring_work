@@ -121,6 +121,7 @@ public class BoardMapperTests {
 	}
 	*/
 	
+	/*
 	//페이지 번호 3번부터 반환
 	@Test
 	public void testPaging() {
@@ -137,5 +138,18 @@ public class BoardMapperTests {
 		
 		System.out.println("boardPage" + list);
 		
+	}
+	*/
+	
+	@Test
+	public void testSearch() {
+		//검색 미반영 list와 방식은 동일(검색 조건에 맞는 것만 리스트됨,검색 조건이 없으면 일반 리스트)
+		Criteria cri = new Criteria();
+		cri.setKeyword("하이");
+		cri.setType("TCW"); //제목과 내용 검색 T,C,W,TC,TW,CW,TCW
+		
+		List<BoardVO> list = mapper.getListWithPaging(cri);
+		
+		list.forEach(board -> log.info(board));
 	}
 }
