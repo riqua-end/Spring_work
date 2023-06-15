@@ -51,6 +51,33 @@
 					<button type="button" class="btn btn-primary float-right mb-3" id="regBtn">게시물 등록</button>
 				</div>
 				
+				<!-- 검색 기능 엘리먼트 -->
+				<form id='searchForm' action="list" method='get' class="mb-3">
+					<div class="input-group">
+						<div class="input-group-prepend">
+							<select name='type'>
+								<option value="" <c:out value="${pageMaker.cri.type == null ? 'selected' : ''}"/>>-------</option>
+								<option value="T" <c:out value="${pageMaker.cri.type eq 'T' ? 'selected' : ''}"/>>제목</option>
+								<option value="C" <c:out value="${pageMaker.cri.type eq 'C' ? 'selected' : ''}"/>>내용</option>
+								<option value="W" <c:out value="${pageMaker.cri.type eq 'W' ? 'selected' : ''}"/>>작성자</option>
+								<option value="TC" <c:out value="${pageMaker.cri.type eq 'TC' ? 'selected' : ''}"/>>제목 or 내용</option>
+								<option value="TW" <c:out value="${pageMaker.cri.type eq 'TW' ? 'selected' : ''}"/>>제목 or 작성자</option>
+								<option value="TWC" <c:out value="${pageMaker.cri.type eq 'TWC' ? 'selected' : ''}"/>>제목 or 내용 or 작성자</option>
+							</select>
+						</div>
+						
+						<input class="form-control" type='text' name='keyword' value='<c:out value="${pageMaker.cri.keyword}"/>'/>
+						<input type='hidden' name='pageNum' value='<c:out value="${pageMaker.cri.pageNum}"/>'/>
+						<input type='hidden' name='amount' value='<c:out value="${pageMaker.cri.amount}"/>'/>
+						
+						<div class="input-group-append" id="button-addon4">
+							<!-- button은 default type이 submit -->
+							<button id="search" class='btn btn-outline-primary'>Search</button>
+							<button id="clear" class='btn btn-outline-info btn-clear' type="button">Clear</button> <!-- 단순 list 기능으로 복귀 -->
+						</div>
+					</div>
+				</form>
+				
 				<!-- table-responsive-md로 RWD해결 -->
 				<div class="table-responsive-md">
 					<table id="boardTable" class="table table-bordered table-hover">
