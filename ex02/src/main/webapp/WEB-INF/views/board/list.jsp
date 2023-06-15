@@ -145,6 +145,9 @@
 			<form id='actionForm' action="list" method='get'>
 				<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>
 				<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
+				<!-- 검색 처리 추가 -->
+				<input type='hidden' name='type' value='${pageMaker.cri.type}'>
+				<input type='hidden' name='keyword' value='${pageMaker.cri.keyword}'>
 			</form>
 		</div><!-- col-md-10 -->
 	</div><!-- row -->
@@ -171,30 +174,6 @@ $(document).ready(function() {
 		self.location = "register";
 	});
 	
-	function checkModal(result) {
-		
-		if (result == "") {
-			return;
-		}
-		if (parseInt(result) > 0) {
-			$(".modal-body #mbody").html("게시글 : " + parseInt(result) + "번이 등록 되었습니다.");
-		}
-		else if (result == "success") {
-			$(".modal-body #mbody").html("게시글 수정/삭제가 처리 되었습니다.");
-		}
-		else {
-			return;
-		}
-		
-		$("#messageModal").modal("show"); //선택한 modal 엘리먼트를 보여주기
-	}
-});
-</script>
-
-<script>
-//pagination처리
-$(document).ready(function(){
-	
 	let actionForm = $("#actionForm");
 	
 	$(".page-item a").on("click",function(e){
@@ -216,9 +195,53 @@ $(document).ready(function(){
 		//게시물번호 bno를 actionForm에 추가
 		actionForm.attr("action","get"); //콘트롤러 get으로 요청
 		actionForm.submit();
+	});
+	
+	//검색 처리
+	let searchForm = $("#searchForm");
+	
+	$("#searchForm #search").on("click",function(e){
+		
+		if(!searchForm.find("option:selected").val()){
+			alert("검색 종류를 선택하세요");
+			return false;
+		}
+		if(!searchForm.find("input[name='keyword']").val()){
+			alert("키워드를 입력하세요");
+			return false;
+		}
+		
+		searchForm.find("input[name='pageNum']").val("1"); //검색시 1페이지를 pageNum으로 보냄
+		e.preventDefault();
+		searchForm.submit();
+	});
+	
+	$('#searchForm #clear').click(function(e){
+		
+		searchForm.empty().submit(); //일반 리스트로 처리
 		
 	});
+	
+	function checkModal(result) {
+		
+		if (result == "") {
+			return;
+		}
+		if (parseInt(result) > 0) {
+			$(".modal-body #mbody").html("게시글 : " + parseInt(result) + "번이 등록 되었습니다.");
+		}
+		else if (result == "success") {
+			$(".modal-body #mbody").html("게시글 수정/삭제가 처리 되었습니다.");
+		}
+		else {
+			return;
+		}
+		
+		$("#messageModal").modal("show"); //선택한 modal 엘리먼트를 보여주기
+	}
 });
 </script>
+
+
 </body>
 </html>
