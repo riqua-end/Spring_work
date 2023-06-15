@@ -25,4 +25,7 @@ public interface BoardService {
 	
 	//페이지 처리
 	public List<BoardVO> getList(Criteria cri);
+	
+	//게시글 총 갯수 구하기
+	public int getTotal(Criteria cri);
 }

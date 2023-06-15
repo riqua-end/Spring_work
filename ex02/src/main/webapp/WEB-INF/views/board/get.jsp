@@ -86,7 +86,10 @@
 				
 				<!-- 버튼 클릭을 처리하기 위한 form,안보이는 창(나중 페이지 정보 댓글 정보 등을 같이 처리 -->
 				<form id='operForm' action="modify" method="get">
-					<input type="hidden" id="bno" name="bno" value='<c:out value="${board.bno}"/>'>
+					<input type='hidden' id='bno' name='bno' value='<c:out value="${board.bno}"/>'>
+					<!-- 페이지 정보를 추가 -->
+					<input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
+					<input type='hidden' name='amount' value='<c:out value="${cri.amount}"/>'>
 				</form>
 			</div><!-- submain -->
 		</div><!-- col-md-10 -->
