@@ -132,6 +132,9 @@ public class BoardController {
 		rttr.addAttribute("pageNum",cri.getPageNum());
 		rttr.addAttribute("amount",cri.getAmount());
 		//list로 검색조건을 넘김 rttr.addAttribute("type",cri.getType());
+		//검색처리 추가
+		rttr.addAttribute("type",cri.getType());
+		rttr.addAttribute("keyword",cri.getKeyword());
 		
 		return "redirect:/board/list";
 	}
@@ -157,7 +160,9 @@ public class BoardController {
 		}
 		rttr.addAttribute("pageNum",cri.getPageNum());
 		rttr.addAttribute("amount",cri.getAmount()); //list로 검색 조건을 넘김
-		
+		//검색처리 추가
+		rttr.addAttribute("type",cri.getType());
+		rttr.addAttribute("keyword",cri.getKeyword());
 		return "redirect:/board/list";
 	}
 }
