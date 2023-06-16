@@ -7,7 +7,9 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import org.ezen.ex03.domain.SampleVO;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -89,5 +91,46 @@ public class SampleController {
 		map.put("Second", new SampleVO(111,"그루트1","주니어1"));
 		
 		return map;
+	}
+	
+	@GetMapping(value = "/check", params = {"height","weight"})
+	//params속성은 클라이언트에서 전달되는 파라메터 속성명이며 메서드의 파라메터로 매핑
+	//클라이언트에서 오는 값은 모두 문자열이나 메서드의 기본형으로 자동 형변환
+	//기본인 xml 형식으로 반환
+	public ResponseEntity<SampleVO> check(Double height, Double weight) {
+		
+		SampleVO vo = new SampleVO(0,"" + height,"" + weight); //"" + height는 문자열로 변환 
+		
+		ResponseEntity<SampleVO> result = null;
+		
+		if (height < 150) {
+			result = ResponseEntity.status(HttpStatus.BAD_GATEWAY).body(vo);
+			//status메서드는 상태를 기록하고 body는 response의 body에 값을 기록
+			//HttpStatus.BAD_GATEWAY는 502에러
+		}else {
+			result = ResponseEntity.status(HttpStatus.OK).body(vo);
+		}
+		return result;
+	}
+	
+	@GetMapping(value = "/check1", params = {"height","weight"},
+				produces = {MediaType.APPLICATION_JSON_VALUE})
+	//params속성은 클라이언트에서 전달되는 파라메터 속성명이며 메서드의 파라메터로 매핑
+	//클라이언트에서 오는 값은 모두 문자열이나 메서드의 기본형으로 자동 형변환
+	//json 형식으로 반환
+	public ResponseEntity<SampleVO> check1(Double height, Double weight) {
+		
+		SampleVO vo = new SampleVO(0,"" + height,"" + weight); //"" + height는 문자열로 변환 
+		
+		ResponseEntity<SampleVO> result = null;
+		
+		if (height < 150) {
+			result = ResponseEntity.status(HttpStatus.BAD_GATEWAY).body(vo);
+			//status메서드는 상태를 기록하고 body는 response의 body에 값을 기록
+			//HttpStatus.BAD_GATEWAY는 502에러
+		}else {
+			result = ResponseEntity.status(HttpStatus.OK).body(vo);
+		}
+		return result;
 	}
 }
