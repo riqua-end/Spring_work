@@ -4,9 +4,10 @@ import java.util.Date;
 
 import lombok.Data;
 
-@Data
+@Data //생성자는 기본형만 만듬
 public class ReplyVO {
-
+	
+	//tbl_reply 테이블의 컬럼명과 매핑
 	private Long rno;
 	private Long bno;
 	
