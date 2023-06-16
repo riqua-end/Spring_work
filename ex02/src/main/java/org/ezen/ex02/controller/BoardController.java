@@ -129,11 +129,15 @@ public class BoardController {
 			//return redirect:하는 페이지로 속성값 전달
 			rttr.addFlashAttribute("result", "success");
 		}
+		/*
 		rttr.addAttribute("pageNum",cri.getPageNum());
 		rttr.addAttribute("amount",cri.getAmount());
 		//list로 검색조건을 넘김 rttr.addAttribute("type",cri.getType());
-		
-		return "redirect:/board/list";
+		//검색처리 추가
+		rttr.addAttribute("type",cri.getType());
+		rttr.addAttribute("keyword",cri.getKeyword());
+		*/
+		return "redirect:/board/list" + cri.getListLink();
 	}
 	
 	//삭제처리 --페이지 미처리
@@ -155,9 +159,13 @@ public class BoardController {
 		if (service.remove(bno)) {
 			rttr.addFlashAttribute("result", "success");
 		}
+		/*
 		rttr.addAttribute("pageNum",cri.getPageNum());
 		rttr.addAttribute("amount",cri.getAmount()); //list로 검색 조건을 넘김
-		
-		return "redirect:/board/list";
+		//검색처리 추가
+		rttr.addAttribute("type",cri.getType());
+		rttr.addAttribute("keyword",cri.getKeyword());
+		*/
+		return "redirect:/board/list" + cri.getListLink();
 	}
 }

@@ -1,5 +1,7 @@
 package org.ezen.ex02.domain;
 
+import org.springframework.web.util.UriComponentsBuilder;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -33,5 +35,18 @@ public class Criteria {
 		
 		return type == null? new String[] {}: type.split("");
 		//type은 문자열로 공백없이("TWC") 오는데 split하면 배열 {T,W,C}
+	}
+	
+	//Criteria멤버변수 4개를 하나의 쿼리문자열 형태로 만들어줌 (?파라메터이름=값&파라메터이름=값
+	public String getListLink() {
+		//파라메터 전송에 사용되는 문자열 생성
+		UriComponentsBuilder builder = UriComponentsBuilder
+				.fromPath("")
+				.queryParam("pageNum", this.pageNum)
+				.queryParam("amount", this.getAmount())
+				.queryParam("type", this.getType())
+				.queryParam("keyword", this.getKeyword());
+		
+		return builder.toUriString();
 	}
 }

@@ -50,6 +50,9 @@
 					<!-- 페이지 관련 정보 추가 -->
 					<input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
 					<input type='hidden' name='amount' value='<c:out value="${cri.amount}"/>'>
+					<!-- 검색 적용 -->
+					<input type='hidden' name='type' value='<c:out value="${cri.type}"/>'>
+					<input type='hidden' name='keyword' value='<c:out value="${cri.keyword}"/>'>
 					
 					<div class="form-group">
 						<label for="bno">번호 : </label>
@@ -110,10 +113,15 @@ $(function(){ //$(document).ready(function(){}); 의 단축형
 			//페이지 정보
 			let pageNumTag = $("input[name='pageNum']").clone(); //복사해둠
 			let amountTag = $("input[name='amount']").clone();
-			formObj.empty(); //formObj의 자식 엘리먼트를 모두 제거(4개 포함 게시판 컬럼)
+			//검색처리
+			let keywordTag = $("input[name='keyword']").clone();
+			let typeTag = $("input[name='type']").clone();
 			
+			formObj.empty(); //formObj의 자식 엘리먼트를 모두 제거(4개 포함 게시판 컬럼)
 			formObj.append(pageNumTag); //자식으로 붙여쓰기
 			formObj.append(amountTag);
+			formObj.append(keywordTag);
+			formObj.append(typeTag);
 		}
 		else if (operation == "modify") {
 			formObj.attr("action", "modify");

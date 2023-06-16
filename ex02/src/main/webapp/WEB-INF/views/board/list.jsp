@@ -51,6 +51,33 @@
 					<button type="button" class="btn btn-primary float-right mb-3" id="regBtn">게시물 등록</button>
 				</div>
 				
+				<!-- 검색 기능 엘리먼트 -->
+				<form id='searchForm' action="list" method='get' class="mb-3">
+					<div class="input-group">
+						<div class="input-group-prepend">
+							<select name='type'>
+								<option value="" <c:out value="${pageMaker.cri.type == null ? 'selected' : ''}"/>>-------</option>
+								<option value="T" <c:out value="${pageMaker.cri.type eq 'T' ? 'selected' : ''}"/>>제목</option>
+								<option value="C" <c:out value="${pageMaker.cri.type eq 'C' ? 'selected' : ''}"/>>내용</option>
+								<option value="W" <c:out value="${pageMaker.cri.type eq 'W' ? 'selected' : ''}"/>>작성자</option>
+								<option value="TC" <c:out value="${pageMaker.cri.type eq 'TC' ? 'selected' : ''}"/>>제목 or 내용</option>
+								<option value="TW" <c:out value="${pageMaker.cri.type eq 'TW' ? 'selected' : ''}"/>>제목 or 작성자</option>
+								<option value="TWC" <c:out value="${pageMaker.cri.type eq 'TWC' ? 'selected' : ''}"/>>제목 or 내용 or 작성자</option>
+							</select>
+						</div>
+						
+						<input class="form-control" type='text' name='keyword' value='<c:out value="${pageMaker.cri.keyword}"/>'/>
+						<input type='hidden' name='pageNum' value='<c:out value="${pageMaker.cri.pageNum}"/>'/>
+						<input type='hidden' name='amount' value='<c:out value="${pageMaker.cri.amount}"/>'/>
+						
+						<div class="input-group-append" id="button-addon4">
+							<!-- button은 default type이 submit -->
+							<button id="search" class='btn btn-outline-primary'>Search</button>
+							<button id="clear" class='btn btn-outline-info btn-clear' type="button">Clear</button> <!-- 단순 list 기능으로 복귀 -->
+						</div>
+					</div>
+				</form>
+				
 				<!-- table-responsive-md로 RWD해결 -->
 				<div class="table-responsive-md">
 					<table id="boardTable" class="table table-bordered table-hover">
@@ -118,6 +145,9 @@
 			<form id='actionForm' action="list" method='get'>
 				<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>
 				<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
+				<!-- 검색 처리 추가 -->
+				<input type='hidden' name='type' value='${pageMaker.cri.type}'>
+				<input type='hidden' name='keyword' value='${pageMaker.cri.keyword}'>
 			</form>
 		</div><!-- col-md-10 -->
 	</div><!-- row -->
@@ -144,30 +174,6 @@ $(document).ready(function() {
 		self.location = "register";
 	});
 	
-	function checkModal(result) {
-		
-		if (result == "") {
-			return;
-		}
-		if (parseInt(result) > 0) {
-			$(".modal-body #mbody").html("게시글 : " + parseInt(result) + "번이 등록 되었습니다.");
-		}
-		else if (result == "success") {
-			$(".modal-body #mbody").html("게시글 수정/삭제가 처리 되었습니다.");
-		}
-		else {
-			return;
-		}
-		
-		$("#messageModal").modal("show"); //선택한 modal 엘리먼트를 보여주기
-	}
-});
-</script>
-
-<script>
-//pagination처리
-$(document).ready(function(){
-	
 	let actionForm = $("#actionForm");
 	
 	$(".page-item a").on("click",function(e){
@@ -189,9 +195,53 @@ $(document).ready(function(){
 		//게시물번호 bno를 actionForm에 추가
 		actionForm.attr("action","get"); //콘트롤러 get으로 요청
 		actionForm.submit();
+	});
+	
+	//검색 처리
+	let searchForm = $("#searchForm");
+	
+	$("#searchForm #search").on("click",function(e){
+		
+		if(!searchForm.find("option:selected").val()){
+			alert("검색 종류를 선택하세요");
+			return false;
+		}
+		if(!searchForm.find("input[name='keyword']").val()){
+			alert("키워드를 입력하세요");
+			return false;
+		}
+		
+		searchForm.find("input[name='pageNum']").val("1"); //검색시 1페이지를 pageNum으로 보냄
+		e.preventDefault();
+		searchForm.submit();
+	});
+	
+	$('#searchForm #clear').click(function(e){
+		
+		searchForm.empty().submit(); //일반 리스트로 처리
 		
 	});
+	
+	function checkModal(result) {
+		
+		if (result == "") {
+			return;
+		}
+		if (parseInt(result) > 0) {
+			$(".modal-body #mbody").html("게시글 : " + parseInt(result) + "번이 등록 되었습니다.");
+		}
+		else if (result == "success") {
+			$(".modal-body #mbody").html("게시글 수정/삭제가 처리 되었습니다.");
+		}
+		else {
+			return;
+		}
+		
+		$("#messageModal").modal("show"); //선택한 modal 엘리먼트를 보여주기
+	}
 });
 </script>
+
+
 </body>
 </html>
