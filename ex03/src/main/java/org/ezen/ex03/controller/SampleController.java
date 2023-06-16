@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -132,5 +133,30 @@ public class SampleController {
 			result = ResponseEntity.status(HttpStatus.OK).body(vo);
 		}
 		return result;
+	}
+	
+	@GetMapping("/product/{cat}/{pid}")
+	//요청경로에 포함된 값을 처리
+	//@PathVariable로 메서드의 파라메터와 매핑
+	//기본은 xml
+	//http://localhost:8181/ex03/sample/product/bags/1234로 요청
+	public String[] getPath(@PathVariable("cat") String cat, @PathVariable("pid") Integer pid) {
+		
+		//반환은 문자열 배열
+		
+		return new String[] { "category : " + cat, "productid : " + pid };
+	}
+	
+	@GetMapping(value = "/product1/{cat}/{pid}",
+				produces = {MediaType.APPLICATION_JSON_VALUE})
+	//요청경로에 포함된 값을 처리
+	//@PathVariable로 메서드의 파라메터와 매핑
+	//JSON 형태로 반환
+	//http://localhost:8181/ex03/sample/product/bags/1234로 요청
+	public String[] getPath1(@PathVariable("cat") String cat, @PathVariable("pid") Integer pid) {
+		
+		//반환은 문자열 배열
+		
+		return new String[] { "category : " + cat, "productid : " + pid };
 	}
 }
