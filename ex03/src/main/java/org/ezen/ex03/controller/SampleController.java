@@ -7,12 +7,15 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import org.ezen.ex03.domain.SampleVO;
+import org.ezen.ex03.domain.Ticket;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.extern.log4j.Log4j;
@@ -158,5 +161,14 @@ public class SampleController {
 		//반환은 문자열 배열
 		
 		return new String[] { "category : " + cat, "productid : " + pid };
+	}
+	
+	@RequestMapping(value = "/ticket", method = RequestMethod.POST)
+	//@RequestBody는 json으로 클라이언트에서 보낼시 자바의 객체로 변환
+	public Ticket convert(@RequestBody Ticket ticket) {
+		
+		log.info("convert..........ticket" + ticket);
+		
+		return ticket;
 	}
 }
