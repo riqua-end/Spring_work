@@ -1,5 +1,11 @@
 package org.ezen.ex03.controller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 import org.ezen.ex03.domain.SampleVO;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,5 +47,47 @@ public class SampleController {
 	public SampleVO getSample2() {
 		
 		return new SampleVO(113,"로켓","라쿤");
+	}
+	
+	@GetMapping(value = "/getList")
+	// 디폴트인 xml 형태로 반환
+	public List<SampleVO> getList() {
+		
+		return IntStream.range(1,10).mapToObj(i -> new SampleVO(i, i + "First", i + "Last"))
+				.collect(Collectors.toList());
+		//1부터 9까지 반복하여 i값을 가진 SampleVO객체를 만들어 list의 컬렉션으로 반환
+	}
+	
+	@GetMapping(value = "/getList1",
+				produces = {MediaType.APPLICATION_JSON_VALUE})
+	//produces에 정의한 json배열형태로 반환
+	public List<SampleVO> getList1() {
+		
+		return IntStream.range(1,10).mapToObj(i -> new SampleVO(i, i + "First", i + "Last"))
+				.collect(Collectors.toList());
+		//1부터 9까지 반복하여 i값을 가진 SampleVO객체를 만들어 list의 컬렉션으로 반환
+	}
+	
+	@GetMapping(value = "/getMap")
+	//Map으로 반환시는 xml객체형으로 반환
+	public Map<String,SampleVO> getMap() {
+		
+		Map<String,SampleVO> map = new HashMap<>();
+		map.put("First", new SampleVO(111,"그루트","주니어"));
+		map.put("Second", new SampleVO(111,"그루트1","주니어1"));
+		
+		return map;
+	}
+	
+	@GetMapping(value = "/getMap1",
+				produces = {MediaType.APPLICATION_JSON_VALUE})
+	//Map으로 반환시는 JSON객체형으로 반환
+	public Map<String,SampleVO> getMap1() {
+		
+		Map<String,SampleVO> map = new HashMap<>();
+		map.put("First", new SampleVO(111,"그루트","주니어"));
+		map.put("Second", new SampleVO(111,"그루트1","주니어1"));
+		
+		return map;
 	}
 }
