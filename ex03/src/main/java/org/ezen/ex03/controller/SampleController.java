@@ -1,5 +1,6 @@
 package org.ezen.ex03.controller;
 
+import org.ezen.ex03.domain.SampleVO;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,4 +23,23 @@ public class SampleController {
 		return "안녕하세요";
 	}
 	
+	@GetMapping(value = "/getSample" ,
+				produces = {MediaType.APPLICATION_JSON_VALUE,
+							MediaType.APPLICATION_XML_VALUE
+				})
+	
+	//produces 속성은 생략해도 됨
+	//SampleVO객체를 반환시에 json이나 xml로 반환(기본은 xml)
+	public SampleVO getSample() {
+		
+		return new SampleVO(112,"스타","로드");
+	}
+	
+	@GetMapping(value = "getSample2",
+				produces = {MediaType.APPLICATION_JSON_VALUE})
+	//5.3.26버젼에서는 .json 요청은 동작 안하므로 produces로 조정 json으로 반환 
+	public SampleVO getSample2() {
+		
+		return new SampleVO(113,"로켓","라쿤");
+	}
 }
