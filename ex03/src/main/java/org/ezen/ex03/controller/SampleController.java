@@ -165,6 +165,7 @@ public class SampleController {
 	
 	@RequestMapping(value = "/ticket", method = RequestMethod.POST)
 	//@RequestBody는 json으로 클라이언트에서 보낼시 자바의 객체로 변환
+	//반환도 json으로 반환
 	public Ticket convert(@RequestBody Ticket ticket) {
 		
 		log.info("convert..........ticket" + ticket);
