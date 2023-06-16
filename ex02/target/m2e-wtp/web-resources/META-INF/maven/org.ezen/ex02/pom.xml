@@ -183,6 +183,20 @@
    		 	<version>2.14.0</version>
 		</dependency>
 		
+		<!-- @RestController에서 리턴시 xml로 반환 처리 -->
+		<dependency>
+    		<groupId>com.fasterxml.jackson.dataformat</groupId>
+   			<artifactId>jackson-dataformat-xml</artifactId>
+   		 	<version>2.14.0</version>
+		</dependency>
+		
+		<!-- java에서 자바 객체를 JSON으로 변환 -->
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.9.0</version>
+		</dependency>
+		
 		<!-- 파일 업로드 -->
 		<dependency>
    		 	<groupId>commons-fileupload</groupId>
