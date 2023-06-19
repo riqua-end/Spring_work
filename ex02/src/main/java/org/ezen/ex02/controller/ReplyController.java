@@ -1,10 +1,15 @@
 package org.ezen.ex02.controller;
 
+import java.util.List;
+
+import org.ezen.ex02.domain.Criteria;
 import org.ezen.ex02.domain.ReplyVO;
 import org.ezen.ex02.service.ReplyService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,5 +45,20 @@ public class ReplyController {
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		//ResponseEntity<>객체를 반환(생성자가 성공시와 실패시 파라메터가 다름)
 		
+	}
+	
+	@GetMapping(value = "/pages/{bno}/{page}", produces = {MediaType.APPLICATION_JSON_VALUE})
+	//{bno},{page}는 경로 아닌 값 @PathVariable로 매핑
+	//게시글 하나에 대한 댓글들
+	public ResponseEntity<List<ReplyVO>> getList(@PathVariable("page") int page, @PathVariable("bno") Long bno) {
+		
+		Criteria cri = new Criteria(page,10);
+		
+		log.info("get Reply List bno : " + bno);
+		
+		log.info("cri : " + cri);
+		
+		return new ResponseEntity<>(service.getList(cri, bno),HttpStatus.OK);
+		//public List<ReplyVO> getList(Criteria cri, Long bno)
 	}
 }
