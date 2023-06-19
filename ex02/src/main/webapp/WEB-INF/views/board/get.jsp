@@ -102,6 +102,9 @@
 
 <%@ include file="../includes/footer.jsp" %>
 
+<%-- 외부 js파일 임포트 --%>
+<script src="../js/reply.js"></script>
+
 <script>
 $(function(){
 	let operForm = $("#operForm");
