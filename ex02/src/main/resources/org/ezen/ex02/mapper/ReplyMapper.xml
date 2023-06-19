@@ -28,4 +28,12 @@
 		where rno = #{rno}
 		<!--  update시는 default가  -->
 	</update>
+	
+	<!-- 페이지 정보는 고려안하여 cri는 미사용 -->
+	<select id="getListWithPaging" resultType="org.ezen.ex02.domain.ReplyVO">
+		select rno,bno,reply,replyer,replyDate,updateDate
+		from tbl_reply
+		where bno = #{bno}
+		order by rno asc
+	</select>
 </mapper>

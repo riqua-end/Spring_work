@@ -1,5 +1,8 @@
 package org.ezen.ex02.mapper;
 
+import java.util.List;
+
+import org.ezen.ex02.domain.Criteria;
 import org.ezen.ex02.domain.ReplyVO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -69,6 +72,7 @@ public class ReplyMapperTests {
 	}
 	*/
 	
+	/*
 	@Test
 	public void testUpdate() {
 		
@@ -83,5 +87,18 @@ public class ReplyMapperTests {
 		int count = mapper.update(vo);
 		
 		log.info("Update COUNT : " + count);
+	}
+	*/
+	
+	@Test
+	public void testList() {
+		
+		Criteria cri = new Criteria();
+		
+		//bnoArr[0]
+		
+		List<ReplyVO> replies = mapper.getListWithPaging(cri, bnoArr[0]);
+		
+		replies.forEach(reply -> log.info(reply));
 	}
 }
