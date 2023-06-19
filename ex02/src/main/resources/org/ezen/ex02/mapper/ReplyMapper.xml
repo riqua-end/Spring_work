@@ -5,4 +5,12 @@
 
 <mapper namespace="org.ezen.ex02.mapper.ReplyMapper">
 	
+	<insert id="insert" parameterType="org.ezen.ex02.domain.ReplyVO">
+		
+		insert into tbl_reply (rno,bno,reply,replyer)
+		values (seq_reply.nextval,#{bno},#{reply},#{replyer})
+		<!-- 바인딩 변수는 #{파라메터 객체의 멤버변수명} -->
+		
+	</insert>
+	
 </mapper>
