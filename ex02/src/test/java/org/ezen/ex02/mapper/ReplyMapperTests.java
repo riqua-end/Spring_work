@@ -1,7 +1,5 @@
 package org.ezen.ex02.mapper;
 
-import java.util.stream.IntStream;
-
 import org.ezen.ex02.domain.ReplyVO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,6 +28,7 @@ public class ReplyMapperTests {
 	}
 	*/
 	
+	/*
 	@Test
 	public void testCreate() {
 		
@@ -46,5 +45,43 @@ public class ReplyMapperTests {
 			mapper.insert(vo);
 		});
 	}
+	*/
 	
+	/*
+	@Test
+	public void testRead() {
+		
+		Long targetRno = 1L;
+		
+		ReplyVO vo = mapper.read(targetRno);
+		
+		log.info(vo);
+	}
+	*/
+	
+	/*
+	@Test
+	public void testDelete() {
+		
+		Long targetRno = 1L;
+		
+		mapper.delete(targetRno);
+	}
+	*/
+	
+	@Test
+	public void testUpdate() {
+		
+		Long targetRno = 1L;
+		
+		ReplyVO vo = mapper.read(targetRno);
+		//조회로 1번을 읽어옴
+		
+		vo.setReply("Update Reply");
+		//vo객체의 reply멤버변수 변경
+		
+		int count = mapper.update(vo);
+		
+		log.info("Update COUNT : " + count);
+	}
 }
