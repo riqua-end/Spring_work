@@ -16,3 +16,25 @@ insert into tbl_board (bno,title,content,writer)
 values (seq_board.nextval,'테스트 제목','테스트 내용','user1000');
 
 commit;
+
+--댓글용 테이블
+create table tbl_reply(
+rno number(10,0) not null, --pk
+bno number(10,0) not null, --fk
+reply varchar2(1000) not null,
+replyer varchar2(50) not null,
+replyDate date default sysdate,
+updatedate date default sysdate
+);
+
+--댓글 테이블용 시퀀스
+create sequence seq_reply nocache;
+
+--TBL_REPLY에 PK 지정
+alter table tbl_reply add constraint pk_reply primary key (rno);
+
+--TBL_REPLY에 외래키 지정
+alter table tbl_reply add constraint fk_reply_board foreign key (bno) references
+tbl_board (bno);
+
+commit;
