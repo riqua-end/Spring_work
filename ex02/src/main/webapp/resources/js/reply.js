@@ -8,4 +8,15 @@
 
 console.log("Reply Module..........");
 
-let replyService = {};
+//즉시 실행 함수 만든 후 내부 함수 만듦
+let replyService = (function(){
+	
+	function add(reply,callback){
+		console.log("reply..........");
+	}
+	
+	return {add:add}; //속성이 add이고 값이 add메서드인 객체를 반환하여 replyService에 대입
+	
+})();
+
+console.log(replyService);
