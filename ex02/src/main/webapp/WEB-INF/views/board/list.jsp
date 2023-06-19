@@ -184,6 +184,7 @@ $(document).ready(function() {
 		//find(selector)메서드는 자식 엘리먼트에서 selector에 해당하는 엘리먼트를 선택
 		//pageNum이 name인 input의 value에 클릭한 a의 href값(페이지 번호)를 넣어줌
 		//this는 이벤트가 일어난 객체이므로 <a>가 됨
+		actionForm.attr("action","list");
 		actionForm.submit(); //submit(),reset()은 form의 이벤트
 	});
 	
