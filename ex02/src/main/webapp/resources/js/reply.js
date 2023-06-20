@@ -102,11 +102,26 @@ let replyService = (function(){
 		}); //ajax()
 	} //update()
 	
+	function get(rno,callback,error) {
+		
+		$.get("../replies/" + rno, function(result) { //get방식만 처리하는 제이쿼리 메서드
+			
+			if (callback) {
+				callback(result);
+			}
+		}).fail(function(xhr,status,err) {
+			if (error) {
+				error(er);
+			}
+		});
+	} //get()
+	
 	return {
 		add:add, //속성이 add이고 값이 add메서드인 객체를 반환하여 replyService에 대입
 		getList:getList,
 		remove : remove,
-		update : update
+		update : update,
+		get : get
 	};
 	
 })();

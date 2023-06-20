@@ -160,6 +160,7 @@ $(function(){
 	);
 	*/
 	
+	/*
 	replyService.update({
 		rno : 13,
 		bno : bnoValue,
@@ -167,6 +168,12 @@ $(function(){
 	}, function(result) {
 		alert("수정 완료...");
 	
+	});
+	*/
+	
+	//댓글 조회처리
+	replyService.get(13,function(data){
+		console.log(data);
 	});
 });
 </script>
