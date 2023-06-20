@@ -62,9 +62,29 @@ let replyService = (function(){
 		});
 	} //getList()
 	
+	function remove(rno,replyer,callback,error) {
+		console.log("----------------------------");
+		
+		$.ajax({
+			type : 'delete',
+			url : '../replies/' + rno,
+			success : function(deleteResult, status , xhr) {
+				if(callback) {
+					callback(deleteResult);
+				}
+			},
+			error : function (xhr,status,er) {
+				if(error) {
+					error(er);
+				}
+			}		
+		}); //.ajax()
+	} //remove()
+	
 	return {
 		add:add, //속성이 add이고 값이 add메서드인 객체를 반환하여 replyService에 대입
-		getList:getList
+		getList:getList,
+		remove : remove
 	};
 	
 })();

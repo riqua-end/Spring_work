@@ -137,12 +137,26 @@ $(function(){
 	);
 	*/
 	
+	/*
 	replyService.getList({bno:bnoValue,page:1}, function(list){
 		//list는 getList에서 받는 성공시 데이터\
 		for(var i = 0, len = list.length || 0; i < len; i++) {
 			console.log(list[i]);
 		}
 	});
+	*/
+	
+	replyService.remove(15,
+		function(count){
+			console.log(count);
+			if (count === "success") {
+				alert("REMOVED");
+			}
+		},
+		function(err){
+			alert("ERROR....");
+		}
+	);
 });
 </script>
 </body>
