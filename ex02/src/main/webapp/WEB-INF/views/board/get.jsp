@@ -94,6 +94,31 @@
 					<input type='hidden' name='type' value='<c:out value="${cri.type}"/>'>
 					<input type='hidden' name='keyword' value='<c:out value="${cri.keyword}"/>'>
 				</form>
+				
+				<!-- 댓글 아이콘 영역 -->
+				<div class="row mt-4">
+					<div class="col-md-12 clearfix">
+						<i class="fas fa-reply fa-2x"></i> Reply <!-- 댓글 아이콘 -->
+						<button id='addReplyBtn' class='btn btn-outline-primary float-right'>
+							New Reply
+						</button>
+					</div>
+				</div>
+				
+				<!-- 댓글 리스트 영역 -->
+				<div class="row mt-2">
+					<div class="col-md-12">
+						<ul class="chat list-group">
+							<!-- 이 영역에 댓글의 목록을 자바 스크립트로 갯수 만큼 반복처리하여 만듦 -->
+							<!-- 임시 데이터 -->
+							<li class='list-group-item clearfix' data-rno='12'>
+								<strong class='text-primary'>user00</strong>
+								<small class='float-right text-mute'>2023-05-03</small>
+								<p>댓글 내용입니다.</p>
+							</li>
+						</ul>
+					</div>
+				</div>
 			</div><!-- submain -->
 		</div><!-- col-md-10 -->
 	</div><!-- row -->
@@ -121,6 +146,7 @@ $(function(){
 </script>
 
 <script>
+
 $(function(){
 	//댓글처리 테스트(테스트 이후에는 이 자바스크립트 영역은 주석 처리)
 	console.log("======================");
@@ -171,10 +197,48 @@ $(function(){
 	});
 	*/
 	
+	/*
 	//댓글 조회처리
 	replyService.get(13,function(data){
 		console.log(data);
 	});
+	*/
+});
+</script>
+
+<script>
+$(function(){
+	//댓글 처리 스크립트 부분
+	let bnoValue = '<c:out value="${board.bno}"/>';
+	let replyUL = $(".chat"); //댓글 콘테이너인 ul로 이 안에 댓글 항목을 추가
+	
+	showList(1); //댓글 리스트 보여주기 함수
+	
+	function showList(page) {
+		console.log("show list" + page);
+		
+		replyService.getList({bno:bnoValue,page: page||1 },
+			function(list) {
+				//list는 서버에서 ArrayList(배열형태,요소는 reply객체의 JSON배열)
+				//자바 스크립트에서는 JS배열객체 처럼 사용
+				let str = "";
+				if(list == null || list.length == 0) {
+					replyUL.html("");
+					return;
+				}
+				for (let i = 0, len = list.length || 0; i < len; i++) {
+					str += "<li class='list-group-item clearfix' data-rno='"+list[i].rno+"'>";
+					str += "<strong class='text-primary'>" + list[i].replyer + "</strong>";
+					str += "<small class='float-right text-mute'>" + list[i].replyDate + "</small>";
+					str += "<p>" + list[i].reply + "</p>";
+					str += "</li>";
+				}
+				
+				replyUL.html(str);
+				
+			} //function()		
+		); //getList()
+	} //showList()
 });
 </script>
 </body>
