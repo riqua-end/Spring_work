@@ -146,6 +146,7 @@ $(function(){
 	});
 	*/
 	
+	/*
 	replyService.remove(15,
 		function(count){
 			console.log(count);
@@ -157,6 +158,16 @@ $(function(){
 			alert("ERROR....");
 		}
 	);
+	*/
+	
+	replyService.update({
+		rno : 13,
+		bno : bnoValue,
+		reply : "Modified Reply....."
+	}, function(result) {
+		alert("수정 완료...");
+	
+	});
 });
 </script>
 </body>

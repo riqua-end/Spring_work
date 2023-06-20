@@ -81,10 +81,32 @@ let replyService = (function(){
 		}); //.ajax()
 	} //remove()
 	
+	function update(reply,callback,error) {
+		console.log("RNO: " + reply.rno);
+		
+		$.ajax({
+			type : 'put', //update는 PUT또는PATCH
+			url : '../replies/' + reply.rno,
+			data : JSON.stringify(reply),
+			contentType : "application/json; charset=utf-8",
+			success : function(result,status,xhr) {
+				if (callback) {
+					callback(result);
+				}	
+			},
+			error : function(xhr,status,er) {
+				if(error) {
+					error(er);
+				}
+			}
+		}); //ajax()
+	} //update()
+	
 	return {
 		add:add, //속성이 add이고 값이 add메서드인 객체를 반환하여 replyService에 대입
 		getList:getList,
-		remove : remove
+		remove : remove,
+		update : update
 	};
 	
 })();
