@@ -119,5 +119,22 @@ $(function(){
 	});
 });
 </script>
+
+<script>
+$(function(){
+	//댓글처리 테스트(테스트 이후에는 이 자바스크립트 영역은 주석 처리)
+	console.log("======================");
+	console.log("JS TEST");
+	
+	let bnoValue = '<c:out value = "${board.bno}"/>';
+	//replyService 객체의 add속성인 function add(reply,callback,error)메서드의 파라메터인 reply와 callback에 전달
+	replyService.add(
+		{reply:"JS Test",replyer:"tester",bno:bnoValue},
+		function(result) {
+			alert("RESULT : " + result);
+		}
+	);
+});
+</script>
 </body>
 </html>
