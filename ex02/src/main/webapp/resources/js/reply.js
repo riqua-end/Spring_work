@@ -116,12 +116,45 @@ let replyService = (function(){
 		});
 	} //get()
 	
+	function displayTime(timeValue) {
+		//서버에서 오는 Date객체 값은 posix타임임(밀리세컨드)
+		var today = new Date(); //현재 시각을 나타내는 JS Date객체
+		
+		//자바스크립트의 Date객체를 posix타임으로 변환하는 메서드 getTime()
+		var gap = today.getTime() - timeValue; //차이는 밀리세컨드
+		
+		var dateObj = new Date(timeValue); //posix타입을 이용하여 지정된 Date객체로 변환
+		var str = "";
+		
+		if (gap < (1000 * 60 * 60 * 24)) {
+			//gap이 하루 이하이면 시간까지 표시
+			var hh = dateObj.getHours();
+			var mi = dateObj.getMinutes();
+			var ss = dateObj.getSeconds();
+			
+			//두자리로 시간 표시
+			return [ (hh > 9 ? '' : '0') + hh, ':', (mi > 9 ? '' : '0') + mi,
+					':', (ss > 9 ? '' : '0') + ss ].join('');
+					//배열 요소를 문자열로 변환(문자열에 공백 없이 처리)
+					//join()은 문자열에 , 로 구분 처리 09:33:27
+		} else {
+			var yy = dateObj.getFullYear();
+			var mm = dateObj.getMonth() + 1; // getMonth() is zero-basesd(0~11)
+			var dd = dateObj.getDate();
+			
+			return [ yy, '/', (mm > 9 ? '' : '0') + mm, '/',
+					(dd > 9 ? '' : '0') + dd ].join('');
+					//2023/06/20
+		}			
+	} //displayTime(timeValue)
+	
 	return {
 		add:add, //속성이 add이고 값이 add메서드인 객체를 반환하여 replyService에 대입
 		getList:getList,
 		remove : remove,
 		update : update,
-		get : get
+		get : get,
+		displayTime : displayTime
 	};
 	
 })();

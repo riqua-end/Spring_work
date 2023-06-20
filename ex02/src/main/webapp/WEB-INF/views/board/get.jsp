@@ -229,7 +229,7 @@ $(function(){
 				for (let i = 0, len = list.length || 0; i < len; i++) {
 					str += "<li class='list-group-item clearfix' data-rno='"+list[i].rno+"'>";
 					str += "<strong class='text-primary'>" + list[i].replyer + "</strong>";
-					str += "<small class='float-right text-mute'>" + list[i].replyDate + "</small>";
+					str += "<small class='float-right text-mute'>" + replyService.displayTime(list[i].replyDate) + "</small>";
 					str += "<p>" + list[i].reply + "</p>";
 					str += "</li>";
 				}
