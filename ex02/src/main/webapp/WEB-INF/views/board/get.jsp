@@ -128,12 +128,21 @@ $(function(){
 	
 	let bnoValue = '<c:out value = "${board.bno}"/>';
 	//replyService 객체의 add속성인 function add(reply,callback,error)메서드의 파라메터인 reply와 callback에 전달
+	/*
 	replyService.add(
 		{reply:"JS Test",replyer:"tester",bno:bnoValue},
 		function(result) {
 			alert("RESULT : " + result);
 		}
 	);
+	*/
+	
+	replyService.getList({bno:bnoValue,page:1}, function(list){
+		//list는 getList에서 받는 성공시 데이터\
+		for(var i = 0, len = list.length || 0; i < len; i++) {
+			console.log(list[i]);
+		}
+	});
 });
 </script>
 </body>

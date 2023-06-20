@@ -42,7 +42,30 @@ let replyService = (function(){
 		}); //.ajax
 	} //add 함수
 	
-	return {add:add}; //속성이 add이고 값이 add메서드인 객체를 반환하여 replyService에 대입
+	function getList(param,callback,error) {
+		
+		let bno = param.bno;
+		let page = param.page || 1; //1은 디폴트값으로 값이 없을시 1로 설정
+		
+		//get방식으로 list를 반환 받을시는 $.getJSON(url,성공시 실행 함수)사용
+		$.getJSON("../replies/pages/" + bno + "/" + page,
+			function(data) { //data는 서버로 부터 받은 데이터로 list임
+				if(callback) {
+					callback(data);
+				}
+			}
+		)
+		.fail(function(xhr,status,err){
+			if(error) {
+				error(err);
+			}
+		});
+	} //getList()
+	
+	return {
+		add:add, //속성이 add이고 값이 add메서드인 객체를 반환하여 replyService에 대입
+		getList:getList
+	};
 	
 })();
 
