@@ -1,8 +1,7 @@
 package org.ezen.ex02.controller;
 
-import java.util.List;
-
 import org.ezen.ex02.domain.Criteria;
+import org.ezen.ex02.domain.ReplyPageDTO;
 import org.ezen.ex02.domain.ReplyVO;
 import org.ezen.ex02.service.ReplyService;
 import org.springframework.http.HttpStatus;
@@ -49,6 +48,7 @@ public class ReplyController {
 		
 	}
 	
+	/* page 미처리 목록 처리
 	@GetMapping(value = "/pages/{bno}/{page}", produces = {MediaType.APPLICATION_JSON_VALUE})
 	//{bno},{page}는 경로 아닌 값 @PathVariable로 매핑
 	//게시글 하나에 대한 댓글들
@@ -62,6 +62,20 @@ public class ReplyController {
 		
 		return new ResponseEntity<>(service.getList(cri, bno),HttpStatus.OK);
 		//public List<ReplyVO> getList(Criteria cri, Long bno)
+	}
+	*/
+	
+	//페이지처리 목록 처리
+	@GetMapping(value = "/pages/{bno}/{page}", produces = {MediaType.APPLICATION_JSON_VALUE})
+	public ResponseEntity<ReplyPageDTO> getList(@PathVariable("page") int page, @PathVariable("bno") Long bno) {
+		
+		Criteria cri = new Criteria(page,10);
+		
+		log.info("get Reply List bno : " + bno);
+		
+		log.info("cri : " + cri);
+		
+		return new ResponseEntity<>(service.getListPage(cri, bno),HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/{rno}",produces = {MediaType.APPLICATION_JSON_VALUE})
