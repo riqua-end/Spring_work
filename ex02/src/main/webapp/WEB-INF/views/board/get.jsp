@@ -328,6 +328,18 @@ $(function(){
 			showList(1); //업데이트 이후에는 댓글리스트 보여주기
 		});
 	});
+	
+	//댓글 삭제 이벤트 처리
+	modalRemoveBtn.on("click", function(e){
+		let rno = modal.data("rno");
+		
+		replyService.remove(rno, function(result){
+			
+			alert(result);
+			modal.modal("hide");
+			showList(1);
+		});
+	});
 });
 </script>
 </body>
