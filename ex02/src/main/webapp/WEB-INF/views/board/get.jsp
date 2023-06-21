@@ -125,6 +125,7 @@
 </div>
 		
 
+<%@ include file="../includes/replyModal.jsp" %>
 <%@ include file="../includes/footer.jsp" %>
 
 <%-- 외부 js파일 임포트 --%>
@@ -239,6 +240,32 @@ $(function(){
 			} //function()		
 		); //getList()
 	} //showList()
+	
+	//댓글 처리 모달창 처리 및 댓글처리 이벤트 처리
+	let modal = $("#myReplyModal"); //replyModal의 modal DOM
+	//입력요소를 DOM객체로 
+	let modalInputReply = modal.find("input[name='reply']"); //find는 후손중에서 선택
+	let modalInputReplyer = modal.find("input[name='replyer']");
+	let modalInputReplyDate = modal.find("input[name='replyDate']");
+	//모달창의 버튼 DOM
+	let modalModBtn = $("#modalModBtn");
+	let modalRemoveBtn = $("#modalRemoveBtn");
+	let modalRegisterBtn = $("#modalRegisterBtn");
+	
+	//댓글 추가 버튼 클릭 이벤트 처리
+	$("#addReplyBtn").on("click",function(e){
+		
+		/*
+		modal.find("input").val(""); //input의 값을 초기화
+		//modal.find("input[name='replyer']").val(replyerS); //로그인한 사용자로 작성자 고정
+		modalInputReplyDate.closest("div").hide(); //날짜 입력 DOM은 감춤
+		modal.find("button[id != 'modalCloseBtn']").hide(); //나가기만 보임
+		
+		modalRegisterBtn.show(); //등록버튼 다시 보이게
+		*/
+		$(".replyModal").modal("show");
+		
+	});
 });
 </script>
 </body>
