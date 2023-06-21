@@ -267,6 +267,11 @@ $(function(){
 		
 	});
 	
+	//나가기버튼 이벤트 처리
+	$("#modalCloseBtn").on("click",function(e){
+		modal.modal('hide');
+	});
+	
 	//댓글 등록 버튼 클릭 이벤트 처리 및 모달창 닫고 댓글 리스트창 보여주기
 	modalRegisterBtn.on("click",function(){
 		//reply.js의 replyService객체의 add메서드 속성 사용하기
@@ -288,7 +293,41 @@ $(function(){
 	});
 	
 	//댓글 조회 이벤트(modify와 remove를 위해 조회)
+	$(".chat").on("click","li",function(e){
+		//li는 .chat의 자식(후손)
+		let rno = $(this).data("rno");
+		//이벤트가 일어난 li는 this
+		//data(data-의 값)은 data-값으로 되어있는 DOM선택
+		
+		replyService.get(rno, function(reply){
+			
+			modalInputReply.val(reply.reply);
+			modalInputReplyer.val(reply.replyer);
+			modalInputReplyDate.val(replyService.displayTime(reply.replyDate))
+			.attr("readonly","readonly");
+			modal.data("rno",reply.rno);
+			//data-rno속성을 reply.rno로 추가
+			
+			modal.find("button[id !='modalCloseBtn']").hide();
+			modalModBtn.show();
+			modalRemoveBtn.show();
+			
+			$(".replyModal").modal("show");
+		});
+	});
 	
+	//댓글 수정 이벤트 처리
+	modalModBtn.on("click",function(e){
+		
+		var reply = {rno:modal.data("rno"), reply: modalInputReply.val()};
+		
+		replyService.update(reply, function(result){
+			
+			alert(result);
+			modal.modal("hide");
+			showList(1); //업데이트 이후에는 댓글리스트 보여주기
+		});
+	});
 });
 </script>
 </body>

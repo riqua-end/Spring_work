@@ -20,7 +20,7 @@
 </head>
 <body>
 
-<div class="replyModal modal fade" id="replyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="replyModal modal fade" id="myReplyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header bg-info">
@@ -30,15 +30,15 @@
 			<div class="modal-body">
 				<div class="form-group">
 					<label>Reply</label>
-					<input class="form-control" name="reply" value="New Reply!!!">
+					<input class="form-control" name='reply' value='New Reply!!!'>
 				</div>
 				<div class="form-group">
 					<label>Replyer</label>
-					<input class="form-control" name="replyer" value="Replyer!!!!">
+					<input class="form-control" name='replyer' value='Replyer!!!!'>
 				</div>
 				<div class="form-group">
 					<label>ReplyDate</label>
-					<input class="form-control" name="replyDate" value="2023-06-01">
+					<input class="form-control" name='replyDate' value='2023-06-01'>
 				</div>
 			</div>
 			<div class="modal-footer">
