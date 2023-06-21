@@ -49,9 +49,11 @@ let replyService = (function(){
 		
 		//get방식으로 list를 반환 받을시는 $.getJSON(url,성공시 실행 함수)사용
 		$.getJSON("../replies/pages/" + bno + "/" + page,
-			function(data) { //data는 서버로 부터 받은 데이터로 list임
+			function(data) { 
+			//페이지 미고려시는 data는 서버로 부터 받은 데이터로 ReplyVO배열이고
+			//페이지 고려시는 replyCnt와 list를 같이 가진 JSON객체로 ReplyVO를 배열로 갖고 댓글수는 속성(pageDTO)
 				if(callback) {
-					callback(data);
+					callback(data); //댓글 목록만 가져오는 경우
 				}
 			}
 		)

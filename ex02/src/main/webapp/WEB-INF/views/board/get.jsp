@@ -221,10 +221,22 @@ $(function(){
 		console.log("show list" + page);
 		
 		replyService.getList({bno:bnoValue,page: page||1 },
-			function(list) {
-			console.log(list);
+			//function(list) {
 				//list는 서버에서 ArrayList(배열형태,요소는 reply객체의 JSON배열)
 				//자바 스크립트에서는 JS배열객체 처럼 사용
+			function(rpDto){
+					
+				//rpDto는 PageDTO객체 
+				let replyCnt = rpDto.replyCnt;
+				let list = rpDto.list;
+				console.log("replyCnt : " + replyCnt);
+				console.log("list : " + list);
+				
+				if(page == -1) {
+					pageNum = Math.ceil(replyCnt/10.0); //마지막 페이지로 이동
+					showList(pageNum);
+					return;
+				}
 				let str = "";
 				if(list == null || list.length == 0) {
 					replyUL.html("");
