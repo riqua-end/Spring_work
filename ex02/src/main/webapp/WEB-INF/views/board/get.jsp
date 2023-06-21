@@ -255,17 +255,40 @@ $(function(){
 	//댓글 추가 버튼 클릭 이벤트 처리
 	$("#addReplyBtn").on("click",function(e){
 		
-		/*
+		
 		modal.find("input").val(""); //input의 값을 초기화
 		//modal.find("input[name='replyer']").val(replyerS); //로그인한 사용자로 작성자 고정
 		modalInputReplyDate.closest("div").hide(); //날짜 입력 DOM은 감춤
 		modal.find("button[id != 'modalCloseBtn']").hide(); //나가기만 보임
 		
 		modalRegisterBtn.show(); //등록버튼 다시 보이게
-		*/
+		
 		$(".replyModal").modal("show");
 		
 	});
+	
+	//댓글 등록 버튼 클릭 이벤트 처리 및 모달창 닫고 댓글 리스트창 보여주기
+	modalRegisterBtn.on("click",function(){
+		//reply.js의 replyService객체의 add메서드 속성 사용하기
+		//댓글 생성에 필요한 데이터를 자바스크립트 객체로 보내줌
+		let reply = {
+				reply : modalInputReply.val(),
+				replyer : modalInputReplyer.val(),
+				bno : bnoValue
+		};
+		replyService.add(reply,function(result){
+			
+			alert(result);
+			//등록 후 초기화
+			modal.find("input").val("");
+			modal.modal("hide");
+			
+			showList(1); //등록 후 댓글 목록 보이게 함
+		});
+	});
+	
+	//댓글 조회 이벤트(modify와 remove를 위해 조회)
+	
 });
 </script>
 </body>
