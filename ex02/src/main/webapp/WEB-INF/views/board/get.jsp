@@ -111,11 +111,13 @@
 						<ul class="chat list-group">
 							<!-- 이 영역에 댓글의 목록을 자바 스크립트로 갯수 만큼 반복처리하여 만듦 -->
 							<!-- 임시 데이터 -->
+							<!--  
 							<li class='list-group-item clearfix' data-rno='12'>
 								<strong class='text-primary'>user00</strong>
 								<small class='float-right text-mute'>2023-05-03</small>
 								<p>댓글 내용입니다.</p>
 							</li>
+							-->
 						</ul>
 					</div>
 				</div>
@@ -220,6 +222,7 @@ $(function(){
 		
 		replyService.getList({bno:bnoValue,page: page||1 },
 			function(list) {
+			console.log(list);
 				//list는 서버에서 ArrayList(배열형태,요소는 reply객체의 JSON배열)
 				//자바 스크립트에서는 JS배열객체 처럼 사용
 				let str = "";
