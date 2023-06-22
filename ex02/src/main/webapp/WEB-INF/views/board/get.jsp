@@ -404,7 +404,8 @@ $(function(){
 			
 			alert(result);
 			modal.modal("hide");
-			showList(1); //업데이트 이후에는 댓글리스트 보여주기
+			//showList(1); //업데이트 이후에는 댓글리스트 보여주기(페이지 미고려)
+			showList(pageNum); //업데이트 이후에는 댓글리스트 보여주기(페이지 고려)
 		});
 	});
 	
@@ -417,7 +418,8 @@ $(function(){
 			
 			alert(result);
 			modal.modal("hide");
-			showList(1);
+			//showList(1);
+			showList(pageNum); //삭제 이후에 댓글리스트 보여주기(페이지 고려)
 		});
 	});
 	
