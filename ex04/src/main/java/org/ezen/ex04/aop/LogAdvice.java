@@ -1,5 +1,6 @@
 package org.ezen.ex04.aop;
 
+import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.stereotype.Component;
@@ -26,5 +27,13 @@ public class LogAdvice {
 		
 		log.info("str1 : " + str1);
 		log.info("str2 : " + str2);
+	}
+	
+	//핵심 메서드
+	@AfterThrowing(pointcut = "execution(* org.ezen.ex04.service.SampleService*.*(..))", throwing = "exception")
+	public void logException(Exception exception) {
+		
+		log.info("Exception....!!!!");
+		log.info("exception : " + exception);
 	}
 }
