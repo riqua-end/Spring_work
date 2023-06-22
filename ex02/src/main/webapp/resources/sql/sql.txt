@@ -41,3 +41,8 @@ commit;
 
 --댓글 처리를 위한 인덱스 생성(처리 속도 개선)
 Create index idx_reply on tbl_reply (bno desc,rno asc);
+
+--transaction
+Create table tbl_sample1(col1 varchar2(500));
+
+Create table tbl_sample2(col2 varchar2(50)); ---test를 위해 일부러 적게함
