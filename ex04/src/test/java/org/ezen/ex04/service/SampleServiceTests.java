@@ -17,6 +17,7 @@ public class SampleServiceTests {
 	@Setter(onMethod_ = @Autowired)
 	private SampleService service;
 	
+	/*
 	@Test
 	public void testClass() {
 		
@@ -24,6 +25,13 @@ public class SampleServiceTests {
 		log.info(service.getClass().getName());
 		//service객체의 클래스를 반환해서 이름을 얻어냄
 		//AOP의 횡단관심사인 advice의 대상인 핵심 로직은 advice와 핵심로직이 결합된 Proxy가 됨
+	}
+	*/
+	
+	@Test
+	public void testAdd() throws Exception {
+		
+		log.info(service.doAdd("123", "456"));
 	}
 	
 }

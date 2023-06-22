@@ -19,4 +19,12 @@ public class LogAdvice {
 		log.info("==================");
 	}
 	
+	
+	@Before("execution(* org.ezen.ex04.service.SampleService*.doAdd(String, String)) && args(str1,str2)")
+	//핵심(타겟) 메서드의 사용 파라메터값을 어드바이스의 파라메터로 전달 받아서 사용
+	public void logBeforeWithParam(String str1,String str2) {
+		
+		log.info("str1 : " + str1);
+		log.info("str2 : " + str2);
+	}
 }
