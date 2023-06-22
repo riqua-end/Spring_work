@@ -134,13 +134,17 @@
 							-->
 							</ul>
 						</div>
+					</div> <!-- row mt-2 -->
+					
+					<!-- 댓글용 페이지 표시 -->
+					<div id='replyPage'>
+					
 					</div>
-				</div>
-				<!-- submain -->
-			</div>
-			<!-- col-md-10 -->
-		</div>
-		<!-- row -->
+					
+					
+				</div><!-- submain -->
+			</div><!-- col-md-10 -->
+		</div><!-- row -->
 	</div>
 
 
@@ -269,10 +273,52 @@ $(function(){
 				
 				replyUL.html(str);
 				
+				
+				//댓글페이지 표시 처리 함수 호출
+				showReplyPage(replyCnt);
+				
 			} //function()		
 		); //getList()
 	} //showList()
 	
+	
+	let pageNum = 1;
+	let replyPageFooter = $("#replyPage");
+	
+	function showReplyPage(replyCnt) {
+		let endNum = Math.ceil(pageNum / 10.0) * 10;
+		let startNum = endNum - 9;
+		let prev = startNum != 1;
+		let next = false;
+		
+		if(endNum * 10 >= replyCnt) {
+			endNum = Math.ceil(replyCnt/10.0);
+		}
+		if(endNum * 10 < replyCnt) {
+			next = true;
+		}
+		
+		let str = "<ul class='pagination justify-content-center' style='margin: 20px 0'>";
+		
+		if(prev) {
+			str += "<li class='page-item'><a class='page-link' href='"+(startNum -1)+"'>Previous</a><li>";
+		}
+		
+		for(let i = startNum ; i <= endNum; i++) {
+			let active = pageNum == i ? "active" : "";
+			str += "<li class='page-item" + active + "'><a class='page-link' href='"+i+"'>"+i+"</a></li>";
+		}
+		
+		if(next) {
+			str += "<li class='page-item'><a class='page-link' href='"+(endNum +1)+"'>Next</a></li>";
+		}
+		
+		str += "</ul>";
+		
+		console.log(str);
+		
+		replyPageFooter.html(str);
+	}
 	//댓글 처리 모달창 처리 및 댓글처리 이벤트 처리
 	let modal = $("#myReplyModal"); //replyModal의 modal DOM
 	//입력요소를 DOM객체로 
@@ -320,7 +366,8 @@ $(function(){
 			modal.find("input").val("");
 			modal.modal("hide");
 			
-			showList(1); //등록 후 댓글 목록 보이게 함
+			//showList(1); //등록 후 댓글 목록 보이게 함(페이지 미 고려)
+			showList(-1); //페이지 고려시는 등록 후 제일 마지막 페이지의 마지막 댓글로 처리
 		});
 	});
 	
@@ -361,6 +408,7 @@ $(function(){
 		});
 	});
 	
+	//댓글 삭제 이벤트 처리
 	modalRemoveBtn.on("click",function(e){
 		
 		let rno = modal.data("rno");
@@ -372,6 +420,9 @@ $(function(){
 			showList(1);
 		});
 	});
+	
+	//페이지 번호 클릭시 이벤트 처리(해당 페이지의 댓글 리스트 표시)
+	
 	
 	
 });
