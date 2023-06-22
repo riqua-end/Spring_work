@@ -238,7 +238,7 @@ $(function(){
 	
 	showList(1); //댓글 리스트 보여주기 함수
 	
-	function showList(page) {
+	function showList(page){
 		console.log("show list" + page);
 		
 		replyService.getList({bno:bnoValue,page: page||1 },
@@ -423,7 +423,19 @@ $(function(){
 	
 	//페이지 번호 클릭시 이벤트 처리(해당 페이지의 댓글 리스트 표시)
 	
-	
+	replyPageFooter.on("click","li a",function(e){
+		
+		e.preventDefault();
+		console.log("page click");
+		
+		let targetPageNum = $(this).attr("href");
+		
+		console.log("targetPageNum: " + targetPageNum);
+		
+		pageNum = targetPageNum;
+		
+		showList(pageNum);
+	});
 	
 });
 </script>
