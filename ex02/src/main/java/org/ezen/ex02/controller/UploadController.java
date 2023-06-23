@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.extern.log4j.Log4j;
@@ -44,6 +45,45 @@ public class UploadController {
 				log.error(e.getMessage());
 			}
 		}
+	}
+	
+	@GetMapping("/uploadAjax")
+	public void uploadAjax() {
+		
+		log.info("upload ajax");
+	}
+	
+	
+	@PostMapping("/uploadAjaxAction")
+	@ResponseBody
+	public String uploadAjaxPost(MultipartFile[] uploadFile) {
+		
+		log.info("update ajax post........");
+		
+		String uploadFolder = "C:/upload";
+		
+		for(MultipartFile multipartFile : uploadFile) {
+			
+			log.info("----------------------");
+			log.info("Upload File Name: " + multipartFile.getOriginalFilename());
+			log.info("Upload File Size: " + multipartFile.getSize());
+			
+			String uploadFileName = multipartFile.getOriginalFilename();
+			//IE는 file path 까지 파일 이름에 가지므로 파일 이름만 갖도록 처리 
+			uploadFileName.substring(uploadFileName.lastIndexOf("/") + 1);
+			log.info("only file name: " + uploadFileName);
+			
+			File saveFile = new File(uploadFolder,uploadFileName);
+			
+			try {
+				multipartFile.transferTo(saveFile); //수신된 파일을 지정된 파일 객체에 저장
+			}
+			catch (Exception e) {
+				log.error(e.getMessage());
+			}
+		}
+		
+		return "success";
 	}
 	
 }
