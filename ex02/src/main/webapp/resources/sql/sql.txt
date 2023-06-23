@@ -46,3 +46,10 @@ Create index idx_reply on tbl_reply (bno desc,rno asc);
 Create table tbl_sample1(col1 varchar2(500));
 
 Create table tbl_sample2(col2 varchar2(50)); ---test를 위해 일부러 적게함
+
+--댓글 개수 처리
+alter table tbl_board add (replycnt number default 0);
+
+--댓글 개수 초기화 처리
+update tbl_board set replycnt =
+(select count(rno) from tbl_reply where tbl_reply.bno = tbl_board.bno);
