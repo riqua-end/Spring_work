@@ -101,11 +101,11 @@
 	<select id="getListWithPaging" 
 		resultType="org.ezen.ex02.domain.BoardVO" parameterType="org.ezen.ex02.domain.Criteria">
 		<![CDATA[
-			select bno,title,content,writer,regdate,updatedate
+			select bno,title,content,writer,regdate,updatedate,replycnt
 			from
 			(
 				select /*+index_desc(tbl_board pk_board)*/
-				rownum rn,bno,title,content,writer,regdate,updatedate
+				rownum rn,bno,title,content,writer,regdate,updatedate,replycnt
 				from tbl_board
 				where 
 		]]>
@@ -165,4 +165,11 @@
 		bno > 0
 		
 	</select>
+	
+	<update id="updateReplyCnt">
+	
+		update tbl_board set replycnt = replycnt + #{amount} where bno = #{bno}
+		
+	</update>
+	
 </mapper>
