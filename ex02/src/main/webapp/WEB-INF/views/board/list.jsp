@@ -38,8 +38,9 @@
 					<ul class="navbar-nav">
 						<li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-home" style="font-size:30px;color:white;"></i></a></li>
 						<li class="nav-item"><a class="nav-link" href="register">게시물 등록</a></li>
-						<li class="nav-item"><a class="nav-link" href="#">리스트</a></li>
-						<li class="nav-item"><a class="nav-link" href="#">도움말</a></li>
+						<li class="nav-item"><a class="nav-link" href="list">리스트</a></li>
+						<li class="nav-item"><a class="nav-link"
+						 href='modify?bno=<c:out value="${board.bno}" />'>수정</a></li>
 					</ul>
 				</div>
 			</nav>
