@@ -2,6 +2,7 @@ package org.ezen.ex02.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.ezen.ex02.domain.BoardVO;
 import org.ezen.ex02.domain.Criteria;
 
@@ -34,4 +35,8 @@ public interface BoardMapper {
 	
 	//게시글 총 갯수를 반환
 	public int getTotalCount(Criteria cri);
+	
+	//게시판의 댓글 숫자 업데이트
+	//amount는 댓글 등록시에는 1, 댓글 삭제시는 -1을 나타내는 파라메터
+	public void updateReplyCnt(@Param("bno") Long bno , @Param("amount") int amount);
 }

@@ -30,10 +30,35 @@
 	</update>
 	
 	<!-- 페이지 정보는 고려안하여 cri는 미사용 -->
+	<!-- 
 	<select id="getListWithPaging" resultType="org.ezen.ex02.domain.ReplyVO">
 		select rno,bno,reply,replyer,replyDate,updateDate
 		from tbl_reply
 		where bno = #{bno}
 		order by rno asc
+	</select>
+	-->
+	
+	<!-- 댓글에 페이지 적용한 리스트 처리 -->
+	<select id="getListWithPaging" resultType="org.ezen.ex02.domain.ReplyVO">
+		<![CDATA[
+			select rno,bno,reply,replyer,replydate,updatedate
+			from
+			(
+				select /*+INDEX(tbl_reply idx_reply) */
+				rownum rn, rno,bno,reply,replyer,replyDate,updatedate
+				from tbl_reply
+				where bno = #{bno}
+				and rno > 0
+				and rownum <= #{cri.pageNum} * #{cri.amount}
+			)
+			where rn > (#{cri.pageNum} -1) * #{cri.amount}
+		]]>
+	</select>
+	
+	<select id="getCountByBno" resultType="int">
+		<![CDATA[
+			select count(rno) from tbl_reply where bno = #{bno}
+		]]>
 	</select>
 </mapper>

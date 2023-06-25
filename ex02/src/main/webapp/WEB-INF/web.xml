@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- 
 <web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee https://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
-
+-->
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+	id="WebApp_ID" version="3.1">
+	
 	<!-- The definition of the Root Spring Container shared by all Servlets and Filters -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
@@ -28,6 +34,14 @@
 			<param-value>true</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
+		
+		<!-- 업로드 설정 -->
+		<multipart-config>
+			<location>C:/upload/temp</location> <!-- 저장 위치 -->
+			<max-file-size>20971520</max-file-size> <!-- 1MB * 20 한개 파일 최대 크기 -->
+			<max-request-size>41943040</max-request-size> <!-- 40MB 요청시 업로드 최대 크기 -->
+			<file-size-threshold>20971520</file-size-threshold> <!-- 20MB 메모리 사용 최대 크기 -->
+		</multipart-config>
 	</servlet>
 		
 	<servlet-mapping>

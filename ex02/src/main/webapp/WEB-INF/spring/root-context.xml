@@ -3,9 +3,13 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/tx https://www.springframework.org/schema/tx/spring-tx.xsd">
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	
@@ -37,10 +41,19 @@
 		<property name="dataSource" ref="dataSource"></property>
 	</bean>
 	
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>	
+	</bean>
+	
+	<tx:annotation-driven/>
+	
 	<!-- mybatis사용시는 별도로 scan -->
 	<mybatis-spring:scan base-package="org.ezen.ex02.mapper"/>
 	
 	<context:component-scan
 		base-package="org.ezen.ex02"></context:component-scan>
+	
+	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
 		
 </beans>

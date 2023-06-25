@@ -38,8 +38,9 @@
 					<ul class="navbar-nav">
 						<li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-home" style="font-size:30px;color:white;"></i></a></li>
 						<li class="nav-item"><a class="nav-link" href="register">게시물 등록</a></li>
-						<li class="nav-item"><a class="nav-link" href="#">리스트</a></li>
-						<li class="nav-item"><a class="nav-link" href="#">도움말</a></li>
+						<li class="nav-item"><a class="nav-link" href="list">리스트</a></li>
+						<li class="nav-item"><a class="nav-link"
+						 href='modify?bno=<c:out value="${board.bno}" />'>수정</a></li>
 					</ul>
 				</div>
 			</nav>
@@ -101,8 +102,14 @@
 										</a>
 										-->
 										<!-- 페이지를 조회페이지로 보내기 처리(페이지처리에 추가로 bno를 같이 보내줌) -->
+										<!-- 댓글 수 미고려 
 										<a class='move' href='<c:out value="${board.bno}"/>'>
 											<c:out value="${board.title}" />
+										</a>
+										-->
+										<!-- 댓글 수 고려 -->
+										<a class='move' href='<c:out value="${board.bno}"/>'>
+											<c:out value="${board.title}" /><span class="badge badge-secondary badge-pill float-right"><c:out value="${board.replyCnt}"/></span>
 										</a>
 									</td>
 									<td>

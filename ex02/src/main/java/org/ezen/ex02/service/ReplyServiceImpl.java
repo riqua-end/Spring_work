@@ -3,10 +3,13 @@ package org.ezen.ex02.service;
 import java.util.List;
 
 import org.ezen.ex02.domain.Criteria;
+import org.ezen.ex02.domain.ReplyPageDTO;
 import org.ezen.ex02.domain.ReplyVO;
+import org.ezen.ex02.mapper.BoardMapper;
 import org.ezen.ex02.mapper.ReplyMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
@@ -18,10 +21,29 @@ public class ReplyServiceImpl implements ReplyService {
 	@Setter(onMethod_ = @Autowired)
 	private ReplyMapper mapper;
 	
+	//댓글수 고려시 BoardMapper의 메서드 사용하므로 추가
+	@Setter(onMethod_ = @Autowired)
+	private BoardMapper boardMapper;
+	
+	
+	/* 댓글수 미고려
 	@Override
 	public int register(ReplyVO vo) {
 		
 		log.info("register.........." + vo);
+		return mapper.insert(vo);
+	}
+	*/
+	
+	//댓글수 고려
+	@Transactional
+	@Override
+	public int register(ReplyVO vo) {
+		
+		log.info("register.........." + vo);
+		
+		boardMapper.updateReplyCnt(vo.getBno(), 1);
+		
 		return mapper.insert(vo);
 	}
 
@@ -36,10 +58,26 @@ public class ReplyServiceImpl implements ReplyService {
 		log.info("modify........." + vo);
 		return mapper.update(vo);
 	}
-
+	
+	/* 댓글 수 미고려
 	@Override
 	public int remove(Long rno) {
 		log.info("delete......." + rno);
+		return mapper.delete(rno);
+	}
+	*/
+	//댓글 수 고려
+	@Transactional
+	@Override
+	public int remove(Long rno) {
+		log.info("delete......." + rno);
+		
+		//sql처리가 3개로 3개 모두 성공시에 commit
+		
+		ReplyVO vo = mapper.read(rno); //bno멤버변수 값을 구하기 위해 사용
+		
+		boardMapper.updateReplyCnt(vo.getBno(), -1);
+		
 		return mapper.delete(rno);
 	}
 
@@ -47,6 +85,11 @@ public class ReplyServiceImpl implements ReplyService {
 	public List<ReplyVO> getList(Criteria cri, Long bno) {
 		log.info("get Reply List of a Board" + bno);
 		return mapper.getListWithPaging(cri, bno);
+	}
+	
+	@Override
+	public ReplyPageDTO getListPage(Criteria cri,Long bno) {
+		return new ReplyPageDTO(mapper.getCountByBno(bno),mapper.getListWithPaging(cri, bno));
 	}
 
 }
