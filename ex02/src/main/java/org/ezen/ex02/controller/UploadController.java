@@ -1,6 +1,7 @@
 package org.ezen.ex02.controller;
 
 import java.io.File;
+import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
@@ -112,6 +113,21 @@ public class UploadController {
 		String str = sdf.format(date); //날짜 객체를 정해진 포맷의 문자열로 변환
 		
 		return str.replace("-", File.separator); //문자열중 -를 File.separator(파일 구분자)로 변경
+	}
+	
+	private boolean checkImageType(File file) {
+		
+		try {
+			String contentType = Files.probeContentType(file.toPath());
+			//file객체의 Path객체에 있는 contentType을 알아냄
+			return contentType.startsWith("image");
+			//startsWith(문자열)은 문자열로 시작하면 true
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return false;
 	}
 	
 }
