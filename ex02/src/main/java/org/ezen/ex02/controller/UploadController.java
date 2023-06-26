@@ -1,6 +1,7 @@
 package org.ezen.ex02.controller;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.extern.log4j.Log4j;
+import net.coobird.thumbnailator.Thumbnailator;
 
 @Controller
 @RequestMapping("/upload")
@@ -95,6 +97,14 @@ public class UploadController {
 			
 			try {
 				multipartFile.transferTo(saveFile); //수신된 파일을 지정된 파일 객체에 저장
+				
+				if (checkImageType(saveFile)) {
+					FileOutputStream thumbnail = new FileOutputStream(new File(uploadPath,"s_" + uploadFileName));
+					//uploadPath, "s_" + uploadFileName 파일 객체에 출력
+					Thumbnailator.createThumbnail(multipartFile.getInputStream(), thumbnail, 100,100);
+					//수신된 파일을 출력 스트림인 thumbnail에 크기 100 X 100으로 생성
+					thumbnail.close();
+				}
 			}
 			catch (Exception e) {
 				log.error(e.getMessage());
