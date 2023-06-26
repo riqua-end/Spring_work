@@ -4,9 +4,15 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
+import org.ezen.ex02.domain.AttachFileDTO;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -59,7 +65,8 @@ public class UploadController {
 		log.info("upload ajax");
 	}
 	
-	
+	//첨부 파일 정보를 ajax로 반환 미처리
+	/*
 	@PostMapping("/uploadAjaxAction")
 	@ResponseBody
 	public String uploadAjaxPost(MultipartFile[] uploadFile) {
@@ -112,6 +119,76 @@ public class UploadController {
 		}
 		
 		return "success";
+	}
+	*/
+	
+	//첨부 파일 정보 ajax로 반환
+	@PostMapping(value = "/uploadAjaxAction", produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public ResponseEntity<List<AttachFileDTO>> uploadAjaxPost(MultipartFile[] uploadFile) {
+		
+		log.info("update ajax post........");
+		
+		List<AttachFileDTO> list = new ArrayList<>();
+		String uploadFolder = "C:/upload";
+		String uploadFolderPath = getFolder(); //yyyy/mm/dd
+		
+		//전체 경로 폴더
+		File uploadPath = new File(uploadFolder,uploadFolderPath);
+		//getFolder()는 날짜별 폴더를 반환하는 메서드(yyyy/mm/dd)로 uploadPath객체는 c:/upload/yyyy/mm/dd 폴더 객체
+		
+		if(uploadPath.exists() == false) {
+			uploadPath.mkdirs(); //맨처음 업로드시만 만듦
+		}
+		
+		
+		for(MultipartFile multipartFile : uploadFile) {
+			
+			AttachFileDTO attachDTO = new AttachFileDTO();
+			
+			log.info("----------------------");
+			log.info("Upload File Name: " + multipartFile.getOriginalFilename());
+			log.info("Upload File Size: " + multipartFile.getSize());
+			
+			String uploadFileName = multipartFile.getOriginalFilename();
+			//IE는 file path 까지 파일 이름에 가지므로 파일 이름만 갖도록 처리 
+			uploadFileName.substring(uploadFileName.lastIndexOf("/") + 1);
+			log.info("only file name: " + uploadFileName);
+			
+			attachDTO.setFileName(uploadFileName); //AttachFileDTO 의 fileName 멤버변수
+			
+			UUID uuid = UUID.randomUUID(); //중복되지 않은 값 UUID객체 생성
+			
+			uploadFileName = uuid.toString() + "_" + uploadFileName; //원래 파일 이름에 uuid.toString() + "_" 추가
+			
+			//File saveFile = new File(uploadFolder,uploadFileName); yyyy/mm/dd 미처리
+			File saveFile = new File(uploadPath, uploadFileName); // yyyy/mm/dd 처리된 파일 객체
+			
+			try {
+				multipartFile.transferTo(saveFile); //수신된 파일을 지정된 파일 객체에 저장
+				
+				attachDTO.setUuid(uuid.toString()); //AttachFileDTO의 uuid멤버변수
+				attachDTO.setUploadPath(uploadFolderPath); //AttachFileDTO의 uploadPath멤버변수
+				
+				if (checkImageType(saveFile)) {
+					
+					attachDTO.setImage(true); //AttachFileDTO의 image 멤버변수
+					
+					FileOutputStream thumbnail = new FileOutputStream(new File(uploadPath,"s_" + uploadFileName));
+					//uploadPath, "s_" + uploadFileName 파일 객체에 출력
+					Thumbnailator.createThumbnail(multipartFile.getInputStream(), thumbnail, 100,100);
+					//수신된 파일을 출력 스트림인 thumbnail에 크기 100 X 100으로 생성
+					thumbnail.close();
+				}
+				//add to List
+				list.add(attachDTO);
+			}
+			catch (Exception e) {
+				log.error(e.getMessage());
+			}
+		}
+		
+		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 	
 	private String getFolder() {

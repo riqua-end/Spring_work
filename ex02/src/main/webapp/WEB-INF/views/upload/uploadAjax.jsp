@@ -93,7 +93,7 @@ $("#uploadBtn").on("click", function(e){
 		contentType : false, //필수
 		data : formData, //서버로 보내는 데이터로 <form>엘리먼트 DOM
 		success : function(result) {
-			alert(result);
+			console.log(result);
 		},
 		error : function() {
 			alert("upload fail");
