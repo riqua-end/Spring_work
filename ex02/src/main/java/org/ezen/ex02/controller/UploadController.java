@@ -3,6 +3,7 @@ package org.ezen.ex02.controller;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -83,6 +84,10 @@ public class UploadController {
 			//IE는 file path 까지 파일 이름에 가지므로 파일 이름만 갖도록 처리 
 			uploadFileName.substring(uploadFileName.lastIndexOf("/") + 1);
 			log.info("only file name: " + uploadFileName);
+			
+			UUID uuid = UUID.randomUUID(); //중복되지 않은 값 UUID객체 생성
+			
+			uploadFileName = uuid.toString() + "_" + uploadFileName; //원래 파일 이름에 uuid.toString() + "_" 추가
 			
 			//File saveFile = new File(uploadFolder,uploadFileName); yyyy/mm/dd 미처리
 			File saveFile = new File(uploadPath, uploadFileName); // yyyy/mm/dd 처리된 파일 객체
