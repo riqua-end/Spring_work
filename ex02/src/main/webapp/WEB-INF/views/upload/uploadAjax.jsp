@@ -64,6 +64,10 @@
 //ajax upload이벤트 처리
 $("#uploadBtn").on("click", function(e){
 	
+	let regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
+	//RegExp는 정규식 처리 코어 객체로 exe,sh,zip,alz를 포함하고 있는 정규식 객체
+	let maxSize = 5242880; //5MB
+	
 	let formData = new FormData();
 	//FormData는 자바스크립트 코어 객체로 <form>태그의 DOM을 나타냄 <form></form>의 DOM
 	let inputFile = $("input[name='uploadFile']"); //배열 형식으로 반환
@@ -71,6 +75,11 @@ $("#uploadBtn").on("click", function(e){
 	console.log(files);
 	
 	for(let i = 0; i < files.length; i++) {
+		
+		if(!checkExtension(files[i].name, files[i].size)){
+			//선택된 파일 files[i]의 name과 size속성
+			return false;
+		}
 		
 		formData.append("uploadFile",files[i]);
 		//formData DOM객체에 name속성은 uploadFile인 <input>태그를 만들고 선택한 file객체를 가진 엘리먼트를 추가
@@ -90,6 +99,20 @@ $("#uploadBtn").on("click", function(e){
 			alert("upload fail");
 		}
 	});
+	
+	function checkExtension(fileName,fileSize) {
+		
+		if(fileSize >= maxSize) {
+			alert("파일 사이즈 초과");
+			return false;
+		}
+		if(regex.test(fileName)) {
+			//test는 RegExp코어 객체의 메서드로 정규식에 지정된 단어 포함 여부 체크
+			alert("해당 종류의 파일은 업로드 할 수 없습니다.");
+			return false;
+		}
+		return true;
+	}
 });
 </script>
 
