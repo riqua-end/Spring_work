@@ -139,7 +139,14 @@ $("#uploadBtn").on("click", function(e){
 		
 		$(uploadResultArr).each(function(i, obj){
 			//JQuery의 each문 , i는 색인번호이고 obj는 uploadResultArr를 구성하고 있는 원소
-			str += "<p>"+ obj.fileName +"</p>";
+			if(!obj.image) {
+				str += "<p class='mx-auto' style='width:90%;' title='"+ obj.fileName + "'>";
+				str += "<img class='mx-auto d-block' src='../images/attach.png'>";
+				str += "</p>";
+			}
+			else {
+				str += "<p>"+ obj.fileName +"</p>";
+			}
 		});
 		
 		uploadResult.append(str);
