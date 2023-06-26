@@ -53,6 +53,14 @@
 				<p>
 					<button type="button" id="uploadBtn" class="btn btn-primary mt-3">Ajax Upload</button>
 				</p>
+				<!-- 업로드 파일 보여주기 창 -->
+				<div class='uploadResult mt-3'>
+					<div class='row' id='cardRow'>
+						<!-- 
+						<div class='card col-md-3'></div>의 card엘리먼트를 파일 갯수만큼 자바스크립트에서 만들어 줌
+						 -->
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -69,6 +77,8 @@ $("#uploadBtn").on("click", function(e){
 	let maxSize = 5242880; //5MB
 	
 	let cloneObj = $(".uploadDiv").clone(); //입력전의 ajax 파일 업로드 객체
+	
+	let uploadResult = $(".uploadResult #cardRow");
 	
 	let formData = new FormData();
 	//FormData는 자바스크립트 코어 객체로 <form>태그의 DOM을 나타냄 <form></form>의 DOM
@@ -97,6 +107,8 @@ $("#uploadBtn").on("click", function(e){
 		success : function(result) {
 			console.log(result);
 			
+			showUploadedFile(result);
+			
 			$(".uploadDiv").html(cloneObj.html()); //파일 업로드창 초기화
 			
 		},
@@ -117,6 +129,20 @@ $("#uploadBtn").on("click", function(e){
 			return false;
 		}
 		return true;
+	}
+	
+	function showUploadedFile(uploadResultArr) {
+		
+		//uploadResultArr 는 서버로 부터 받은 JSON객체 타입(list형식--배열형식)의 result값
+		
+		let str = ""; //HTML을 만들 문자열
+		
+		$(uploadResultArr).each(function(i, obj){
+			//JQuery의 each문 , i는 색인번호이고 obj는 uploadResultArr를 구성하고 있는 원소
+			str += "<p>"+ obj.fileName +"</p>";
+		});
+		
+		uploadResult.append(str);
 	}
 });
 </script>
