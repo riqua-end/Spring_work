@@ -68,6 +68,8 @@ $("#uploadBtn").on("click", function(e){
 	//RegExp는 정규식 처리 코어 객체로 exe,sh,zip,alz를 포함하고 있는 정규식 객체
 	let maxSize = 5242880; //5MB
 	
+	let cloneObj = $(".uploadDiv").clone(); //입력전의 ajax 파일 업로드 객체
+	
 	let formData = new FormData();
 	//FormData는 자바스크립트 코어 객체로 <form>태그의 DOM을 나타냄 <form></form>의 DOM
 	let inputFile = $("input[name='uploadFile']"); //배열 형식으로 반환
@@ -94,6 +96,9 @@ $("#uploadBtn").on("click", function(e){
 		data : formData, //서버로 보내는 데이터로 <form>엘리먼트 DOM
 		success : function(result) {
 			console.log(result);
+			
+			$(".uploadDiv").html(cloneObj.html()); //파일 업로드창 초기화
+			
 		},
 		error : function() {
 			alert("upload fail");
