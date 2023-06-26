@@ -1,6 +1,8 @@
 package org.ezen.ex02.controller;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -62,6 +64,15 @@ public class UploadController {
 		
 		String uploadFolder = "C:/upload";
 		
+		//날짜별 폴더 만들기 
+		File uploadPath = new File(uploadFolder,getFolder());
+		//getFolder()는 날짜별 폴더를 반환하는 메서드(yyyy/mm/dd)로 uploadPath객체는 c:/upload/yyyy/mm/dd 폴더 객체
+		
+		if(uploadPath.exists() == false) {
+			uploadPath.mkdirs(); //맨처음 업로드시만 만듦
+		}
+		
+		
 		for(MultipartFile multipartFile : uploadFile) {
 			
 			log.info("----------------------");
@@ -73,7 +84,8 @@ public class UploadController {
 			uploadFileName.substring(uploadFileName.lastIndexOf("/") + 1);
 			log.info("only file name: " + uploadFileName);
 			
-			File saveFile = new File(uploadFolder,uploadFileName);
+			//File saveFile = new File(uploadFolder,uploadFileName); yyyy/mm/dd 미처리
+			File saveFile = new File(uploadPath, uploadFileName); // yyyy/mm/dd 처리된 파일 객체
 			
 			try {
 				multipartFile.transferTo(saveFile); //수신된 파일을 지정된 파일 객체에 저장
@@ -84,6 +96,17 @@ public class UploadController {
 		}
 		
 		return "success";
+	}
+	
+	private String getFolder() {
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); //Date객체를 정해진 패턴 문자열로 변환시 사용하는 객체
+		
+		Date date = new Date();
+		
+		String str = sdf.format(date); //날짜 객체를 정해진 포맷의 문자열로 변환
+		
+		return str.replace("-", File.separator); //문자열중 -를 File.separator(파일 구분자)로 변경
 	}
 	
 }
