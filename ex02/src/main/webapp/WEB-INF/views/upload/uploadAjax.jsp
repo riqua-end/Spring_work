@@ -140,9 +140,16 @@ $("#uploadBtn").on("click", function(e){
 		$(uploadResultArr).each(function(i, obj){
 			//JQuery의 each문 , i는 색인번호이고 obj는 uploadResultArr를 구성하고 있는 원소
 			if(!obj.image) {
-				str += "<p class='mx-auto' style='width:90%;' title='"+ obj.fileName + "'>";
+				//한글이나 공백등이 URL에 포함되어 있을시를 해결 encodeURIComponent()
+				let fileCallPath = encodeURIComponent( obj.uploadPath+"/"+ obj.uuid + "_" + obj.fileName);
+				
+				str += "<div class='card col-md-3'>";
+				str += "<div class='card-body'>";
+				str += "<p class='mx-auto' style='width:90%;' title='"+ obj.fileName +"'>";
 				str += "<img class='mx-auto d-block' src='../images/attach.png'>";
 				str += "</p>";
+				str += "</div>";
+				str += "</div>";
 			}
 			else {
 				str += "<p>"+ obj.fileName +"</p>";
