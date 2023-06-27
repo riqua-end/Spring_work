@@ -138,7 +138,7 @@ $("#uploadBtn").on("click", function(e){
 		let str = ""; //HTML을 만들 문자열
 		
 		$(uploadResultArr).each(function(i, obj){
-			//JQuery의 each문 , i는 색인번호이고 obj는 uploadResultArr를 구성하고 있는 원소
+			//JQuery의 each문 , i는 색인번호이고 obj는 uploadResultArr를 구성하고 있는 원소(AttachFileDTO)
 			if(!obj.image) {
 				//한글이나 공백등이 URL에 포함되어 있을시를 해결 encodeURIComponent()
 				let fileCallPath = encodeURIComponent( obj.uploadPath+"/"+ obj.uuid + "_" + obj.fileName);
@@ -152,7 +152,18 @@ $("#uploadBtn").on("click", function(e){
 				str += "</div>";
 			}
 			else {
-				str += "<p>"+ obj.fileName +"</p>";
+				//str += "<p>"+ obj.fileName +"</p>"; 이름만 표시 
+				//썸네일 이미지 를 보여주기
+				//공백 ,한글 등으로 된 경로를 처리 encodeURIComponent
+				let fileCallPath = encodeURIComponent(obj.uploadPath+ "/s_" + obj.uuid + "_" + obj.fileName);
+				str += "<div class='card col-md-3'>";
+				str += "<div class='card-body'>";
+				str += "<p class='mx-auto' style='width:90%;' title='"+ obj.fileName +"'>";
+				str += "<img class='mx-auto d-block' src='display?fileName="+ fileCallPath +"'>";
+				str += "</p>";
+				str += "</div>";
+				str += "</div>";
+				
 			}
 		});
 		
