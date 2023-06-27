@@ -70,108 +70,116 @@
 
 <script>
 //ajax upload이벤트 처리
-$("#uploadBtn").on("click", function(e){
-	
-	let regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
-	//RegExp는 정규식 처리 코어 객체로 exe,sh,zip,alz를 포함하고 있는 정규식 객체
-	let maxSize = 5242880; //5MB
-	
-	let cloneObj = $(".uploadDiv").clone(); //입력전의 ajax 파일 업로드 객체
-	
-	let uploadResult = $(".uploadResult #cardRow");
-	
-	let formData = new FormData();
-	//FormData는 자바스크립트 코어 객체로 <form>태그의 DOM을 나타냄 <form></form>의 DOM
-	let inputFile = $("input[name='uploadFile']"); //배열 형식으로 반환
-	let files = inputFile[0].files; //files 속성은 input태그에서 선택한 복수개의 파일 정보를 가짐
-	console.log(files);
-	
-	for(let i = 0; i < files.length; i++) {
+$(document).ready(function(){
+	$("#uploadBtn").on("click", function(e){
 		
-		if(!checkExtension(files[i].name, files[i].size)){
-			//선택된 파일 files[i]의 name과 size속성
-			return false;
-		}
+		let regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
+		//RegExp는 정규식 처리 코어 객체로 exe,sh,zip,alz를 포함하고 있는 정규식 객체
+		let maxSize = 5242880; //5MB
 		
-		formData.append("uploadFile",files[i]);
-		//formData DOM객체에 name속성은 uploadFile인 <input>태그를 만들고 선택한 file객체를 가진 엘리먼트를 추가
+		let cloneObj = $(".uploadDiv").clone(); //입력전의 ajax 파일 업로드 객체
 		
-	}
-	
-	$.ajax({
-		url : 'uploadAjaxAction',
-		type : 'POST', //필수
-		processData : false, //필수
-		contentType : false, //필수
-		data : formData, //서버로 보내는 데이터로 <form>엘리먼트 DOM
-		success : function(result) {
-			console.log(result);
+		let uploadResult = $(".uploadResult #cardRow");
+		
+		let formData = new FormData();
+		//FormData는 자바스크립트 코어 객체로 <form>태그의 DOM을 나타냄 <form></form>의 DOM
+		let inputFile = $("input[name='uploadFile']"); //배열 형식으로 반환
+		let files = inputFile[0].files; //files 속성은 input태그에서 선택한 복수개의 파일 정보를 가짐
+		console.log(files);
+		
+		for(let i = 0; i < files.length; i++) {
 			
-			showUploadedFile(result);
-			
-			$(".uploadDiv").html(cloneObj.html()); //파일 업로드창 초기화
-			
-		},
-		error : function() {
-			alert("upload fail");
-		}
-	});
-	
-	function checkExtension(fileName,fileSize) {
-		
-		if(fileSize >= maxSize) {
-			alert("파일 사이즈 초과");
-			return false;
-		}
-		if(regex.test(fileName)) {
-			//test는 RegExp코어 객체의 메서드로 정규식에 지정된 단어 포함 여부 체크
-			alert("해당 종류의 파일은 업로드 할 수 없습니다.");
-			return false;
-		}
-		return true;
-	}
-	
-	function showUploadedFile(uploadResultArr) {
-		
-		//uploadResultArr 는 서버로 부터 받은 JSON객체 타입(list형식--배열형식)의 result값
-		
-		let str = ""; //HTML을 만들 문자열
-		
-		$(uploadResultArr).each(function(i, obj){
-			//JQuery의 each문 , i는 색인번호이고 obj는 uploadResultArr를 구성하고 있는 원소(AttachFileDTO)
-			if(!obj.image) {
-				//한글이나 공백등이 URL에 포함되어 있을시를 해결 encodeURIComponent()
-				let fileCallPath = encodeURIComponent( obj.uploadPath+"/"+ obj.uuid + "_" + obj.fileName);
-				
-				str += "<div class='card col-md-3'>";
-				str += "<div class='card-body'>";
-				str += "<p class='mx-auto' style='width:90%;' title='"+ obj.fileName +"'>";
-				str += "<a href='download?fileName="+ fileCallPath +"'>";
-				str += "<img class='mx-auto d-block' src='../images/attach.png'>";
-				str += "</a>";
-				str += "</p>";
-				str += "</div>";
-				str += "</div>";
+			if(!checkExtension(files[i].name, files[i].size)){
+				//선택된 파일 files[i]의 name과 size속성
+				return false;
 			}
-			else {
-				//str += "<p>"+ obj.fileName +"</p>"; 이름만 표시 
-				//썸네일 이미지 를 보여주기
-				//공백 ,한글 등으로 된 경로를 처리 encodeURIComponent
-				let fileCallPath = encodeURIComponent(obj.uploadPath+ "/s_" + obj.uuid + "_" + obj.fileName);
-				str += "<div class='card col-md-3'>";
-				str += "<div class='card-body'>";
-				str += "<p class='mx-auto' style='width:90%;' title='"+ obj.fileName +"'>";
-				str += "<img class='mx-auto d-block' src='display?fileName="+ fileCallPath +"'>";
-				str += "</p>";
-				str += "</div>";
-				str += "</div>";
+			
+			formData.append("uploadFile",files[i]);
+			//formData DOM객체에 name속성은 uploadFile인 <input>태그를 만들고 선택한 file객체를 가진 엘리먼트를 추가
+			
+		}
+		
+		$.ajax({
+			url : 'uploadAjaxAction',
+			type : 'POST', //필수
+			processData : false, //필수
+			contentType : false, //필수
+			data : formData, //서버로 보내는 데이터로 <form>엘리먼트 DOM
+			success : function(result) {
+				console.log(result);
 				
+				showUploadedFile(result);
+				
+				$(".uploadDiv").html(cloneObj.html()); //파일 업로드창 초기화
+				
+			},
+			error : function() {
+				alert("upload fail");
 			}
 		});
 		
-		uploadResult.append(str);
-	}
+		function checkExtension(fileName,fileSize) {
+			
+			if(fileSize >= maxSize) {
+				alert("파일 사이즈 초과");
+				return false;
+			}
+			if(regex.test(fileName)) {
+				//test는 RegExp코어 객체의 메서드로 정규식에 지정된 단어 포함 여부 체크
+				alert("해당 종류의 파일은 업로드 할 수 없습니다.");
+				return false;
+			}
+			return true;
+		}
+		
+		function showUploadedFile(uploadResultArr) {
+			
+			//uploadResultArr 는 서버로 부터 받은 JSON객체 타입(list형식--배열형식)의 result값
+			
+			let str = ""; //HTML을 만들 문자열
+			
+			$(uploadResultArr).each(function(i, obj){
+				//JQuery의 each문 , i는 색인번호이고 obj는 uploadResultArr를 구성하고 있는 원소(AttachFileDTO)
+				if(!obj.image) {
+					//한글이나 공백등이 URL에 포함되어 있을시를 해결 encodeURIComponent()
+					let fileCallPath = encodeURIComponent( obj.uploadPath+"/"+ obj.uuid + "_" + obj.fileName);
+					
+					str += "<div class='card col-md-3'>";
+					str += "<div class='card-body'>";
+					str += "<p class='mx-auto' style='width:90%;' title='"+ obj.fileName +"'>";
+					str += "<a href='download?fileName="+ fileCallPath +"'>";
+					str += "<img class='mx-auto d-block' src='../images/attach.png'>";
+					str += "</a>";
+					str += "</p>";
+					str += "</div>";
+					str += "</div>";
+				}
+				else {
+					//str += "<p>"+ obj.fileName +"</p>"; 이름만 표시 
+					//썸네일 이미지 를 보여주기
+					//공백 ,한글 등으로 된 경로를 처리 encodeURIComponent
+					let fileCallPath = encodeURIComponent(obj.uploadPath+ "/s_" + obj.uuid + "_" + obj.fileName); //섬네일 경로
+					let originPath = obj.uploadPath + "\\" + obj.uuid + "_" + obj.fileName; //원본파일 경로
+					originPath = originPath.replace(new RegExp(/\\/g),"/"); //\\를 /로 대체
+					
+					str += "<div class='card col-md-3'>";
+					str += "<div class='card-body'>";
+					str += "<p class='mx-auto' style='width:90%;' title='"+ obj.fileName +"'>";
+					str += "<a href=\"javascript:showImage(\'"+originPath+"\')\">"; //원본 파일 보기위해 클릭 이벤트 처리
+					str += "<img class='mx-auto d-block' src='display?fileName="+ fileCallPath +"'>"; //섬네일 이미지
+					str += "</a>";
+					str += "</p>";
+					str += "</div>";
+					str += "</div>";
+					
+				}
+			});
+			
+			uploadResult.append(str);
+		}
+	});
 });
+
 </script>
 
 
