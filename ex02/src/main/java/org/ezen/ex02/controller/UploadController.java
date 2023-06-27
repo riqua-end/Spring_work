@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.UUID;
 
 import org.ezen.ex02.domain.AttachFileDTO;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -216,6 +218,41 @@ public class UploadController {
 		}
 		
 		return result;
+	}
+	
+	@GetMapping(value = "/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+	@ResponseBody
+	public ResponseEntity<Resource> downloadFile(String fileName) {
+		
+		log.info("download file : " + fileName);
+		
+		Resource resource = new FileSystemResource("c:/upload/" + fileName);
+		//FileSystemResource는 Resource를 구현한 클래스(자원을 대표하는 인터페이스)
+		//경로가 지정하는 파일로 된 자원
+		
+		if (resource.exists() == false) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		log.info("resource : " + resource);
+		
+		String resourceName = resource.getFilename();
+		
+		//remove UUID
+		String resourceOriginalName = resourceName.substring(resourceName.indexOf("_") + 1);
+		
+		HttpHeaders headers = new HttpHeaders();
+		
+		try {
+			String downloadName = null;
+			
+			downloadName = new String(resourceOriginalName.getBytes("UTF-8"),"ISO-8859-1");
+			// UTF-8로된 문자열을 바이트배열로 변경후 ISO-8859-1로 인코딩된 문자열로 변경,파일이름을 지정하여 한글 깨짐 처리
+			headers.add("Content-Disposition", "attachment; filename = " + downloadName);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ResponseEntity<Resource>(resource,headers,HttpStatus.OK);
 	}
 	
 	private String getFolder() {
