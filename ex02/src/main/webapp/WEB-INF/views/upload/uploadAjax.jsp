@@ -146,7 +146,9 @@ $("#uploadBtn").on("click", function(e){
 				str += "<div class='card col-md-3'>";
 				str += "<div class='card-body'>";
 				str += "<p class='mx-auto' style='width:90%;' title='"+ obj.fileName +"'>";
+				str += "<a href='download?fileName="+ fileCallPath +"'>";
 				str += "<img class='mx-auto d-block' src='../images/attach.png'>";
+				str += "</a>";
 				str += "</p>";
 				str += "</div>";
 				str += "</div>";
