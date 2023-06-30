@@ -56,6 +56,10 @@ public class FileCheckTask {
 		//db에 없는 파일을 배열로 반환
 		log.warn("----------------------------------");
 		
+		if(removeFiles == null) {
+			return;
+		}
+		
 		for (File file : removeFiles) {
 			
 			log.warn(file.getAbsolutePath());
