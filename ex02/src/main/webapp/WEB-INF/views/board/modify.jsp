@@ -155,8 +155,35 @@ $(function(){ //$(document).ready(function(){});의 단축형
 		    formObj.append(keywordTag);
 		    formObj.append(typeTag);
 		}
+		//첨부파일 미고려
+		/*
 		else if(operation == 'modify') {
 			formObj.attr("action","modify");
+		}
+		*/
+		//첨부파일 고려
+		else if(operation == 'modify') {
+			console.log("submit clicked");
+			
+			let str = "";
+			
+			$(".uploadResult.card p").each(function(i, obj){
+				
+				let jobj = $(obj);
+				
+				console.dir(jobj);
+				console.log("--------------------------");
+				console.log(jobj.data("filename"));
+				
+				str += "<input type='hidden' name='attachList["+i+"].fileName' value='"+jobj.data("filename")+"'>";
+				str += "<input type='hidden' name='attachList["+i+"].uuid' value='"+jobj.data("uuid")+"'>";
+				str += "<input type='hidden' name='attachList["+i+"].uploadPath' value='"+jobj.data("path")+"'>";
+				str += "<input type='hidden' name='attachList["+i+"].fileType' value='"+jobj.data("type")+"'>";
+			});
+			
+			console.log(str);
+			
+			formObj.prepend(str);
 		}
 		
 		formObj.submit();
