@@ -18,4 +18,7 @@ public interface BoardAttachMapper {
 	
 	//특정 게시글에 속하는 첨부 파일 모두 제거
 	public void deleteAll(Long bno);
+	
+	//어제 날짜의 첨부 파일 반환
+	public List<BoardAttachVO> getOldFiles();
 }

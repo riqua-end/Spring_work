@@ -27,4 +27,12 @@
 
 	</delete>
 	
+	<select id="getOldFiles" resultType="org.ezen.ex02.domain.BoardAttachVO">
+		
+		select * from tbl_attach where uploadpath = to_char(sysdate -1 , 'yyyy/mm/dd')
+		
+		<!-- 어제 날짜 sysdate-1를 yyyy/mm/dd패턴의 문자열로 반환 -->
+		
+	</select>
+	
 </mapper>

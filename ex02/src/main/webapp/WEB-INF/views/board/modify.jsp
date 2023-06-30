@@ -220,7 +220,7 @@ $(document).ready(function(){
 		    		let fileCallPath =  encodeURIComponent( obj.uploadPath+ "/s_"+obj.uuid+"_"+obj.fileName); //주소창의 URI인코딩 형식 문자열,섬네일
 		    		
 					let originPath = obj.uploadPath+ "\\"+obj.uuid +"_"+obj.fileName; //원본 파일
-					originPath = originPath.replace(new RegExp(/\\/g),"/"); //\\를 /로 대체 
+					originPath = originPath.replace(new RegExp(/\\/g),"/"); //\\를 /로 대체
 					//let originPath = obj.uploadPath+ "/"+obj.uuid +"_"+obj.fileName;  //위 2줄대신 바로 사용해도 됨
 					
 					str += "<div class='card col-md-3'>";
