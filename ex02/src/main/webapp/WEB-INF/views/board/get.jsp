@@ -18,6 +18,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8,IE=EmulateIE9"/> 
 
+<style>
+.card img {
+	width : 150px;
+	height : 150px;
+}
+</style>
 </head>
 <body>
 

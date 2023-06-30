@@ -17,6 +17,13 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8,IE=EmulateIE9"/> 
 
+<style>
+.card img {
+	width : 150px;
+	height : 150px;
+}
+</style>
+
 </head>
 <body>
 
@@ -218,6 +225,104 @@ $(document).ready(function(){
 		
 		targetLi.remove();
 	});
+});
+</script>
+
+<script>
+//수정창에서 파일 업로드 처리
+$(document).ready(function(){
+	
+	let regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
+	let maxSize = 5242880; //5MB
+	
+	let uploadUL = $(".uploadResult")
+	
+	//change이벤트로 파일 업로드 이벤트 처리
+	$("input[type='file']").change(function(e){
+		let formData = new FormData(); //가상의 form엘리먼트 생성
+		let inputFile = $("input[name='uploadFile']");
+		let files = inputFile[0].files;
+		//files변수는 input태그에서 선택된 복수개의 파일 객체를 가지는 배열 변수
+		console.log(files);
+		
+		for(let i = 0; i < files.length; i++) {
+			if(!checkExtension(files[i].name, files[i].size)){
+				return false;
+			}
+			formData.append("uploadFile", files[i]);
+		}
+		
+		$.ajax({
+			url : '../upload/uploadAjaxAction',
+			processData: false,
+			contentType: false,
+			data : formData,
+			type: 'POST',
+			dataType : 'json',
+			success : function(result) {
+				console.log(result);
+				showUploadResult(result);
+				$("#upload").val(""); //파일 입력창 초기화
+			},
+			error : function() {
+				alert("ajx upload failed");
+			}
+		});
+	});
+	
+	function checkExtension(fileName,fileSize) {
+		if(fileSize >= maxSize) {
+			alert("파일 사이즈 초과");
+			return false;
+		}
+		if(regex.test(fileName)) {
+			alert("해당 종류의 파일은 업로드 할 수 없습니다. ");
+			return false;
+		}
+		return true;
+	}
+	
+	function showUploadResult(uploadResultArr) {
+		if(!uploadResultArr || uploadResultArr.length == 0) {
+			uploadUL.append("");
+			return;
+		}
+		
+		$(uploadResultArr).each(function(i,obj){
+			
+			let str = "";
+			
+			if(obj.image) {
+				let fileCallPath = encodeURIComponent(obj.uploadPath+ "/s_" + obj.uuid+"_"+obj.fileName);
+				
+				//원본파일은 필요 없으나 작성해봄
+				let originPath = obj.uploadPath+ "\\" + obj.uuid + "_" + obj.fileName;
+				originPath = originPath.replace(new RegExp(/\\/g,"/")); //\\를/로 대체
+				
+				str += "<div class='card col-md-3'>";
+				str += "<div class='card-body'>";
+				str += "<p class='mx-auto' style='width:90%;' title='"+obj.fileName +"'";
+				str += "data-path='"+obj.uploadPath +"' data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"'>";
+				str += "<img class='mx-auto d-block' src='../upload/display?fileName="+fileCallPath+"'>";
+				str += "</p>";
+				str += "<h4><span class='d-block w-50 mx-auto badge badge-secondary badge-pill' data-file='"+fileCallPath+"' data-type='image'> &times; </span></h4>";
+				str += "</div>";
+				str += "</div>";
+			}
+			else {
+				let fillCallPath = encodeURIComponent( obj.uploadPath+"/"+ obj.uuid + "_" + obj.fileName);
+				str += "<div class='card col-md-3'>";
+				str += "<div class='card-body'>";
+				str += "<p class='mx-auto' style='width:90%;' title='"+obj.fileName+"'";
+				str += "data-path='"+obj.uploadPath+"' data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"'>";
+				str += "<img class='mx-auto d-block' src='../images/attach.png'>";
+				str += "</p>";
+				str += "<h4><span class='d-block w-50 mx-auto badge badge-secondary badge-pill' data-file='"+fileCallPath+"' data-type='image'> &times; </span></h4>";
+				str += "</div>";
+	    		str += "</div>";
+			}
+		});
+	}
 });
 </script>
 </body>
