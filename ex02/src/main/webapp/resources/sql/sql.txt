@@ -5,22 +5,22 @@ bno number(10,0),
 title varchar2(200) not null,
 content varchar2(2000) not null,
 writer varchar2(50) not null,
-regdate date default sysdate,
+regdate date default sysdate, 
 updatedate date default sysdate
 );
 
-alter table tbl_board add constraint pk_board
-primary key (bno);
+alter table tbl_board add constraint pk_board primary key(bno);
 
-insert into tbl_board (bno,title,content,writer)
-values (seq_board.nextval,'테스트 제목','테스트 내용','user1000');
+insert into tbl_board (bno, title, content, writer) 
+values(seq_board.nextval, '테스트 제목','테스트 내용','user1000');
 
 commit;
 
+
 --댓글용 테이블
-create table tbl_reply(
-rno number(10,0) not null, --pk
-bno number(10,0) not null, --fk
+CREATE TABLE TBL_REPLY(
+rno number(10,0) not null,  --pk
+bno number(10,0) not null, --FK
 reply varchar2(1000) not null,
 replyer varchar2(50) not null,
 replyDate date default sysdate,
@@ -33,14 +33,13 @@ create sequence seq_reply nocache;
 --TBL_REPLY에 PK 지정
 alter table tbl_reply add constraint pk_reply primary key (rno);
 
---TBL_REPLY에 외래키 지정
-alter table tbl_reply add constraint fk_reply_board foreign key (bno) references
-tbl_board (bno);
+--TBL_REPLY에 외래키(FK) 지정
+alter table tbl_reply add constraint fk_reply_board foreign key (bno) references tbl_board (bno);
 
 commit;
 
 --댓글 처리를 위한 인덱스 생성(처리 속도 개선)
-Create index idx_reply on tbl_reply (bno desc,rno asc);
+Create index idx_reply on tbl_reply (bno desc,rno asc) ;
 
 --transaction
 Create table tbl_sample1(col1 varchar2(500));
@@ -51,5 +50,19 @@ Create table tbl_sample2(col2 varchar2(50)); ---test를 위해 일부러 적게�
 alter table tbl_board add (replycnt number default 0);
 
 --댓글 개수 초기화 처리
-update tbl_board set replycnt =
-(select count(rno) from tbl_reply where tbl_reply.bno = tbl_board.bno);
+update tbl_board set replycnt = (select count(rno) from tbl_reply where tbl_reply.bno = tbl_board.bno);
+commit;
+
+--파일첨부 테이블
+create table tbl_attach(
+uuid varchar2(100) not null,
+uploadPath varchar2(200) not null,
+fileName varchar2(100) not null,
+filetype char(1) default 'I',
+bno number(10,0)
+);
+--tbl_attach pk만들기
+alter table tbl_attach add constraint pk_attach primary key (uuid);
+
+--tbl_attach fk만들기
+alter table tbl_attach add constraint fk_board_attach foreign key (bno) references tbl_board(bno);

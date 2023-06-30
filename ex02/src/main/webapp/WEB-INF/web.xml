@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- 
+<!--  
 <web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee https://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
@@ -28,32 +28,32 @@
 			<param-name>contextConfigLocation</param-name>
 			<param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>
 		</init-param>
-		<!-- 예외 처리 등록,예외 처리 클래스에 등록 -->
+		
+		<!-- 예외 처리 등록,예외처리 클래스에 등록 404에러 처리 -->		
+		<!--  
 		<init-param>
 			<param-name>throwExceptionIfNoHandlerFound</param-name>
 			<param-value>true</param-value>
 		</init-param>
+		-->
+		
 		<load-on-startup>1</load-on-startup>
 		
-		<!-- 업로드 설정 -->
+		<!-- upload설정 -->
 		<multipart-config>
 			<location>C:/upload/temp</location> <!-- 저장 위치 -->
-			<max-file-size>20971520</max-file-size> <!-- 1MB * 20 한개 파일 최대 크기 -->
-			<max-request-size>41943040</max-request-size> <!-- 40MB 요청시 업로드 최대 크기 -->
-			<file-size-threshold>20971520</file-size-threshold> <!-- 20MB 메모리 사용 최대 크기 -->
+			<max-file-size>20971520</max-file-size> <!--1MB * 20 한파일 최대 크기-->
+			<max-request-size>41943040</max-request-size><!-- 40MB 한 요청시 업로드 최대 크기-->
+			<file-size-threshold>20971520</file-size-threshold> <!-- 20MB  메모리 사용 최대 크기-->
 		</multipart-config>
 	</servlet>
 		
 	<servlet-mapping>
 		<servlet-name>appServlet</servlet-name>
 		<url-pattern>/</url-pattern>
-		<url-pattern>*.js</url-pattern>
-    	<url-pattern>*.css</url-pattern>
-    	<url-pattern>*.jpg</url-pattern>
-    	<url-pattern>*.png</url-pattern>
 	</servlet-mapping>
 	
-	<!-- 스프링 한글 처리 등록 -->
+	<!-- 스프링 한글 처리 filter 등록 -->
 	<filter>
 		<filter-name>encodingFilter</filter-name>
 		<filter-class>
@@ -64,7 +64,7 @@
 			<param-value>UTF-8</param-value>
 		</init-param>
 		<init-param> <!-- json 한글 -->
-			<param-name>forceEncoding</param-name>
+			<param-name>forceEncoding</param-name>  
 			<param-value>true</param-value>
 		</init-param>
 	</filter>
@@ -73,4 +73,5 @@
 		<filter-name>encodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+
 </web-app>

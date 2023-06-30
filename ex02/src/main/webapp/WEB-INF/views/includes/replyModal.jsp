@@ -22,33 +22,33 @@
 
 <div class="replyModal modal fade" id="myReplyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
-		<div class="modal-content">
+		<div class="modal-content">			
 			<div class="modal-header bg-info">
-				<h4 class="modal-title multiEffect" id="myModalLabel">REPLY MODAL</h4>
-				<button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title multiEffect"><i class="fas fa-reply" aria-hidden="true">&nbsp;&nbsp;Reply Modal</i></h4>
+				<button class="close" type="button"  data-dismiss="modal">&times;</button>
 			</div>
 			<div class="modal-body">
 				<div class="form-group">
 					<label>Reply</label>
-					<input class="form-control" name='reply' value='New Reply!!!'>
+					<input class="form-control" name='reply' value='New Reply!!!!'>
 				</div>
 				<div class="form-group">
 					<label>Replyer</label>
 					<input class="form-control" name='replyer' value='Replyer!!!!'>
 				</div>
 				<div class="form-group">
-					<label>ReplyDate</label>
-					<input class="form-control" name='replyDate' value='2023-06-01'>
-				</div>
+					<label>Reply Date</label>
+					<input class="form-control" name='replyDate' value='2023-05-04'>
+				</div>				
 			</div>
 			<div class="modal-footer">
 				<button id='modalModBtn' type="button" class="btn btn-warning">Modify</button>
-				<button id='modalRemoveBtn' type="button" class="btn btn-danger">Remove</button>
-				<button id='modalRegisterBtn' type="button" class="btn btn-primary">Register</button>
-				<button id='modalCloseBtn' type="button" class="btn btn-default">Close</button>
+		        <button id='modalRemoveBtn' type="button" class="btn btn-danger">Remove</button>
+		        <button id='modalRegisterBtn' type="button" class="btn btn-primary">Register</button>
+		        <button id='modalCloseBtn' type="button" class="btn btn-default">Close</button>
 			</div>
-		</div>
-	</div>
+		</div><!-- content -->
+	</div><!-- dialog -->
 </div>
 </body>
 </html>

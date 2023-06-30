@@ -10,7 +10,6 @@
 <head>
 <title>Insert title here</title>
 <meta charset="UTF-8">
-
 <!-- RWD -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- MS -->
