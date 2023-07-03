@@ -10,9 +10,13 @@
 	id="WebApp_ID" version="3.1">
 	
 	<!-- The definition of the Root Spring Container shared by all Servlets and Filters -->
+	<!-- security-context.xml 설정 -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>/WEB-INF/spring/root-context.xml</param-value>
+		<param-value>
+			/WEB-INF/spring/root-context.xml
+			/WEB-INF/spring/security-context.xml
+		</param-value>
 	</context-param>
 	
 	<!-- Creates the Spring Container shared by all Servlets and Filters -->
@@ -57,7 +61,7 @@
     	<url-pattern>*.png</url-pattern>
 	</servlet-mapping>
 	
-	<!-- 스프링 한글 처리 filter 등록 -->
+	<!-- 스프링 한글 처리 filter 등록,filter중 제일 먼저 설정 -->
 	<filter>
 		<filter-name>encodingFilter</filter-name>
 		<filter-class>
@@ -76,6 +80,16 @@
 	<filter-mapping>
 		<filter-name>encodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<!-- spring security filter -->
+	<filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/*</url-pattern> <!-- 모든 요청에 대해 필터 사용 -->
 	</filter-mapping>
 
 </web-app>
