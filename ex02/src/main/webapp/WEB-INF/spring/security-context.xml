@@ -17,6 +17,13 @@
 	</security:http>
 	
 	<security:authentication-manager>
+		<!-- inMemory방식(시스템메모리에 설정하여 사용) -->
+		<security:authentication-provider>
+			<security:user-service>
+				<security:user name="member" password="{noop}member" authorities="ROLE_MEMBER"/>
+				<security:user name="admin" password="{noop}admin" authorities="ROLE_MEMBER,ROLE_ADMIN"/>
+			</security:user-service>
+		</security:authentication-provider>
 	</security:authentication-manager>
 
 </beans>
