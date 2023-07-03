@@ -61,6 +61,16 @@
 			 		<a class="dropdown-item" href="#">Q&amp;A</a>
 			 	</div>
 			 </li>
+			 <li class="nav-item dropdown">
+			 	<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+			 		시큐리티
+			 	</a>
+			 	<div class="dropdown-menu">
+			 		<a class="dropdown-item" href="../member/all">All</a>
+			 		<a class="dropdown-item" href="../member/member">Member</a>
+			 		<a class="dropdown-item" href="../member/admin">Admin</a>
+			 	</div>
+			 </li>
 		</ul>
 		
 		<ul class="navbar-nav ml-auto">
