@@ -12,6 +12,9 @@
 		<security:intercept-url pattern="/member/member" access="hasAnyRole('ROLE_MEMBER','ROLE_MANAGER','ROLE_ADMIN')"/>
 		<security:intercept-url pattern="/member/admin" access="hasRole('ROLE_ADMIN')"/>
 		
+		<!-- 로그인 후 접근 권한이 없는 요청 경로로 요청시 에러 처리 -->
+		<security:access-denied-handler error-page="/member/accessError"/>
+		
 		<security:form-login/>
 		<security:csrf disabled="true"/> <!-- 기존 ajax upload 동작을 위한 csrf임시 처리 -->
 	</security:http>
