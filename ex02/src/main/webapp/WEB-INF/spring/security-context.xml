@@ -37,6 +37,7 @@
 		<!-- 사용자 정의 login form 사용,커스텀 로그인 요청 경로 사용,성공시 처리 -->
 		<security:form-login login-page="/member/customLogin" authentication-success-handler-ref="customLoginSuccess"/>
 		
+		<security:logout logout-url="/member/customLogout" invalidate-session="true"/>
 		
 		<security:csrf disabled="true"/> <!-- 기존 ajax upload 동작을 위한 csrf임시 처리 -->
 	</security:http>

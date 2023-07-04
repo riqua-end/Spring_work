@@ -53,4 +53,11 @@ public class MemberController {
 		}
 	}
 	
+	@GetMapping("/customLogout")
+	public void logoutGET() {
+			
+		log.info("custom logout");
+
+	}
+	
 }
