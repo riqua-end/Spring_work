@@ -31,6 +31,7 @@ public class MemberController {
 	@GetMapping("/accessError")
 	public void accessDenied(Authentication auth, Model model) {
 		log.info("access Denied : " + auth);
+		//Authentication객체는 username,password,ROLE정보(Authorities)등을 가지고 있음
 		
 		model.addAttribute("msg", "Access Denied");
 	}
