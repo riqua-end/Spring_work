@@ -5,6 +5,9 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/security https://www.springframework.org/schema/security/spring-security.xsd">
 
+	<!-- bean설정 -->
+	<bean id="customAccessDenied" class="org.ezen.ex02.security.CustomAccessDeniedHandler"></bean>
+	
 	<!-- 시큐리티 최소 동작을 위한 설정 -->
 	<security:http>
 		<security:intercept-url pattern="/member/all" access="permitAll"/>
@@ -13,7 +16,12 @@
 		<security:intercept-url pattern="/member/admin" access="hasRole('ROLE_ADMIN')"/>
 		
 		<!-- 로그인 후 접근 권한이 없는 요청 경로로 요청시 에러 처리 -->
+		<!-- error-page속성 사용 -->
+		<!-- 
 		<security:access-denied-handler error-page="/member/accessError"/>
+		-->
+		<!-- AccessDeniedHandle인터페이스 구현한 클래스를 bean으로 지정하여 사용 -->
+		<security:access-denied-handler ref="customAccessDenied"/>
 		
 		<security:form-login/>
 		<security:csrf disabled="true"/> <!-- 기존 ajax upload 동작을 위한 csrf임시 처리 -->
