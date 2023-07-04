@@ -10,6 +10,8 @@
 	
 	<bean id="customLoginSuccess" class="org.ezen.ex02.security.CustomLoginSuccessHandler"></bean>
 	
+	<bean id="customPasswordEncoder" class="org.ezen.ex02.security.CustomNoOpPasswordEncoder"></bean>
+	
 	<!-- 시큐리티 최소 동작을 위한 설정 -->
 	<security:http>
 		<security:intercept-url pattern="/member/all" access="permitAll"/>
@@ -42,13 +44,23 @@
 		<security:csrf disabled="true"/> <!-- 기존 ajax upload 동작을 위한 csrf임시 처리 -->
 	</security:http>
 	
+	<!-- inMemory방식(시스템메모리에 설정하여 사용) -->
+	<!-- 
 	<security:authentication-manager>
-		<!-- inMemory방식(시스템메모리에 설정하여 사용) -->
 		<security:authentication-provider>
 			<security:user-service>
 				<security:user name="member" password="{noop}member" authorities="ROLE_MEMBER"/>
 				<security:user name="admin" password="{noop}admin" authorities="ROLE_MEMBER,ROLE_ADMIN"/>
 			</security:user-service>
+		</security:authentication-provider>
+	</security:authentication-manager>
+	-->
+	
+	<!-- 스프링 정의 지정된 테이블 사용 방식 -->
+	<security:authentication-manager>
+		<security:authentication-provider>
+			<security:jdbc-user-service data-source-ref="dataSource"/>
+			<security:password-encoder ref="customPasswordEncoder"/>
 		</security:authentication-provider>
 	</security:authentication-manager>
 

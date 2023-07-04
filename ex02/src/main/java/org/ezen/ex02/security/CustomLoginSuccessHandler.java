@@ -41,7 +41,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 		}
 		if(roleNames.contains("ROLE_MANAGER")) {
 			
-			response.sendRedirect("member/manager");
+			response.sendRedirect("member/member");
 			
 			return;
 		}
@@ -52,7 +52,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 			return;
 		}
 		
-		response.sendRedirect("/");
+		response.sendRedirect("/ex02");
 	}
 
 }
