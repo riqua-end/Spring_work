@@ -36,4 +36,21 @@ public class MemberController {
 		model.addAttribute("msg", "Access Denied");
 	}
 	
+	@GetMapping("/customLogin")
+	public void loginInput(String error, String logout, Model model) {
+		
+		//error는 로그인 실패 시 스프링에서 error내용을 전달하고 logout시는 로그아웃 정보를 전달
+		log.info("error : " + error);
+		
+		log.info("logout : " + logout);
+		
+		if(error != null) {
+			model.addAttribute("error", "Login Error -- Check Your Account");
+		}
+		
+		if(logout != null) {
+			model.addAttribute("logout", "Logout!!");
+		}
+	}
+	
 }

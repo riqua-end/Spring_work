@@ -23,7 +23,13 @@
 		<!-- AccessDeniedHandle인터페이스 구현한 클래스를 bean으로 지정하여 사용 -->
 		<security:access-denied-handler ref="customAccessDenied"/>
 		
+		<!-- form 로그인 처리 -->
+		<!-- 기본 처리 스프링 제공 로그인 form 사용 
 		<security:form-login/>
+		-->
+		<!-- 사용자 정의 login form 사용,커스텀 로그인 요청 경로 -->
+		<security:form-login login-page="/member/customLogin"/>
+		
 		<security:csrf disabled="true"/> <!-- 기존 ajax upload 동작을 위한 csrf임시 처리 -->
 	</security:http>
 	
