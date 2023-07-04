@@ -66,3 +66,33 @@ alter table tbl_attach add constraint pk_attach primary key (uuid);
 
 --tbl_attach fk만들기
 alter table tbl_attach add constraint fk_board_attach foreign key (bno) references tbl_board(bno);
+
+
+--security jdbc사용시 security 지정 기본 테이블
+
+create table users (
+username varchar2(50) not null primary key,
+password varchar2(50) not null,
+enabled char(1) default '1');
+
+--권한 테이블 users와 1:N
+create table authorities (
+username varchar2(50) not null,
+authority varchar2(50) not null,
+constraint fk_authorities_users foreign key(username) references users(username));
+
+--1:N 관계시 인덱스 처리로 성능 개선
+--username,authority를 조합한 값이 유일한 것만 인덱스로 만듦
+create unique index ix_auth_username on authorities (username,authority);
+
+--실습용 더미 데이터 생성
+insert into users (username,password) values ('user00','pw00');
+insert into users (username,password) values ('member00','pw00');
+insert into users (username,password) values ('admin00','pw00');
+
+insert into authorities (username, authority) values ('user00','ROLE_USER');
+insert into authorities (username, authority) values ('member00','ROLE_MANAGER');
+insert into authorities (username, authority) values ('admin00','ROLE_MANAGER');
+insert into authorities (username, authority) values ('admin00','ROLE_ADMIN');
+
+commit;
