@@ -27,7 +27,8 @@
 	integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 <!--google icon -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-<link rel="stylesheet" href="../css/myCss.css?after"/> <!--수정시 바로 적용을 위해 after추가 -->
+
+<link rel="stylesheet" href="../css/myCss.css?after"> <!-- 수정시 바로 적용을 위해 after추가 -->
 </head>
 <body>
 
@@ -39,6 +40,7 @@
 	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
 		<span class="navbar-toggler-icon"></span>
 	</button>
+	
 	<div class="collapse navbar-collapse" id="collapsibleNavbar">
 		<ul class="navbar-nav">
 			<li class="nav-item">
@@ -54,34 +56,37 @@
 			 		파일 업로드
 			 	</a>
 			 	<div class="dropdown-menu">
-			 		 <a class="dropdown-item" href="../upload/uploadForm">Form방식</a>
-			 		 <a class="dropdown-item" href="../upload/uploadAjax">Ajax방식</a>
-			 		 <a class="dropdown-item" href="#">Q&amp;A</a>
+			 		<a class="dropdown-item" href="../upload/uploadForm">Form방식</a>
+			 		<a class="dropdown-item" href="../upload/uploadAjax">Ajax방식</a>
+			 		<a class="dropdown-item" href="#">Q&amp;A</a>
 			 	</div>
 			 </li>
-			  
-			 <li class="nav-item">
-			 	<a class="nav-link" href="../home/abouts">About</a>
+			 <li class="nav-item dropdown">
+			 	<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+			 		시큐리티
+			 	</a>
+			 	<div class="dropdown-menu">
+			 		<a class="dropdown-item" href="../member/all">All</a>
+			 		<a class="dropdown-item" href="../member/member">Member</a>
+			 		<a class="dropdown-item" href="../member/admin">Admin</a>
+			 	</div>
 			 </li>
-			 			  			  
 		</ul>
 		
-		 
 		<ul class="navbar-nav ml-auto">
-			 <li class="nav-item">			
-			 	<!-- 
+			 <li class="nav-item">	
+			 	<!-- 		 	  			
 			 	<button type="button" class="btn btn-dark" data-toggle="modal" data-target="#homeModal">
 			 		로그인
 			 	</button>
-			 	-->
+			 	 -->			 	
 			 	<a id="customLogin" class="nav-link" href="../member/customLogin">로그인</a> 		 	
 		 	</li>
 		 	<li class="nav-item">
-				<a class="nav-link" href="../member/customLogout">로그아웃</a>	
+					<a class="nav-link" href="../member/customLogout">로그아웃</a>	
 			</li>
-		</ul>		
+		</ul>
 	</div>
-	
 </nav>
 </body>
 </html>

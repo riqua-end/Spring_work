@@ -25,7 +25,7 @@
 		<div class="modal-content">
 			<div class="modal-header bg-info">
 				<h4 class="modal-title multiEffect"><i class="fa fa-info-circle" aria-hidden="true">Info</i></h4>
-				<button class="mclose close" type="button" data-dismiss="modal">&times;</button>
+				<button class="mclose close" type="button"  data-dismiss="modal">&times;</button>
 			</div>
 			<div class="modal-body">
 				<h4><i class="fa fa-info-circle fa-2x multiEffect" aria-hidden="true"></i></h4>
@@ -34,6 +34,7 @@
 			<div class="modal-footer">
 				<button class="mclose" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 			</div>
+			
 		</div>
 	</div>
 </div>

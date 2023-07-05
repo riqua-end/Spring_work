@@ -19,48 +19,49 @@
 
 </head>
 <body>
-<%@ include file="../includes/header.jsp" %>
 
-	<div class="container mt-4 mb-4" id="mainContent">
-		<div class="row">
-			<div class="col-md-2">
-				<h4 class="wordArtEffect text-success pl-4">메뉴</h4>
-				<nav class="navbar bg-dark navbar-dark container">
-					<!-- 수직메뉴 d-md-none으로 컬랩스 해결-->
-					<button class="navbar-toggler d-md-none" type="button"
-						data-toggle="collapse" data-target="#collapsibleVertical">
-						<span class="navbar-toggler-icon"></span>
-					</button>
-					<div class="collapse navbar-collapse d-md-block"
-						id="collapsibleVertical">
-						<ul class="navbar-nav">
-							<li class="nav-item"><a class="nav-link" href="#"><i
-									class="fas fa-home" style="font-size: 30px; color: white;"></i></a></li>
-							<li class="nav-item"><a class="nav-link" href="register">게시물
-									등록</a></li>
-							<li class="nav-item"><a class="nav-link" href="list">리스트</a></li>
-							<li class="nav-item"><a class="nav-link"
-						 href='modify?bno=<c:out value="${board.bno}" />'>수정</a></li>
-						</ul>
-					</div>
-				</nav>
-			</div><!-- col-md-2 -->
-			<div class="col-md-10">
-				<div id="submain">
-					<h4 class="text-center wordArtEffect text-success">파일 업로드</h4>
-					<form action="uploadFormAction" method="post"
-						enctype="multipart/form-data">
-						<div class="form-group">
-							<label for="upload">파일 업로드:</label> <input type="file"
-								class="form-control" id="upload" name="uploadFile" multiple />
-						</div>
-						<button type="submit" class="btn btn-success">Submit</button>
-					</form>
+<%@include file="../includes/header.jsp"%>
+
+<div class="container mt-4 mb-4" id="mainContent">
+	<div class="row">
+		<div class="col-md-2">
+			<h4 class="wordArtEffect text-success pl-4">메뉴</h4>
+			<nav class="navbar bg-dark navbar-dark container">
+				<!-- RWD의 화면 축소시 나타나는 메뉴 버튼(상병계급장) -->
+				<!-- d-md-none은 메뉴가 감추어지지 아노고 펼쳐지는 것 예방 -->
+				<button class="navbar-toggler d-md-none" type="button"
+					data-toggle="collapse" data-target="#collapsibleVertical">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse d-md-block"
+					id="collapsibleVertical">
+					<ul class="navbar-nav">
+						<li class="nav-item"><a class="nav-link" href="#"> <i
+								class="fas fa-home" style="font-size: 30px; color: white;"></i>
+						</a></li>
+						<li class="nav-item"><a class="nav-link" href="list">게시판
+								목록</a></li>
+						<li class="nav-item"><a class="nav-link"
+							href='modify?bno=<c:out value="${board.bno }"/>'>수정</a></li>
+					</ul>
 				</div>
-			</div>
-		</div>
-	</div>
+			</nav>
+		</div> <!-- col-md-2 -->
+		<div class="col-md-10">
+			<div id="submain">
+				<h4 class="text-center wordArtEffect text-success">파일업로드</h4>
+				<form action="uploadFormAction" method="post" enctype="multipart/form-data">
+					<div class="form-group">
+						<label for="upload">파일업로드:</label> 
+						<input type="file" class="form-control" id="upload" name="uploadFile" multiple />
+					</div>
+					<button type="submit" class="btn btn-success">Submit</button>
+				</form>
+			</div><!-- submian -->
+		</div> <!-- md-10 -->
+	</div><!-- row -->
+</div>
 
-	<%@ include file="../includes/footer.jsp" %>
+<%@include file="../includes/footer.jsp"%>
 </body>
 </html>

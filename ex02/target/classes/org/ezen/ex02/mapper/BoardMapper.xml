@@ -2,14 +2,13 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  
+
 <mapper namespace="org.ezen.ex02.mapper.BoardMapper">
-	<!-- namespace는 BoardMapper 인터페이스의 URL -->
-	<!-- 태그는 SQL문의 DML명령,id는 mapper인터페이스의 추상메서드명,
-			resultType은 반환데이터형(컬렉션의 요소명) -->
-	<!-- CDATA는 태그나 sql명령문에서 사용하는 특수문자(>,<)를 순수 데이터로 처리,(html의 엔터티와 유사) -->		
+	<!-- namespace는 BoardMapperd 인터페이스의 URL -->
+	<!-- 태그는 SQL문의 DML명령 id는 mapper인터페이스의 추상메서드 명, resultType는 반환데이터형(컬렉션의 요소명) -->
+	<!-- CDATA는 태그나 sql명령문에서 키워드나 부호를 원래의 문자의미로 처리(html의 엔터티와 유사) -->
 	
-	<!-- 공통으로 사용되는 sql태그,사용전에 정의, 사용은 include태그 refid로 사용 -->
+	<!-- 공통으로 사용되는 sql태그, 사용전에 정의, 사용은 include태그의 refid로 사용 -->
 	<sql id="criteria">
 		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
 			<foreach item='type' collection="typeArr">
@@ -32,144 +31,148 @@
 	
 	
 	<select id="getList" resultType="org.ezen.ex02.domain.BoardVO">
-		<![CDATA[
-			select * from tbl_board where bno > 0 order by bno desc
-		]]>
+		<![CDATA[select * from tbl_board where bno > 0 ORDER BY BNO DESC]]>
 	</select>
 	
 	<!-- page 처리가 포함된 sql -->
-	<!-- 정렬 성능을 위해 힌트 사용 /*+index_desc(tbl_board pk_board)*/ -->
-	<!-- rownum사용 위해 인라인뷰를 사용,rownum은 1이 꼭 포함되게 조건 만듬 -->
+	<!-- 정렬 성능을 위해 힌트 사용 /*+INDEX_DESC(tbl_board pk_board)*/-->
+	<!-- rownum사용 위해 인라인뷰를 사용,rownum은 1이 꼭포함되게 조건 만듬 -->
 	<!-- 인라인뷰의 결과도 가상 view객체처럼 사용 -->
 	<!-- parameterType은 "org.ezen.ex02.domain.Criteria인데 bean클래스는 생략 가능 -->
-	<!-- 검색 미 반영 -->
+	<!--검색 미 반영 -->
 	<!--  
-	<select id="getListWithPaging" resultType="org.ezen.ex02.domain.BoardVO">
+	<select id="getListWithPaging" resultType="org.ezen.ex02.domain.BoardVO"> 
 		<![CDATA[
-			select bno,title,content,writer,regdate,updatedate
+			select bno, title, content, writer, regdate, updatedate 
 			from
 			(
-				select /*+index_desc(tbl_board pk_board)*/
-				rownum rn,bno,title,content,writer,regdate,updatedate
-				from tbl_board
-				where rownum <= #{pageNum} * #{amount}
+				select /*+INDEX_DESC(tbl_board pk_board)*/ 
+				rownum rn, bno, title, content,	writer, regdate, updatedate 
+				from tbl_board 
+				where rownum <= #{pageNum} * #{amount} 
 			)
-			where rn > (#{pageNum} -1) * #{amount}
+			where rn > (#{pageNum} -1) * #{amount} 
 		]]>
 	</select>
 	-->
 	
 	<!-- 검색 반영 -->
-	<!-- 
-	<select id="getListWithPaging" 
-		resultType="org.ezen.ex02.domain.BoardVO" parameterType="org.ezen.ex02.domain.Criteria">
-		<![CDATA[
-			select bno,title,content,writer,regdate,updatedate
-			from
-			(
-				select /*+index_desc(tbl_board pk_board)*/
-				rownum rn,bno,title,content,writer,regdate,updatedate
-				from tbl_board
-				where 
-		]]>
-			<trim prefix="(" suffix=") AND " prefixOverrides="OR">
-				<foreach item='type' collection="typeArr">
-					<trim prefix="OR">
-						<choose>
-							<when test="type == 'T'.toString()">
-								title like '%'||#{keyword}||'%'
-							</when>
-							<when test="type == 'C'.toString()">
-								content like '%'||#{keyword}||'%'
-							</when>
-							<when test="type == 'W'.toString()">
-								writer like '%'||#{keyword}||'%'
-							</when>
-						</choose>
-					</trim>
-				</foreach>
-			</trim>
-		<![CDATA[
-			rownum <= #{pageNum} * #{amount}
-			)
-		where rn > (#{pageNum} -1) * #{amount}	
-		]]>
+	<!--  
+	<select id="getListWithPaging"
+		resultType="org.ezen.ex02.domain.BoardVO" parameterType ="org.ezen.ex02.domain.Criteria" >
+	    <![CDATA[
+	  	select 
+	    	bno, title, content, writer, regdate, updatedate
+	 	from 
+	    (
+	      select /*+INDEX_DESC(tbl_board pk_board) */
+	        rownum rn, bno, title, content, writer, regdate, updatedate 
+	      from 
+	        tbl_board
+	      where 
+	    ]]>	    
+		<trim prefix="(" suffix=") AND " prefixOverrides="OR">			
+			<foreach item='type' collection="typeArr"> 
+			
+				<trim prefix="OR">					
+					<choose>						
+						<when test="type == 'T'.toString()">
+							title like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'C'.toString()">
+							content like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'W'.toString()">
+							writer like '%'||#{keyword}||'%'
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>	      
+	   <![CDATA[    
+	        rownum <= #{pageNum} * #{amount}
+	        )
+	    where rn > (#{pageNum} -1) * #{amount}   
+	    ]]>
 	</select>
 	-->
 	
-	<!-- 검색 반영과 sql태그와 include태그 사용 -->
-	<select id="getListWithPaging" 
-		resultType="org.ezen.ex02.domain.BoardVO" parameterType="org.ezen.ex02.domain.Criteria">
-		<![CDATA[
-			select bno,title,content,writer,regdate,updatedate,replycnt
-			from
-			(
-				select /*+index_desc(tbl_board pk_board)*/
-				rownum rn,bno,title,content,writer,regdate,updatedate,replycnt
-				from tbl_board
-				where 
-		]]>
-			<include refid="criteria"></include>
-		<![CDATA[
-			rownum <= #{pageNum} * #{amount}
-			)
-		where rn > (#{pageNum} -1) * #{amount}	
-		]]>
+	<!-- 검색반영과 sql태그와 include태그 사용 -->
+	<select id="getListWithPaging"
+		resultType="org.ezen.ex02.domain.BoardVO" parameterType ="org.ezen.ex02.domain.Criteria" >
+	    <![CDATA[
+	  	select 
+	    	bno, title, content, writer, regdate, updatedate,replyCnt
+	 	from 
+	    (
+	      select /*+INDEX_DESC(tbl_board pk_board) */
+	        rownum rn, bno, title, content, writer, regdate, updatedate,replyCnt 
+	      from 
+	        tbl_board
+	      where 
+	    ]]>	    
+		<include refid="criteria"></include> 
+	   <![CDATA[    
+	        rownum <= #{pageNum} * #{amount}
+	        )
+	    where rn > (#{pageNum} -1) * #{amount}   
+	    ]]>
 	</select>
 	
-	<!-- PerparedStatement를 사용하고 ? 바인딩 변수 대신에 ${변수명}을 사용
-		parameterType은 기본형,문자열,객체형일시 생략 가능하고 바인딩 변수로 사용시 멤버변수 이름 바로 사용 -->
+	<!-- PreparedStatement를 사용하고 ?바인딩변수 대신에 #{변수명}을 사용 parameterType은 기본형,문자열,객체형일시 
+		생략 이가능하고 바인딩변수로 사용시 멤버변수 이름 바로 사용 -->
 	<insert id="insert" parameterType="org.ezen.ex02.domain.BoardVO">
 		insert into tbl_board (bno,title,content,writer)
-		values(seq_board.nextval,#{title},#{content},#{writer})
+		values (seq_board.nextval, #{title}, #{content}, #{writer})
 	</insert>
 	
-	<!-- PK인 bno값을 사전에 알 필요가 있는 경우
-	selectKey mybatis어노테이션(태그)를 사용하여 bno값을 select하여 BoardVO의
-	bno속성에 매칭 -->
-	
+	<!-- 
+	PK인 BNO값을 사전에 알필요가 있는 경우 
+	selectKey 마이바티스어노테이션(태그)를 내부에서 사용하여 bno값을  select하여 BoardVO의 
+	bno속성에 매핑
+	-->
 	<insert id="insertSelectKey">
-		<selectKey keyProperty="bno" order="BEFORE" resultType="Long">
+		<selectKey keyProperty="bno" order="BEFORE"	resultType="Long">
 			select seq_board.nextval from dual
 		</selectKey>
-		insert into tbl_board (bno,title,content,writer)
-		values (#{bno},#{title},#{content},#{writer})
+		insert into tbl_board (bno,title,content, writer)
+		values (#{bno},#{title}, #{content}, #{writer})
 	</insert>
 	
 	<select id="read" resultType="org.ezen.ex02.domain.BoardVO">
-		select * from tbl_board where bno = #{bno}
+		select * from tbl_board where bno =#{bno}
 	</select>
 	
 	<!-- parameterType과 returnType은 기본형이므로 생략 가능 -->
 	<delete id="delete">
-		delete from tbl_board where bno = #{bno}
+		delete tbl_board where bno = #{bno}
 	</delete>
 	
-	<!-- Bean클래스형인 객체는 parameterType 생략가능
-	파라메터로 전달되는 BoardVO의 멤버 변수를 바인딩 변수 이름으로 사용
-	update시는 default값이 적용안되므로 (insert시만 default는 적용)updateDate도 변경처리 -->
+	<!--
+	Bean클래스형인 객체는 parameterType 생략 가능
+	파라메터로 전달되는 BoardVO의 멤버 변수를 바인딩 변수 이름으로 사용 
+	update시는 default값이 적용 안되므로(insert시만 default는 적용) updateDate도 변경 처리
+	 -->
 	<update id="update">
 		update tbl_board
 		set title= #{title},
 		content=#{content},
-		writer=#{writer},
-		updateDate=sysdate
+		writer = #{writer},
+		updateDate = sysdate
 		where bno = #{bno}
 	</update>
 	
 	<select id="getTotalCount" resultType="int">
 	
-		select count(*) from tbl_board
-		where
-		<include refid="criteria"></include>
-		bno > 0
+		select count(*) from tbl_board where bno > 0
 		
 	</select>
 	
 	<update id="updateReplyCnt">
 	
-		update tbl_board set replycnt = replycnt + #{amount} where bno = #{bno}
-		
+	    update tbl_board set replycnt = replycnt + #{amount} where bno = #{bno}
+	    
 	</update>
 	
-</mapper>
+	
+</mapper>  
