@@ -132,6 +132,11 @@ $(document).ready(function(){
 	let csrfHeaderName = "${_csrf.headerName}";
 	let csrfTokenValue = "${_csrf.token}";
 	
+	//beforeSend대신 사용 (한번만 지정)
+	$(document).ajaxSend(function(e, xhr, options){
+		xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+	});
+	
 	
 	//겟시글 작성의 submit버튼 클릭 이벤트
 	$("button[type='submit']").on("click", function(e){
@@ -184,9 +189,9 @@ $(document).ready(function(){
 			data: formData,
 			type: 'POST',					    
 		    dataType : 'json', //생략해도 무방
-		    beforeSend : function(xhr) { //ajax시 csrf등록,매 ajax에 지정
-		    	xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
-		    },
+		    //beforeSend : function(xhr) { //ajax시 csrf등록,매 ajax에 지정
+		    	//xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+		    //},
 			success : function(result) {
 				console.log(result);
 				//alert(result);
@@ -261,7 +266,8 @@ $(document).ready(function(){
 			url : '../upload/deleteFile',
 		    data: {fileName: targetFile, type:type},
 		    dataType:'text',
-		    type: 'POST',		        
+		    type: 'POST',
+		    //beforeSend추가 부분이나 ajaxSend메서드 사용
 		    success: function(result){		             
 		           targetLi.remove();
 		    }
