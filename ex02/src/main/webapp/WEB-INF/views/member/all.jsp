@@ -20,12 +20,12 @@
 </head>
 <body>
 
-<%@include file="../includes/header.jsp" %>
+<%@include file="../includes/header.jsp"%>
 
 <div class="container">
-	<h2>ALL</h2>
+	<h2>All</h2>
 </div>
 
-<%@include file="../includes/footer.jsp" %>
+<%@include file="../includes/footer.jsp"%>
 </body>
 </html>

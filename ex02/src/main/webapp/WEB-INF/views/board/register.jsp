@@ -61,6 +61,7 @@
 			<div id="submain">
 				<h4 class="text-center wordArtEffect text-success">게시물 등록</h4>
 				<form action="register" method="post" id="freg" name="freg" role="form">
+					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 					<div class="form-group">
 						<label for="title">제목:</label>
 						<input type="text" class="form-control" id="title" placeholder="Enter Title" 
@@ -72,10 +73,21 @@
 <textarea class="form-control" id="content" placeholder="Enter Content"	name="content" rows="10" required>
 </textarea>		
 					</div>
+					<!-- 작성자를 직접 입력(시큐리티 적용전 임시 -->
+					<!--  
 					<div class="form-group">
 						<label for="writer">작성자:</label>
 						<input type="text" class="form-control" id="writer" name="writer" />		
 					</div>
+					-->
+					
+					<!-- security적용후 사용자아이디로 지정 -->
+					<div class="form-group">
+						<label for="writer">작성자:</label>
+						<input type="text" class="form-control" id="writer" name="writer" 
+							value='<sec:authentication property="principal.username"/>' readonly/>		
+					</div>
+					
 					<button type="submit" class="btn btn-success">작성</button>&nbsp;&nbsp;
 					<button type="reset" class="btn btn-danger">취소</button>	&nbsp;&nbsp;
 					<a id="listLink" href="list" class="btn btn-primary">목록보기</a>

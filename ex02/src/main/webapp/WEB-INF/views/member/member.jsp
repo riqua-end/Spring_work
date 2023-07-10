@@ -20,12 +20,23 @@
 </head>
 <body>
 
-<%@include file="../includes/header.jsp" %>
+<%@include file="../includes/header.jsp"%>
 
 <div class="container">
-	<h2>Member!</h2>
+	<h2>Member</h2>
 </div>
 
-<%@include file="../includes/footer.jsp" %>
+<div class="container">	
+	<p>principal : <sec:authentication property="principal"/></p>
+	<p>MemberVO : <sec:authentication property="principal.member"/></p>
+	<p>사용자이름 : <sec:authentication property="principal.member.userName"/></p>
+	<p>사용자아이디 : <sec:authentication property="principal.username"/></p>
+	<p>사용자 권한 리스트  : <sec:authentication property="principal.member.authList"/></p>
+	<!-- principal은 CustomerUser객체임, member는 MemberVO member멤버변수 -->
+	<!-- sec:autehentication property=""는 값으로 그 위치에 출력 -->
+</div>
+	
+
+<%@include file="../includes/footer.jsp"%>
 </body>
 </html>

@@ -271,7 +271,7 @@ public class UploadController {
 		return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
 	}
 	
-	@PostMapping(value = "/deleteFile", produces = { MediaType.TEXT_PLAIN_VALUE + ";charset=UTF8" })	
+	@PostMapping(value = "/deleteFile", produces = { MediaType.TEXT_PLAIN_VALUE + ";charset=UTF-8" })	
 	@ResponseBody
 	public ResponseEntity<String> deleteFile(String fileName, String type) {
 		

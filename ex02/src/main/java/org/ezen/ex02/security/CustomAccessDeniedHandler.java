@@ -1,5 +1,7 @@
 package org.ezen.ex02.security;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
+
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -19,10 +21,11 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 			AccessDeniedException accessDeniedException) throws IOException, ServletException {
 		
 		log.error("Access Denied Handler");
-		
-		log.error("Redirect.........");
+
+		log.error("Redirect....");
 		
 		response.sendRedirect("../member/accessError");
+
 	}
 
 }

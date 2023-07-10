@@ -2,51 +2,76 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:security="http://www.springframework.org/schema/security"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/security https://www.springframework.org/schema/security/spring-security.xsd">
-
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/security https://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+	
+	
 	<!-- bean설정 -->
 	<bean id="customAccessDenied" class="org.ezen.ex02.security.CustomAccessDeniedHandler"></bean>
 	
+	<!-- login성공후 페이지 이동 처리 -->
+	<!-- 
 	<bean id="customLoginSuccess" class="org.ezen.ex02.security.CustomLoginSuccessHandler"></bean>
-	
+	 -->
+	 
+	<!-- 패스워드를 암호화 하지 않는 PasswordEncoder구현 클래스(암호화 하지 않고 처리) -->
+	<!--  
 	<bean id="customPasswordEncoder" class="org.ezen.ex02.security.CustomNoOpPasswordEncoder"></bean>
+	-->
 	
-	<!-- 시큐리티 최소 동작을 위한 설정 -->
+	<!-- 패스워드 암호화 전용 클래스 사용 -->
+	<bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+	
+	<!-- CustomUserDetailsService사용 -->
+	<bean id="customUserDetailsService"	class="org.ezen.ex02.security.CustomUserDetailsService"></bean>	
+		
+	<!-- 시큐리티 최소 동작을 위한 설정 -->	
 	<security:http>
+	
 		<security:intercept-url pattern="/member/all" access="permitAll"/>
+		
 		<!-- 권한 ROLE_ 은 로그인 해야만 주어짐 -->
 		<security:intercept-url pattern="/member/member" access="hasAnyRole('ROLE_MEMBER','ROLE_MANAGER','ROLE_ADMIN')"/>
-		<security:intercept-url pattern="/member/admin" access="hasRole('ROLE_ADMIN')"/>
 		
-		<!-- 로그인 후 접근 권한이 없는 요청 경로로 요청시 에러 처리 -->
+		<security:intercept-url pattern="/member/admin"	access="hasRole('ROLE_ADMIN')" />
+		
+		<!-- 로그인후 접근 권한이 없는 요청 경로로 요청시 에러 처리 -->
 		<!-- error-page속성 사용 -->
-		<!-- 
-		<security:access-denied-handler error-page="/member/accessError"/>
+		<!--  
+		<security:access-denied-handler	error-page="/member/accessError" />
 		-->
-		<!-- AccessDeniedHandle인터페이스 구현한 클래스를 bean으로 지정하여 사용 -->
-		<security:access-denied-handler ref="customAccessDenied"/>
+		<!--AccessDeniedHandle인터페이스 구현한 클리스를 bean으로 지정하여 사용   --> 
+		<security:access-denied-handler	ref="customAccessDenied" />
 		
-		<!-- form 로그인 처리 -->
-		<!-- 기본 처리 스프링 제공 로그인 form 사용 
-		<security:form-login/>
+		<!-- form로그인 처리 --> 
+		<!-- 기본 처리 스프링 제공 로그인 form사용
+		<security:form-login />
 		-->
-		<!-- 사용자 정의 login form 사용,커스텀 로그인 요청 경로 사용,성공시 미처리 -->
-		<!-- 
-		<security:form-login login-page="/member/customLogin"/>
-		-->
+		<!-- 사용자 정의 login form  사용,커스텀 로그인 요청 경로 사용,성공시 스프링 시큐리티 기본인 로그인 시도 이전 화면으로 페이지 이동 -->		  
+		<security:form-login login-page="/member/customLogin"/>	
 		
-		<!-- 사용자 정의 login form 사용,커스텀 로그인 요청 경로 사용,성공시 처리 -->
+		<!-- 사용자 정의 login form  사용,커스텀 로그인 요청 경로 사용,성공시 처리,스프링 시큐리티의 기본을 사용시에는 사용 안함-->
 		<security:form-login login-page="/member/customLogin" authentication-success-handler-ref="customLoginSuccess"/>
 		
-		<security:logout logout-url="/member/customLogout" invalidate-session="true"/>
+		<!-- remember-me설정(1시간 유효),데이터베이스(스프링 지정)로 처리 -->
+		<security:remember-me data-source-ref="dataSource" token-validity-seconds="3600" />
 		
-		<security:csrf disabled="true"/> <!-- 기존 ajax upload 동작을 위한 csrf임시 처리 -->
-	</security:http>
-	
-	<!-- inMemory방식(시스템메모리에 설정하여 사용) -->
-	<!-- 
-	<security:authentication-manager>
+		<!-- remember-me를 미고려한 logout -->
+		<!--  
+		<security:logout logout-url="/member/customLogout" invalidate-session="true"/>
+		-->
+		<!-- remember-me를 고려한 logout -->
+		<security:logout logout-url="/member/customLogout"	invalidate-session="true" delete-cookies="remember-me,JSESSIONID" />	
+		
+		<security:csrf disabled="true"/> <!-- 기존 ajaxUpload동작을 위한 csrf임시 처리 -->
+	</security:http>		
+
+	<!-- inMemory방식(시스템메모리에 설정하여 사용 -->
+	<!-- 태스트시 개발자도구에서 cookie삭제하며 테스트 -->
+	<!--  
+	<security:authentication-manager>		
 		<security:authentication-provider>
 			<security:user-service>
 				<security:user name="member" password="{noop}member" authorities="ROLE_MEMBER"/>
@@ -56,12 +81,42 @@
 	</security:authentication-manager>
 	-->
 	
-	<!-- 스프링 정의 지정된 테이블 사용 방식 -->
+	<!-- 스프링 정의 지정된 테이블을 JDBC 사용 처리 방식 -->
+	<!--  
 	<security:authentication-manager>
 		<security:authentication-provider>
-			<security:jdbc-user-service data-source-ref="dataSource"/>
-			<security:password-encoder ref="customPasswordEncoder"/>
+			<security:jdbc-user-service data-source-ref="dataSource" />
+			<security:password-encoder ref="customPasswordEncoder" />
 		</security:authentication-provider>
 	</security:authentication-manager>
-
+	-->
+	
+	<!-- 사용자 정의 회원관리테이블을 JDBC 사용과 암호화 처리 -->
+	<!-- username과 auth체크를 쿼리문으로 처리 -->
+	<!--  
+	<security:authentication-manager>
+		<security:authentication-provider>
+			<security:jdbc-user-service data-source-ref="dataSource" 
+			users-by-username-query="select userid , userpw ,enabled from tbl_member where userid = ? "
+			authorities-by-username-query="select 	userid, auth from tbl_member_auth where userid = ?" />
+			<security:password-encoder ref="bcryptPasswordEncoder" />
+		</security:authentication-provider>
+	</security:authentication-manager>	
+	-->
+	
+	<!-- customUserDetailsService사용(최종 목표)  -->
+	<security:authentication-manager>
+		<security:authentication-provider user-service-ref="customUserDetailsService">
+			<security:password-encoder ref="bcryptPasswordEncoder"/>
+		</security:authentication-provider>
+	</security:authentication-manager>
 </beans>
+
+<!-- 
+dataSource 관련경고(not found)수정
+프로젝트 우클릭
+spring bean support
+config set에서
+new하고 새로운 web-contextN을 만들어 
+servlet context,root-context,security-context모두 포함 처리 
+ -->

@@ -103,8 +103,20 @@
 				  -->
 				  
 				  <!-- 버튼과 form을 사용  --> 
-				  
+				  <!-- 시큐리티 미적용 -->
+				  <!--  
 				  <button data-oper='modify' class="btn btn-info">Modify</button>&nbsp;&nbsp;
+				  -->
+				  
+				  <!-- 시큐리티 적용 로그인아이디와 게시글 작성자 동일시만 버튼 보임 -->
+				  <sec:authentication property="principal" var="pinfo"/>	
+				  <!-- EL안에서는 pinfo사용 -->
+				  <sec:authorize access="isAuthenticated()">
+				  	<c:if test="${pinfo.username eq board.writer}">
+				  		<button data-oper='modify' class="btn btn-info">Modify</button>
+				  	</c:if>
+				  </sec:authorize>
+				  	
 				  <button data-oper='list' class="btn btn-danger">게시판목록</button>
 				  
 				  <!-- 버튼 클릭을 처리하기 위한 form,안보이는 창(나중 페이지 정보 댓글 정보 등을 같이 처리 -->
@@ -128,9 +140,18 @@
 				  <div class="row mt-4">
 				  	<div class="col-md-12 clearfix">
 				  		<i class="fas fa-reply fa-2x"></i> Reply  <!-- 댓글 아이콘 -->
+				  		<!-- 시큐리티 미적용 -->
+				  		<!-- 
 				  		<button id='addReplyBtn' class='btn btn-outline-primary float-right'>
 				  			New Reply
 				  		</button>
+				  		 -->				  		 
+				  		 <!-- 시큐리티 적용 -->
+				  		 <sec:authorize access="isAuthenticated()">
+				  		 	<button id='addReplyBtn' class='btn btn-outline-primary float-right'>
+				  		 		New Reply
+				  		 	</button>
+				  		 </sec:authorize>
 				  	</div>
 				  </div>
 				  
