@@ -65,7 +65,12 @@
 		<!-- remember-me를 고려한 logout -->
 		<security:logout logout-url="/member/customLogout"	invalidate-session="true" delete-cookies="remember-me,JSESSIONID" />	
 		
-		<security:csrf disabled="true"/> <!-- 기존 ajaxUpload동작을 위한 csrf임시 처리 -->
+		<!-- 기존 ajaxUpload동작을 위한 csrf임시 처리 -->
+		<!-- 
+		<security:csrf disabled="true"/>
+		-->
+		
+		 
 	</security:http>		
 
 	<!-- inMemory방식(시스템메모리에 설정하여 사용 -->

@@ -128,6 +128,11 @@ $(document).ready(function(){
 	
 	let uploadUL = $(".uploadResult #cardRow");
 	
+	//security csrf설정
+	let csrfHeaderName = "${_csrf.headerName}";
+	let csrfTokenValue = "${_csrf.token}";
+	
+	
 	//겟시글 작성의 submit버튼 클릭 이벤트
 	$("button[type='submit']").on("click", function(e){
 		
@@ -178,7 +183,10 @@ $(document).ready(function(){
 			contentType: false,
 			data: formData,
 			type: 'POST',					    
-		    dataType : 'json', //생략해도 무방		    
+		    dataType : 'json', //생략해도 무방
+		    beforeSend : function(xhr) { //ajax시 csrf등록,매 ajax에 지정
+		    	xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+		    },
 			success : function(result) {
 				console.log(result);
 				//alert(result);

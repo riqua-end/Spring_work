@@ -55,6 +55,10 @@
 	<servlet-mapping>
 		<servlet-name>appServlet</servlet-name>
 		<url-pattern>/</url-pattern>
+		<url-pattern>*.js</url-pattern>
+    	<url-pattern>*.css</url-pattern>
+    	<url-pattern>*.jpg</url-pattern>
+    	<url-pattern>*.png</url-pattern>
 	</servlet-mapping>
 	
 	<!-- 스프링 한글 처리 filter 등록,filter중 제일 먼저 설정 -->
