@@ -91,6 +91,8 @@ public class ReplyController {
 		return new ResponseEntity<>(service.get(rno), HttpStatus.OK);
 	}
 	
+	//댓글 삭제 시큐리티 미적용
+	/*
 	@DeleteMapping(value = "/{rno}", produces = { MediaType.TEXT_PLAIN_VALUE + ";charset=UTF-8" })	
 	public ResponseEntity<String> remove(@PathVariable("rno") Long rno)  {
 
@@ -99,6 +101,18 @@ public class ReplyController {
 		return service.remove(rno) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 
+	}
+	*/
+	
+	//댓글 삭제 시큐리티 적용
+	@PreAuthorize("principal.username == #vo.replyer")
+	@DeleteMapping(value = "/{rno}",consumes = "application/json" ,produces = { MediaType.TEXT_PLAIN_VALUE })
+	public ResponseEntity<String> remove(@RequestBody ReplyVO vo, @PathVariable("rno") Long rno) {
+		
+		log.info("remove: " + rno);
+
+		return service.remove(rno) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
+				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	//CRUD의 U(update)

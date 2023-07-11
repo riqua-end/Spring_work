@@ -488,12 +488,42 @@ $(document).ready(function(){
     modalRemoveBtn.on("click", function(e){
     	 let rno = modal.data("rno");
     	 
+    	 console.log("RNO : " + rno);
+    	 console.log("REPLYER : " + replyer); //로그인 아이디와 작성자 아이디 비교
+    	 console.log("REPLYERS : " + replyers);
+    	 
+    	 if(!replyers) {
+    		 alert("로그인 후 삭제가 가능합니다.");
+    		 modal.modal("hide");
+    		 return;
+    	 }
+    	 
+    	 let originalReplyer = modalInputReplyer.val();
+    	 
+    	 if(replyers != originalReplyer) {
+    		 
+    		 alert("자신이 작성한 댓글만 삭제가 가능합니다.");
+    		 modal.modal("hide");
+    		 return;
+    	 }
+    	 
+    	 /*
+    	 //댓글 시큐리티 미적용
     	 replyService.remove(rno, function(result){
     		 alert(result);
    	      	 modal.modal("hide");   	      		    	     
    	    	//showList(1);  //삭제 이후에는 댓글리스트 보여주기(페이지 미고려)
              showList(pageNum);  //삭제 이후에는 댓글리스트 보여주기(페이지 고려)
     	 });
+    	 */
+    	 //댓글 삭제 시큐리티 적용
+    	 originalReplyer = replyers;
+    	 replyService.remove(rno, originalReplyer, function(result){
+    		 alert(result);
+   	      	 modal.modal("hide");   	      		    	     
+             showList(pageNum);  //삭제 이후에는 댓글리스트 보여주기(페이지 고려)
+    	 });
+    	 
     });
     
     //페이지 번호 클릭시 이벤트 처리(해당 페이지의 댓글 리스트 표시)
