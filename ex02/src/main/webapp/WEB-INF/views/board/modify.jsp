@@ -277,7 +277,16 @@ $(document).ready(function(){
 	
 	let uploadUL = $(".uploadResult #cardRow");
 	
-	//change이벤트로 파일업로드 이벤트 처리
+	//ajax시 사용하는 csrf
+	let csrfHeaderName = "${_csrf.headerName}";
+	let csrfTokenValue = "${_csrf.token}";
+	
+	//beforeSend대신 사용
+	$(document).ajaxSend(function(e,xhr,options){
+		xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+	});
+	
+	//change이벤트로 파일업로드 이벤트 처리--modify.jsp 에서는 수정을 위한 업로드
 	$("input[type='file']").change(function(e){
 		let formData = new FormData(); //가상의 form엘리먼트 생성
 		let inputFile = $("input[name='uploadFile']");
