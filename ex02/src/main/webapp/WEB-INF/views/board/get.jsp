@@ -5,7 +5,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql" %> 
 <%@ taglib prefix="x" uri="http://java.sun.com/jsp/jstl/xml" %> 
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>    
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> 
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -378,11 +378,35 @@ $(document).ready(function(){
     let modalRemoveBtn = $("#modalRemoveBtn");
     let modalRegisterBtn = $("#modalRegisterBtn");
     
+    //댓글 작성자를 로그인한 username으로 지정
+    let replyer = null;
+    //sec EL문을 자바스크립트에서 사용
+    <sec:authentication property="principal" var="pinfo"/>
+    <sec:authorize access="isAuthenticated()">
+    	replyer ='<sec:authentication property="principal.username"/>';
+    	//이메일 주소가 encode되어 나옴
+    	let replyers = "${pinfo.username}";
+    	//정상 이메일 문자열
+    </sec:authorize>
+    	
+    //ajax csrf설정
+    let csrfHeaderName = "${_csrf.headerName}";
+    let csrfTokenValue = "${_csrf.token}";
+    
+    $(document).ajaxSend(function(e,xhr,options){
+    	xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);	
+    });
+    
+    
+    
+    
     //댓글 생성 버튼 클릭 이벤트 처리
     $("#addReplyBtn").on("click", function(e){
     	
 		modal.find("input").val(""); //input의 값을 초기화	    
-	    modalInputReplyDate.closest("div").hide(); //날짜 입력DOM은 감춤
+	    //댓글 작성자를 로그인 username으로 지정
+	    modal.find("input[name='replyer']").val(replyers);
+		modalInputReplyDate.closest("div").hide(); //날짜 입력DOM은 감춤
 	    modal.find("button[id !='modalCloseBtn']").hide(); //나가기만 보임
 	      
 	    modalRegisterBtn.show(); //등록버튼 다시 보이게
