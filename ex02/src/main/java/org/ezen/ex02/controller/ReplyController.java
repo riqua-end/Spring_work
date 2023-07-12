@@ -116,11 +116,12 @@ public class ReplyController {
 	}
 	
 	//CRUD의 U(update)
+	@PreAuthorize("principal.username == #vo.replyer")
 	@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH }, value = "/{rno}", 
 			consumes = "application/json", produces = {MediaType.TEXT_PLAIN_VALUE + ";charset=UTF-8" })
 	//rno값과 json으로 된 ReplyVO멤버변수 값이 옴 
 	public ResponseEntity<String> modify(@RequestBody ReplyVO vo, @PathVariable("rno") Long rno) {
-		System.out.println("kook");
+
 		vo.setRno(rno);
 
 		log.info("rno: " + rno);

@@ -405,7 +405,7 @@ $(document).ready(function(){
     	
 		modal.find("input").val(""); //input의 값을 초기화	    
 	    //댓글 작성자를 로그인 username으로 지정
-	    modal.find("input[name='replyer']").val(replyers);
+	    modal.find("input[name='replyer']").val(replyers).attr("readonly","readonly");
 		modalInputReplyDate.closest("div").hide(); //날짜 입력DOM은 감춤
 	    modal.find("button[id !='modalCloseBtn']").hide(); //나가기만 보임
 	      
@@ -453,7 +453,7 @@ $(document).ready(function(){
 		replyService.get(rno, function(reply){
 			
 			modalInputReply.val(reply.reply);		       
-	        modalInputReplyer.val(reply.replyer);		        
+	        modalInputReplyer.val(reply.replyer).attr("readonly","readonly");		        
 	        modalInputReplyDate.val(replyService.displayTime( reply.replyDate))
 	        .attr("readonly","readonly");
 	        modal.data("rno", reply.rno);
@@ -468,10 +468,44 @@ $(document).ready(function(){
     	
     });
     
-    //댓글 수정 이벤트 처리
+    //댓글 수정 이벤트 처리,security 미처리
+    /*
     modalModBtn.on("click", function(e){
         
         let reply = {rno:modal.data("rno"), reply: modalInputReply.val()};
+        
+        replyService.update(reply, function(result){
+              
+          alert(result);
+          modal.modal("hide");
+          //showList(1);  //업데이트 이후에는 댓글리스트 보여주기(페이지 미고려)
+          showList(pageNum);  //업데이트 이후에는 댓글리스트 보여주기(페이지 고려)
+          
+        });
+        
+    });
+    */
+    //댓글 수정 이벤트 처리, 시큐리티 처리
+    modalModBtn.on("click", function(e){
+        
+        let originalReplyer = modalInputReplyer.val(); //댓글 작성자
+        
+    	let reply = {rno:modal.data("rno"), reply: modalInputReply.val(), replyer: originalReplyer};
+        //replyer: originalReplyer 는 서버에서 로그인 아이디와 댓글 작성자 비교
+        
+        if(!replyers) { //replyers는 로그인 아이디
+        	alert("로그인 후 수정이 가능합니다.");
+        	modal.modal("hide");
+        	return;
+        }
+        
+        console.log("Original Replyer : " + originalReplyer);
+        
+        if(replyers != originalReplyer){
+        	alert("자신이 작성한 댓글만 수정이 가능합니다.");
+        	modal.modal("hide");
+        	return;
+        }
         
         replyService.update(reply, function(result){
               
