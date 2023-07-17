@@ -69,7 +69,7 @@
 						<label class="form-check-label" for="rememberMe" aria-describedby="rememberMeHelp">remember-me</label>
 					</div>
 					
-					<button type="submit" id="loginFormBtn" class="btn btn-success">로그인</button>
+					<button type="submit" id="loginFormBtn" class="btn btn-success">로그인1</button>
   				</form>
 			</div><!-- submain -->
 		</div><!-- md-10 -->
