@@ -60,6 +60,7 @@
 			<div id="submain">
 				<h4 class="text-center wordArtEffect text-success">게시글 수정</h4>
 				<form  id="mform" name="mform" action="modify" method="post">
+					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 					<!-- 페이지 관련 정보 추가 -->
 					<input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum }"/>'>
         			<input type='hidden' name='amount' value='<c:out value="${cri.amount }"/>'>
@@ -94,8 +95,19 @@
 						<input type="text" class="form-control" id="updateDate" name="updateDate" 
 							value='<fmt:formatDate pattern = "yyyy/MM/dd" value = "${board.updateDate}" />'  readonly/>		
 					</div>
+					<!-- 시큐리티 미적용 -->
+					<!-- 
 					<button type="submit" data-oper='modify' class="btn btn-info">Modify</button>&nbsp;&nbsp;
-  					<button type="submit" data-oper='remove' class="btn btn-danger">Remove</button>&nbsp;&nbsp;						
+  					<button type="submit" data-oper='remove' class="btn btn-danger">Remove</button>&nbsp;&nbsp;
+  					 -->
+  					 <!-- 시큐리티 적용 -->
+  					 <sec:authentication property="principal" var="pinfo"/>
+  					 <sec:authorize access="isAuthenticated()">
+  					 	<c:if test="${pinfo.username eq board.writer}">
+  					 		<button type="submit" data-oper='modify' class="btn btn-info">Modify</button>&nbsp;&nbsp;
+  							<button type="submit" data-oper='remove' class="btn btn-danger">Remove</button>&nbsp;&nbsp;
+  					 	</c:if>
+  					 </sec:authorize>  					 						
 					<button type="submit" data-oper='list' class="btn btn-success">List</button>
 				</form>
 				
@@ -265,7 +277,16 @@ $(document).ready(function(){
 	
 	let uploadUL = $(".uploadResult #cardRow");
 	
-	//change이벤트로 파일업로드 이벤트 처리
+	//ajax시 사용하는 csrf
+	let csrfHeaderName = "${_csrf.headerName}";
+	let csrfTokenValue = "${_csrf.token}";
+	
+	//beforeSend대신 사용
+	$(document).ajaxSend(function(e,xhr,options){
+		xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+	});
+	
+	//change이벤트로 파일업로드 이벤트 처리--modify.jsp 에서는 수정을 위한 업로드
 	$("input[type='file']").change(function(e){
 		let formData = new FormData(); //가상의 form엘리먼트 생성
 		let inputFile = $("input[name='uploadFile']");

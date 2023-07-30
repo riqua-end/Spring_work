@@ -19,18 +19,19 @@
 
 </head>
 <body>
-<%@include file="../includes/header.jsp" %>
+
+<%@include file="../includes/header.jsp"%>
 
 <div class="container">
 	<h1>Access Denied Page</h1>
 	<!-- error-page방식이 아니고 class로 구현한 ref사용시는 null -->
-	<!-- controller에서 forward시 request객체에 보내주는 클래스 -->
-	<h2><c:out value="${SPRING_SECURITY_403_EXCEPTION.getMessage()}"></c:out></h2>
+	<!-- cotroller에서 forward시 request객체에 보내주는 클래스 객체 -->
+	<h2><c:out value="${SPRING_SECURITY_403_EXCEPTION.getMessage()}"/></h2>
 	
 	<!-- model객체에 속성 msg로 설정한 값 -->
-	<h2><c:out value="${msg}"></c:out></h2>
+	<h2><c:out value="${msg}"/></h2>
 </div>
 
-<%@include file="../includes/footer.jsp" %>
+<%@include file="../includes/footer.jsp"%>
 </body>
 </html>

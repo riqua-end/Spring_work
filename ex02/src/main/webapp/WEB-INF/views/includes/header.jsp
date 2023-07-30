@@ -4,7 +4,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql" %> 
 <%@ taglib prefix="x" uri="http://java.sun.com/jsp/jstl/xml" %> 
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>    
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> 
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>    
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -69,22 +70,48 @@
 			 		<a class="dropdown-item" href="../member/all">All</a>
 			 		<a class="dropdown-item" href="../member/member">Member</a>
 			 		<a class="dropdown-item" href="../member/admin">Admin</a>
+			 		<a class="dropdown-item" href="../member/annoMember">어노테이션M</a>
+			 		<a class="dropdown-item" href="../member/annoAdmin">어노테이션A</a>
 			 	</div>
 			 </li>
 		</ul>
 		
+		<!-- security 미적용 -->
+		<!--  
 		<ul class="navbar-nav ml-auto">
-			 <li class="nav-item">	
-			 	<!-- 		 	  			
-			 	<button type="button" class="btn btn-dark" data-toggle="modal" data-target="#homeModal">
-			 		로그인
-			 	</button>
-			 	 -->			 	
+			 <li class="nav-item">			 		 	
 			 	<a id="customLogin" class="nav-link" href="../member/customLogin">로그인</a> 		 	
 		 	</li>
 		 	<li class="nav-item">
+				<a id="memberJoin" class="nav-link" href="../member/memberJoin">회원가입</a>
+			</li>
+		 	<li class="nav-item">
 					<a class="nav-link" href="../member/customLogout">로그아웃</a>	
 			</li>
+		</ul>
+		-->
+		
+		<!-- security 적용 -->
+		<ul class="navbar-nav ml-auto">
+			<!-- 로그인 안한 경우 -->
+			<sec:authorize access="isAnonymous()">
+				<li class="nav-item">
+					<a id="customLogin" class="nav-link" href="../member/customLogin">로그인</a>
+				</li>
+				<li class="nav-item">
+					<a id="memberJoin" class="nav-link" href="../member/memberJoin">회원가입</a>
+				</li>
+			</sec:authorize>
+			
+			<!-- 로그인 한 경우 -->
+			<sec:authorize access="isAuthenticated()">
+				<li class="nav-item">
+		 		 	<a class="nav-link" href="#"><sec:authentication property="principal.username"/></a>
+		 		</li>
+				<li class="nav-item">
+					<a class="nav-link" href="../member/customLogout">로그아웃</a>	
+				</li>
+			</sec:authorize>
 		</ul>
 	</div>
 </nav>

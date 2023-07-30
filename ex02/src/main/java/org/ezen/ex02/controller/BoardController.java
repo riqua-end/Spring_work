@@ -13,6 +13,7 @@ import org.ezen.ex02.service.BoardService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -67,8 +68,18 @@ public class BoardController {
 		
 	}
 
-	// 등록 화면 처리
+	// 등록 화면 처리,시큐리티 미적용
+	/*
 	@GetMapping("/register")
+	public void register() {
+		log.info("----registerForm");
+		// return은 board/register.jsp
+	}
+	*/
+	
+	// 등록 화면 처리,시큐리티 적용(로그인한 경우에만 펠이지 이동,아니면 로그인 페이지로
+	@GetMapping("/register")
+	@PreAuthorize("isAuthenticated()")
 	public void register() {
 		log.info("----registerForm");
 		// return은 board/register.jsp
@@ -96,8 +107,40 @@ public class BoardController {
 	}
 	*/
 	
-	//첨부물 고려 테스트
+	//첨부물 고려 테스트,시큐리티 미적용
+	/*
 	@PostMapping("/register")
+	public String register(BoardVO board, RedirectAttributes rttr) {
+		
+		log.info("==========================");
+		// RedirectAttributes는 redirect:일시 파라메터를 실어보내는 객체(form의 getParameter역활)
+		
+		log.info("register: " + board);
+		
+		if (board.getAttachList() != null) {
+
+			board.getAttachList().forEach(attach -> log.info(attach));
+
+		}
+		
+		log.info("==========================");
+		
+		service.register(board);
+
+		rttr.addFlashAttribute("result", board.getBno());
+		// board.getBno()는 bno값을 반환
+		// 1회용 데이터 처리
+
+		return "redirect:list";
+		// sendRedirect()로 브라우져에서 전달하는 경로로 요청
+		// return값이 redirect:나 jsp페이지 이름일시는 반환형이 String
+		// sendRedirect("list?result=bno)
+	}
+	*/
+	
+	//첨부물 고려 테스트,시큐리티 적용
+	@PostMapping("/register")
+	@PreAuthorize("isAuthenticated()")
 	public String register(BoardVO board, RedirectAttributes rttr) {
 		
 		log.info("==========================");
@@ -161,7 +204,8 @@ public class BoardController {
 	}
 	*/
 	
-	// 페이지 정보,검색처리 고려한 modify
+	// 페이지 정보,검색처리 고려하고 시큐리티 미적용한 modify
+	/*
 	 @PostMapping("/modify") 
 	 //public String modify(BoardVO board,Criteria cri, RedirectAttributes rttr) { 
 	 public String modify(BoardVO board, @ModelAttribute("cri") Criteria cri, RedirectAttributes rttr) {
@@ -170,20 +214,43 @@ public class BoardController {
 			if (service.modify(board)) {
 				rttr.addFlashAttribute("result", "success");
 			}
-			/*
-			rttr.addAttribute("pageNum", cri.getPageNum());
-			rttr.addAttribute("amount", cri.getAmount()); 			
-			//검색처리 추가
-			rttr.addAttribute("type", cri.getType());
-			rttr.addAttribute("keyword", cri.getKeyword());
 			
-			return "redirect:list";
-			*/
+			//rttr.addAttribute("pageNum", cri.getPageNum());
+			//rttr.addAttribute("amount", cri.getAmount()); 			
+			//검색처리 추가
+			//rttr.addAttribute("type", cri.getType());
+			//rttr.addAttribute("keyword", cri.getKeyword());
+			
+			//return "redirect:list";
+			
+			
+			return "redirect:list" + cri.getListLink();
+	 }
+	*/
+	
+	// 페이지 정보,검색처리 고려하고 시큐리티 적용한 modify
+	 @PostMapping("/modify") 
+	 @PreAuthorize("principal.username == #board.writer") //로그인한 아이디와 게시글 ㅈ닥성한 동일 체크
+	 //public String modify(BoardVO board,Criteria cri, RedirectAttributes rttr) { 
+	 public String modify(BoardVO board, @ModelAttribute("cri") Criteria cri, RedirectAttributes rttr) {
+			log.info("modify:" + board);
+
+			if (service.modify(board)) {
+				rttr.addFlashAttribute("result", "success");
+			}
+			
+			//rttr.addAttribute("pageNum", cri.getPageNum());
+			//rttr.addAttribute("amount", cri.getAmount()); 			
+			//검색처리 추가
+			//rttr.addAttribute("type", cri.getType());
+			//rttr.addAttribute("keyword", cri.getKeyword());
+			
+			//return "redirect:list";
+			
 			
 			return "redirect:list" + cri.getListLink();
 	 }
 	
-		
 	// 게시글 삭제 처리(post로 처리)--페이지 미처리
 	 /*
 	@PostMapping("/remove")
@@ -222,7 +289,8 @@ public class BoardController {
 	}
 	*/
 	 
-	//수정화면에서 게시글 삭제 처리(게시글,첨부물,댓글 모두 삭제 처리)
+	//수정화면에서 게시글 삭제 처리,시큐리티는 미처리(게시글,첨부물,댓글 모두 삭제 처리)
+	 /*
 	@PostMapping("/remove")
 	public String remove(@RequestParam("bno") Long bno, Criteria cri, RedirectAttributes rttr) {
 
@@ -240,7 +308,29 @@ public class BoardController {
 
 		return "redirect:list" + cri.getListLink();
 	}
+	*/
 	
+	//수정화면에서 게시글 삭제 처리,시큐리티 처리(게시글,첨부물,댓글 모두 삭제 처리)
+	@PostMapping("/remove")
+	@PreAuthorize("principal.username == #writer")
+	public String remove(@RequestParam("bno") Long bno, Criteria cri, RedirectAttributes rttr,String writer) {
+
+		log.info("remove..." + bno);
+
+		List<BoardAttachVO> attachList = service.getAttachList(bno); //첨부파일을 리스트로 반환
+
+		if (service.remove(bno)) {
+
+			// delete Attach Files(C:upload폴더에 저장된 파일 삭제)
+			deleteFiles(attachList);
+
+			rttr.addFlashAttribute("result", "success");
+		}
+
+		return "redirect:list" + cri.getListLink();
+	} 
+	 
+	 
 	//조회화면에서 첨부 파일 처리
 	@GetMapping(value = "/getAttachList", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody

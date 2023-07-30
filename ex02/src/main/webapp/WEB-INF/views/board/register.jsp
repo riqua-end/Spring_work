@@ -61,6 +61,7 @@
 			<div id="submain">
 				<h4 class="text-center wordArtEffect text-success">게시물 등록</h4>
 				<form action="register" method="post" id="freg" name="freg" role="form">
+					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 					<div class="form-group">
 						<label for="title">제목:</label>
 						<input type="text" class="form-control" id="title" placeholder="Enter Title" 
@@ -72,10 +73,21 @@
 <textarea class="form-control" id="content" placeholder="Enter Content"	name="content" rows="10" required>
 </textarea>		
 					</div>
+					<!-- 작성자를 직접 입력(시큐리티 적용전 임시 -->
+					<!--  
 					<div class="form-group">
 						<label for="writer">작성자:</label>
 						<input type="text" class="form-control" id="writer" name="writer" />		
 					</div>
+					-->
+					
+					<!-- security적용후 사용자아이디로 지정 -->
+					<div class="form-group">
+						<label for="writer">작성자:</label>
+						<input type="text" class="form-control" id="writer" name="writer" 
+							value='<sec:authentication property="principal.username"/>' readonly/>		
+					</div>
+					
 					<button type="submit" class="btn btn-success">작성</button>&nbsp;&nbsp;
 					<button type="reset" class="btn btn-danger">취소</button>	&nbsp;&nbsp;
 					<a id="listLink" href="list" class="btn btn-primary">목록보기</a>
@@ -115,6 +127,16 @@ $(document).ready(function(){
 	let maxSize = 5242880; //5MB
 	
 	let uploadUL = $(".uploadResult #cardRow");
+	
+	//security csrf설정
+	let csrfHeaderName = "${_csrf.headerName}";
+	let csrfTokenValue = "${_csrf.token}";
+	
+	//beforeSend대신 사용 (한번만 지정)
+	$(document).ajaxSend(function(e, xhr, options){
+		xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+	});
+	
 	
 	//겟시글 작성의 submit버튼 클릭 이벤트
 	$("button[type='submit']").on("click", function(e){
@@ -166,7 +188,10 @@ $(document).ready(function(){
 			contentType: false,
 			data: formData,
 			type: 'POST',					    
-		    dataType : 'json', //생략해도 무방		    
+		    dataType : 'json', //생략해도 무방
+		    //beforeSend : function(xhr) { //ajax시 csrf등록,매 ajax에 지정
+		    	//xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+		    //},
 			success : function(result) {
 				console.log(result);
 				//alert(result);
@@ -241,7 +266,8 @@ $(document).ready(function(){
 			url : '../upload/deleteFile',
 		    data: {fileName: targetFile, type:type},
 		    dataType:'text',
-		    type: 'POST',		        
+		    type: 'POST',
+		    //beforeSend추가 부분이나 ajaxSend메서드 사용
 		    success: function(result){		             
 		           targetLi.remove();
 		    }

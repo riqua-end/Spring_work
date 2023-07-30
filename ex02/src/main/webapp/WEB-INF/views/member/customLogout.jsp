@@ -16,28 +16,26 @@
 <!-- MS -->
 <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8,IE=EmulateIE9"/> 
+
 </head>
 <body>
 
-<%@include file="../includes/header.jsp" %>
+<%@ include file="../includes/header.jsp" %>
 
 <div id="main" class="container mt-5 d-none">
 	<h3 class="text-center text-info">로그아웃</h3>
-	<!-- security-context 의 logout 처리를 이용하여 스프링에서 처리 -->
-	<form id="frm1" name="frm1" method="post" action="../member/customLogout">
+	<!-- security-context의 logout처리를 이용하여 스프링에서 처리 -->
+	<form id="frm1" name="frm1" method="post" action="../member/customLogout">		
 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-		<br>
-		<button type="submit" class="btn btn-success d-block mx-auto" id="btn1">로그아웃</button>
+		<br/>		
+		<button type="submit" class="btn btn-success d-block mx-auto" id="btn1" >로그아웃</button>		
 	</form>
 </div>
 
 <script>
 $(document).ready(function(){
-	$("#btn1").trigger("click"); //버튼 자동 클릭,로그 아웃시 로그인 창으로 이동
+	$("#btn1").trigger("click");	//버튼 자동 클릭,로그 아웃시 로그인 창으로 이동
 });
 </script>
-
-<%@include file="../includes/footer.jsp" %>
-
 </body>
 </html>

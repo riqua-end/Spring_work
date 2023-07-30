@@ -10,7 +10,7 @@
 	id="WebApp_ID" version="3.1">
 	
 	<!-- The definition of the Root Spring Container shared by all Servlets and Filters -->
-	<!-- security-context.xml 설정 -->
+	<!-- The definition of the security-context.xml 설정 -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>

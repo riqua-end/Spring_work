@@ -20,7 +20,7 @@
 </head>
 <body>
 
-<%@include file="../includes/header.jsp" %>
+<%@include file="../includes/header.jsp"%>
 
 <div class="container mt-4 mb-4" id="mainContent">
 	<div class="row">
@@ -50,27 +50,41 @@
 		<div class="col-md-10">
 			<div id="submain">
 				<h4 class="text-center wordArtEffect text-success">로그인</h4>
-				<h4><c:out value="${error}"></c:out></h4>
-				<h4><c:out value="${logout}"></c:out></h4>
-				<!-- action은 login으로 처리,method는 post,root-context에서 요청 -->
-				<form method='post' action="../login">
-					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-					<div class="form-group">
+				<h4><c:out value="${error}"/></h4>
+  				<h4><c:out value="${logout}"/></h4>
+  				<!-- action은 login으로 처리,method는 post,root context에서 요청 -->
+  				<form id="loginForm" method='post' action="../login">
+  					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+  					<div class="form-group">
 						<label for="uId">아이디</label>
-						<input type="text" class="form-control" name="username" placeholder="아이디 입력" id="uId" required/>
+						<input type="text" class="form-control" name="username" placeholder="아이디 입력" 	id="uId" required/>			
 					</div>
 					<div class="form-group">
 						<label for="uPw">비밀번호</label>
 						<input type="password" class="form-control" name="password" id="uPw" placeholder="비밀번호 입력" required/>
 					</div>
-					<button type="submit" class="btn btn-success">로그인</button>
-				</form>
-			</div>
-		</div>
-	</div>
+					<!-- 로그아웃 안하고 접속 단절후  일정시간 로그인 없이 재접속 remember-me -->
+					<div class="form-group form-check">
+						<input type="checkbox" class="form-check-input" id="rememberMe" name="remember-me" checked>
+						<label class="form-check-label" for="rememberMe" aria-describedby="rememberMeHelp">remember-me</label>
+					</div>
+					
+					<button type="submit" id="loginFormBtn" class="btn btn-success">로그인1</button>
+  				</form>
+			</div><!-- submain -->
+		</div><!-- md-10 -->
+	</div><!-- row -->
 </div>
 
-<%@include file="../includes/footer.jsp" %>
+<%@include file="../includes/footer.jsp"%>
 
+<script>
+$(document).ready(function(){
+	$("#loginFormBtn").on("click",function(e){
+		e.preventDefault();
+		$("#loginForm").submit();		
+	});
+});
+</script>
 </body>
 </html>

@@ -66,6 +66,8 @@
 		});
   	} //getList()
   	
+  	/*
+  	//security 미적용 댓글 삭제 
   	function remove(rno, callback, error) {		  
 		 
 		console.log("--------------------------------------"); 		 
@@ -86,6 +88,33 @@
 	    }); //ajax()
 	   
 	} //remove()
+	*/
+	
+	//security 적용 댓글 삭제
+	function remove(rno, replyer, callback, error) {		  
+		 
+		console.log("--------------------------------------"); 		 
+		console.log(JSON.stringify({rno:rno, replyer:replyer}));
+		   
+	    $.ajax({
+	      type : 'delete',
+	      url : '../replies/' + rno,
+	      data: JSON.stringify({rno:rno, replyer:replyer}),
+	      contentType: "application/json; charset=utf-8",	      
+	      success : function(deleteResult, status, xhr) {
+	        if (callback) {	       
+	           callback(deleteResult);
+	        }
+	      },
+	      error : function(xhr, status, er) {
+	        if (error) {	        
+	          error(er);
+	        }
+	      }
+	    }); //ajax()
+	   
+	} //remove()
+	
 	
 	function update(reply, callback, error) {
 

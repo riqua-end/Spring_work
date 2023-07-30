@@ -5,7 +5,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql" %> 
 <%@ taglib prefix="x" uri="http://java.sun.com/jsp/jstl/xml" %> 
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>    
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> 
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -103,8 +103,20 @@
 				  -->
 				  
 				  <!-- 버튼과 form을 사용  --> 
-				  
+				  <!-- 시큐리티 미적용 -->
+				  <!--  
 				  <button data-oper='modify' class="btn btn-info">Modify</button>&nbsp;&nbsp;
+				  -->
+				  
+				  <!-- 시큐리티 적용 로그인아이디와 게시글 작성자 동일시만 버튼 보임 -->
+				  <sec:authentication property="principal" var="pinfo"/>	
+				  <!-- EL안에서는 pinfo사용 -->
+				  <sec:authorize access="isAuthenticated()">
+				  	<c:if test="${pinfo.username eq board.writer}">
+				  		<button data-oper='modify' class="btn btn-info">Modify</button>
+				  	</c:if>
+				  </sec:authorize>
+				  	
 				  <button data-oper='list' class="btn btn-danger">게시판목록</button>
 				  
 				  <!-- 버튼 클릭을 처리하기 위한 form,안보이는 창(나중 페이지 정보 댓글 정보 등을 같이 처리 -->
@@ -128,9 +140,18 @@
 				  <div class="row mt-4">
 				  	<div class="col-md-12 clearfix">
 				  		<i class="fas fa-reply fa-2x"></i> Reply  <!-- 댓글 아이콘 -->
+				  		<!-- 시큐리티 미적용 -->
+				  		<!-- 
 				  		<button id='addReplyBtn' class='btn btn-outline-primary float-right'>
 				  			New Reply
 				  		</button>
+				  		 -->				  		 
+				  		 <!-- 시큐리티 적용 -->
+				  		 <sec:authorize access="isAuthenticated()">
+				  		 	<button id='addReplyBtn' class='btn btn-outline-primary float-right'>
+				  		 		New Reply
+				  		 	</button>
+				  		 </sec:authorize>
 				  	</div>
 				  </div>
 				  
@@ -357,11 +378,35 @@ $(document).ready(function(){
     let modalRemoveBtn = $("#modalRemoveBtn");
     let modalRegisterBtn = $("#modalRegisterBtn");
     
+    //댓글 작성자를 로그인한 username으로 지정
+    let replyer = null;
+    //sec EL문을 자바스크립트에서 사용
+    <sec:authentication property="principal" var="pinfo"/>
+    <sec:authorize access="isAuthenticated()">
+    	replyer ='<sec:authentication property="principal.username"/>';
+    	//이메일 주소가 encode되어 나옴
+    	let replyers = "${pinfo.username}";
+    	//정상 이메일 문자열
+    </sec:authorize>
+    	
+    //ajax csrf설정
+    let csrfHeaderName = "${_csrf.headerName}";
+    let csrfTokenValue = "${_csrf.token}";
+    
+    $(document).ajaxSend(function(e,xhr,options){
+    	xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);	
+    });
+    
+    
+    
+    
     //댓글 생성 버튼 클릭 이벤트 처리
     $("#addReplyBtn").on("click", function(e){
     	
 		modal.find("input").val(""); //input의 값을 초기화	    
-	    modalInputReplyDate.closest("div").hide(); //날짜 입력DOM은 감춤
+	    //댓글 작성자를 로그인 username으로 지정
+	    modal.find("input[name='replyer']").val(replyers).attr("readonly","readonly");
+		modalInputReplyDate.closest("div").hide(); //날짜 입력DOM은 감춤
 	    modal.find("button[id !='modalCloseBtn']").hide(); //나가기만 보임
 	      
 	    modalRegisterBtn.show(); //등록버튼 다시 보이게
@@ -408,7 +453,7 @@ $(document).ready(function(){
 		replyService.get(rno, function(reply){
 			
 			modalInputReply.val(reply.reply);		       
-	        modalInputReplyer.val(reply.replyer);		        
+	        modalInputReplyer.val(reply.replyer).attr("readonly","readonly");		        
 	        modalInputReplyDate.val(replyService.displayTime( reply.replyDate))
 	        .attr("readonly","readonly");
 	        modal.data("rno", reply.rno);
@@ -423,10 +468,44 @@ $(document).ready(function(){
     	
     });
     
-    //댓글 수정 이벤트 처리
+    //댓글 수정 이벤트 처리,security 미처리
+    /*
     modalModBtn.on("click", function(e){
         
         let reply = {rno:modal.data("rno"), reply: modalInputReply.val()};
+        
+        replyService.update(reply, function(result){
+              
+          alert(result);
+          modal.modal("hide");
+          //showList(1);  //업데이트 이후에는 댓글리스트 보여주기(페이지 미고려)
+          showList(pageNum);  //업데이트 이후에는 댓글리스트 보여주기(페이지 고려)
+          
+        });
+        
+    });
+    */
+    //댓글 수정 이벤트 처리, 시큐리티 처리
+    modalModBtn.on("click", function(e){
+        
+        let originalReplyer = modalInputReplyer.val(); //댓글 작성자
+        
+    	let reply = {rno:modal.data("rno"), reply: modalInputReply.val(), replyer: originalReplyer};
+        //replyer: originalReplyer 는 서버에서 로그인 아이디와 댓글 작성자 비교
+        
+        if(!replyers) { //replyers는 로그인 아이디
+        	alert("로그인 후 수정이 가능합니다.");
+        	modal.modal("hide");
+        	return;
+        }
+        
+        console.log("Original Replyer : " + originalReplyer);
+        
+        if(replyers != originalReplyer){
+        	alert("자신이 작성한 댓글만 수정이 가능합니다.");
+        	modal.modal("hide");
+        	return;
+        }
         
         replyService.update(reply, function(result){
               
@@ -443,12 +522,42 @@ $(document).ready(function(){
     modalRemoveBtn.on("click", function(e){
     	 let rno = modal.data("rno");
     	 
+    	 console.log("RNO : " + rno);
+    	 console.log("REPLYER : " + replyer); //로그인 아이디와 작성자 아이디 비교
+    	 console.log("REPLYERS : " + replyers);
+    	 
+    	 if(!replyers) {
+    		 alert("로그인 후 삭제가 가능합니다.");
+    		 modal.modal("hide");
+    		 return;
+    	 }
+    	 
+    	 let originalReplyer = modalInputReplyer.val();
+    	 
+    	 if(replyers != originalReplyer) {
+    		 
+    		 alert("자신이 작성한 댓글만 삭제가 가능합니다.");
+    		 modal.modal("hide");
+    		 return;
+    	 }
+    	 
+    	 /*
+    	 //댓글 시큐리티 미적용
     	 replyService.remove(rno, function(result){
     		 alert(result);
    	      	 modal.modal("hide");   	      		    	     
    	    	//showList(1);  //삭제 이후에는 댓글리스트 보여주기(페이지 미고려)
              showList(pageNum);  //삭제 이후에는 댓글리스트 보여주기(페이지 고려)
     	 });
+    	 */
+    	 //댓글 삭제 시큐리티 적용
+    	 originalReplyer = replyers;
+    	 replyService.remove(rno, originalReplyer, function(result){
+    		 alert(result);
+   	      	 modal.modal("hide");   	      		    	     
+             showList(pageNum);  //삭제 이후에는 댓글리스트 보여주기(페이지 고려)
+    	 });
+    	 
     });
     
     //페이지 번호 클릭시 이벤트 처리(해당 페이지의 댓글 리스트 표시)
